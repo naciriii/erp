@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Blade;
+use Hashids;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +21,12 @@ class AppServiceProvider extends ServiceProvider
 
         \URL::forceScheme('https');
     }
+     /*Blade::directive('encode', function ($id) {
+            return Hashids::encode($id);
+        });
+     Blade::directive('decode', function ($id) {
+            return Hashids::decode($id);
+        });*/
     }
 
     /**

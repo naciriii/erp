@@ -4,10 +4,12 @@ namespace Modules\Users\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use Illuminate\Routing\Controller as BaseController;
+use App\Http\Controllers\Controller;
 use Auth;
 use App\User;
 use Role;
+
 
 
 class UsersController extends Controller
@@ -18,6 +20,8 @@ class UsersController extends Controller
      */
     public function index()
     {
+      
+       
         $users = User::where('id', '!=', Auth::user()->id)->get();
 
         $data = [
@@ -51,8 +55,9 @@ class UsersController extends Controller
      */
     public function show($id)
     {
-        $user = User::findOrFail($id);
 
+        $id = decode($id);
+        $user = User::findOrFail($id);
         $data = [
             'user' => $user
         ];
@@ -75,6 +80,23 @@ class UsersController extends Controller
      */
     public function update($id, Request $request)
     {
+         $id = decode($id);
+         $user = User::findOrFail($id); 
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|unique:users,email,'.$id,
+            'password' => 'confirmed'
+
+        ]);
+     
+         $user->name = $request->name;
+         $user->email = $request->email;
+         if($request->has('password')) {
+            $user->password = bcrypt($request->password);
+         }
+         $user->save();
+         return redirect()->back()->with(['success' => trans('users::global.Updated_success',['user' => '<b>'.$user->name.'</b>'])]);
+
     }
 
     /**
