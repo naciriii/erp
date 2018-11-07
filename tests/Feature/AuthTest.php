@@ -6,13 +6,13 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\User;
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 
 
 class AuthTest extends TestCase
 {
 	
 	private $user;
+    
 	public function setUp()
 	{
 		 parent::setUp(); 
@@ -40,10 +40,11 @@ class AuthTest extends TestCase
     }
     public function testLogout()
     {
-   
-    	$this->assertTrue(true);
 
-
+       $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+       $response =  $this->actingAs($this->user)
+               ->post('/logout')
+               ->assertRedirect('/');
     }
 
 }

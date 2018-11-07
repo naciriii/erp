@@ -23,7 +23,7 @@ class UsersController extends Controller
         $data = [
             'users' => $users
         ];
-        dd($users);
+        //dd($users);
         return view('users::index')->with($data);
     }
 
