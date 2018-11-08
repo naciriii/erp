@@ -24,4 +24,22 @@
 	//Activate bootstrip tooltips
 	$("[data-toggle='tooltip']").tooltip();
 
+
+
 })();
+	function bsAlert(title,text,type,confirm,cancel,callback) {
+		swal({
+          title: title,
+          text: text,
+          type: type,
+          showCancelButton: true,
+          confirmButtonText: confirm,
+          cancelButtonText: cancel,
+          closeOnConfirm: true,
+          closeOnCancel: true,
+          dangerMode: true
+        }, function(isConfirm) {
+
+          callback(isConfirm);
+        });
+	}

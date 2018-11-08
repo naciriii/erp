@@ -27,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
      Blade::directive('decode', function ($id) {
             return Hashids::decode($id);
         });*/
+
+
     }
 
     /**

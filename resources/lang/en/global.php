@@ -7,4 +7,5 @@ return [
 'Delete' => 'Delete',
 'Confirm' => 'Confirm',
 'Cancel' => 'Cancel',
+'AreYouSure' => 'Are you sure ?'
 ];

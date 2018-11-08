@@ -1,5 +1,10 @@
 <?php
 
 return [
-    'name' => 'Users'
+    'name' => 'Users',
+    'menus' => [
+    	
+    	'List' => ''
+    ]
+
 ];

@@ -7,16 +7,25 @@
           <p class="app-sidebar__user-name">Nacer Nsiri</p>
           <p class="app-sidebar__user-designation">Software Engineer</p>
         </div>
+
       </div>
       <ul class="app-menu">
 
         <li><a class="app-menu__item active" href="index.html"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
-        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-th-list"></i><span class="app-menu__label">{{trans('modules.Users')}}</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+        @foreach(Module::collections() as $module)
+        <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa {{$module->icon}}"></i><span class="app-menu__label">{{trans('modules.'.$module->name)}}</span><i class="treeview-indicator fa fa-angle-right"></i></a>
+          @if(count($module->menus))
           <ul class="treeview-menu">
-            <li><a class="treeview-item" href="{{route('Users.index')}}"><i class="icon fa fa-circle-o"></i> {{trans('global.List')}}</a></li>
+            @foreach($module->menus as $menu)
+            <li><a class="treeview-item" href="{{route($menu['route'])}}"><i class="icon fa {{$menu['icon']}}"></i> 
+            {{trans('global.'.$menu['name'])}}</a></li>
+            @endforeach
            
           </ul>
+          @endif
         </li>
+        @endforeach
+
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa fa-laptop"></i><span class="app-menu__label">UI Elements</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           <ul class="treeview-menu">
             <li><a class="treeview-item" href="bootstrap-components.html"><i class="icon fa fa-circle-o"></i> Bootstrap Elements</a></li>

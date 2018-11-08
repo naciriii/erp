@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use App\User;
 use Role;
+use Module;
 
 
 
@@ -20,14 +21,11 @@ class UsersController extends Controller
      */
     public function index()
     {
-      
-       
         $users = User::where('id', '!=', Auth::user()->id)->get();
 
         $data = [
             'users' => $users
         ];
-        //dd($users);
         return view('users::index')->with($data);
     }
 
@@ -37,6 +35,7 @@ class UsersController extends Controller
      */
     public function create()
     {
+
         return view('users::create');
     }
 
@@ -45,8 +44,24 @@ class UsersController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(Request $request, User $newUser)
     {
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'email|unique:users',
+            'password' => 'required|confirmed'
+        ]);
+        $newUser->name = $request->name;
+        $newUser->email = $request->email;
+        $newUser->password = bcrypt($request->password);
+        $newUser->save();
+        return redirect()->route('Users.show',['id' => encode($newUser->id)])
+                         ->with(['response' => 
+                            [
+             trans('users::global.Added'),
+             trans('users::global.Added_success',['user' => '<b>'.$newUser->name.'</b>']),
+                'success'
+            ]]);
     }
 
     /**
@@ -70,6 +85,7 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
+
         return view('users::edit');
     }
 
@@ -95,7 +111,13 @@ class UsersController extends Controller
             $user->password = bcrypt($request->password);
          }
          $user->save();
-         return redirect()->back()->with(['success' => trans('users::global.Updated_success',['user' => '<b>'.$user->name.'</b>'])]);
+         return redirect()->back()->with(['response' =>
+          [
+             trans('users::global.Updated'),
+             trans('users::global.Updated_success',['user' => '<b>'.$user->name.'</b>']),
+                'info'
+            ]
+      ]);
 
     }
 
@@ -103,7 +125,18 @@ class UsersController extends Controller
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy()
+    public function destroy($id)
     {
+        $id = decode($id);
+        $user = User::findOrFail($id);
+        $user->delete();
+
+         return redirect()->back()->with(['response' =>
+          [
+             trans('users::global.Deleted'),
+             trans('users::global.Deleted_success',['user' => '<b>'.$user->name.'</b>']),
+                'info'
+            ]]);
+
     }
 }

@@ -10,5 +10,10 @@
     ],
     "aliases": {},
     "files": [],
-    "requires": []
+    "requires": [],
+    "icon":"fa-th-list",
+    "menus": [
+        {"name":"List","route":"Users.index","icon":"fa-circle-o","order":1},
+        {"name":"Add","route":"Users.create","icon":"fa-circle-o","order":0}
+    ]
 }
