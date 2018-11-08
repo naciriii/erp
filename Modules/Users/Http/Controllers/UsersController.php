@@ -60,7 +60,7 @@ class UsersController extends Controller
                             [
              trans('users::global.Added'),
              trans('users::global.Added_success',['user' => '<b>'.$newUser->name.'</b>']),
-                'success'
+                'info'
             ]]);
     }
 
