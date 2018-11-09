@@ -102,7 +102,10 @@ class RoleController extends Controller
         $role = Role::findOrFail($id);
         $this->validate($request,[
             'name' => 'required|unique:roles,name,'.$id.',id,guard_name,'.config('auth.defaults.guard'),
+            'permissions.*' => 'integer'
         ]);
+        $role->name = $request->name;
+        $role->syncPermissions($request->permissions);
         $role->save();
 
         return redirect()->back()->with(['response' =>
