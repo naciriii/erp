@@ -13,7 +13,17 @@
     "requires": [],
     "icon": "fa fa-lock",
     "menus": [
-        {"name":"Roles","route":"Roles.index","icon":"fa-circle-o","order":1},
-        {"name":"Permissions","route":"Permissions.index","icon":"fa-circle-o","order":0}
+        {
+        "name":"Roles",
+        "route":"Roles.index",
+        "icon":"fa-circle-o",
+        "order":0
+    },
+        {
+        "name":"Permissions",
+        "route":"Permissions.index",
+        "icon":"fa-circle-o",
+        "order":1
+    }
     ]
 }
