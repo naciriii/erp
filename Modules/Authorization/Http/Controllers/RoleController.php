@@ -4,7 +4,8 @@ namespace Modules\Authorization\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Routing\Controller;
+use Illuminate\Routing\Controller as BaseController;
+use App\Http\Controllers\Controller;
 use Role;
 use Permission;
 
@@ -16,8 +17,7 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::all();
-
+        $roles = Role::where('guard_name',config('auth.defaults.guard'))->get();
         $data = [
             'roles' => $roles
         ];
@@ -30,11 +30,11 @@ class RoleController extends Controller
      */
     public function create()
     {
-        $permission = Permission::all();
+        $permission = Permission::where('guard_name',config('auth.defaults.guard'))->get();
         $data = [
             'permissions' => $permission
         ];
-        return view('authorization::roles.create')->with($data);
+       return view('authorization::roles.create')->with($data);
     }
 
     /**
@@ -44,15 +44,19 @@ class RoleController extends Controller
      */
     public function store(Request $request, Role $newRole)
     {
-
+       
         $this->validate($request,[
-            'name' => 'required|unique:roles'
+            'name' => 'required|unique:roles,name,NULL,id,guard_name,'.config('auth.defaults.guard'),
+            'permissions.*' => 'integer'
         ]);
         $newRole->name = $request->name;
         $newRole->guard_name = config('auth.defaults.guard');
         $newRole->save();
+        if($request->has('permissions')) {
+        $newRole->givePermissionTo($request->permissions);
+         }
 
-         return redirect()->route('Roles.show',['id' => encode($newrole->id)])
+         return redirect()->route('Roles.show',['id' => encode($newRole->id)])
                          ->with(['response' => 
                             [
              trans('roles::global.Role_added'),
@@ -69,7 +73,7 @@ class RoleController extends Controller
     {
         $id = decode($id);
         $role = Role::findOrFail($id);
-        $permissions = Permission::all();
+        $permissions = Permission::where('guard_name',config('auth.defaults.guard'))->get();
         $data = [
             'role' => $role,
             'permissions' => $permissions
@@ -97,7 +101,7 @@ class RoleController extends Controller
         $id = decode($id);
         $role = Role::findOrFail($id);
         $this->validate($request,[
-            'name' => 'required|unique:roles,name'.$id
+            'name' => 'required|unique:roles,name,'.$id.',id,guard_name,'.config('auth.defaults.guard'),
         ]);
         $role->save();
 
