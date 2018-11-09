@@ -12,7 +12,7 @@
       <ul class="app-menu">
 
         <li><a class="app-menu__item active" href="index.html"><i class="app-menu__icon fa fa-dashboard"></i><span class="app-menu__label">Dashboard</span></a></li>
-        @foreach(Module::collections() as $module)
+        @foreach(collect(Module::getOrdered()) as $module)
         <li class="treeview"><a class="app-menu__item" href="#" data-toggle="treeview"><i class="app-menu__icon fa {{$module->icon}}"></i><span class="app-menu__label">{{trans('modules.'.$module->name)}}</span><i class="treeview-indicator fa fa-angle-right"></i></a>
           @if(count($module->menus))
           <ul class="treeview-menu">
