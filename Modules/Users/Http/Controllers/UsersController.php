@@ -8,8 +8,8 @@ use Illuminate\Routing\Controller as BaseController;
 use App\Http\Controllers\Controller;
 use Auth;
 use App\User;
-use Role;
-use Module;
+
+
 
 
 

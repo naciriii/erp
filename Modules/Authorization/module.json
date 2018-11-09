@@ -1,0 +1,19 @@
+{
+    "name": "Authorization",
+    "alias": "authorization",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 2,
+    "providers": [
+        "Modules\\Authorization\\Providers\\AuthorizationServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "icon": "fa fa-lock",
+    "menus": [
+        {"name":"Roles","route":"Roles.index","icon":"fa-circle-o","order":1},
+        {"name":"Permissions","route":"Permissions.index","icon":"fa-circle-o","order":0}
+    ]
+}

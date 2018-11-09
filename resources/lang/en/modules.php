@@ -1,6 +1,7 @@
 <?php
 return [
-'Users' => 'Users'
+'Users' => 'Users',
+'Authorization' => 'Authorization',
 
 
 
