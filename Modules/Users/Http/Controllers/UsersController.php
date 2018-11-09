@@ -8,6 +8,8 @@ use Illuminate\Routing\Controller as BaseController;
 use App\Http\Controllers\Controller;
 use Auth;
 use App\User;
+use Role;
+use Permission;
 
 
 
@@ -35,8 +37,14 @@ class UsersController extends Controller
      */
     public function create()
     {
+        $roles = Role::where('guard_name',config('auth.defaults.guard'))->get();
+        $permissions = Permission::where('guard_name',config('auth.defaults.guard'))->get();
+        $data = [
+            'roles' => $roles,
+            'permissions' => $permissions
+        ];
 
-        return view('users::create');
+        return view('users::create')->with($data);
     }
 
     /**
@@ -49,12 +57,22 @@ class UsersController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'email|unique:users',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed',
+            'roles.*' => 'integer',
+            'permissions.*' => 'integer',
         ]);
         $newUser->name = $request->name;
         $newUser->email = $request->email;
         $newUser->password = bcrypt($request->password);
         $newUser->save();
+        if($request->has('roles')) {
+        $newUser->assignRole($request->roles);
+
+        }
+        if($request->has('permissions')) {
+        $newUser->givePermissionTo($request->permissions);
+
+        }
         return redirect()->route('Users.show',['id' => encode($newUser->id)])
                          ->with(['response' => 
                             [
@@ -73,8 +91,13 @@ class UsersController extends Controller
 
         $id = decode($id);
         $user = User::findOrFail($id);
+        $roles = Role::where('guard_name',config('auth.defaults.guard'))->get();
+        $permissions = Permission::where('guard_name',config('auth.defaults.guard'))->get();
+       
         $data = [
-            'user' => $user
+            'user' => $user,
+            'roles' => $roles,
+            'permissions' => $permissions
         ];
         return view('users::show')->with($data);
     }
@@ -101,7 +124,9 @@ class UsersController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|unique:users,email,'.$id,
-            'password' => 'confirmed'
+            'password' => 'confirmed',
+            'roles.*' => 'integer',
+            'permissions.*' => 'integer'
 
         ]);
      
@@ -111,6 +136,8 @@ class UsersController extends Controller
             $user->password = bcrypt($request->password);
          }
          $user->save();
+         $user->syncRoles($request->roles);
+         $user->syncPermissions($request->permissions);
          return redirect()->back()->with(['response' =>
           [
              trans('users::global.Updated'),

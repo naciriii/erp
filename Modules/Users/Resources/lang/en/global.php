@@ -4,6 +4,7 @@ return [
 	'Name' => 'Name',
 	'Email' => 'Email',
 	'CreatedAt' => 'Created At',
+	'NewUser' => 'New User',
 	'Password' => 'Password',
 	'Password_confirmation' => 'Password Confirmation',
 	'Updated_success' => 'User :user was updated successfully!',

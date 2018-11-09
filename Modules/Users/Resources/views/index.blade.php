@@ -5,7 +5,10 @@
       <div class="app-title">
         <div>
           <h1><i class="fa fa-th-list"></i> {{trans('modules.Users')}}</h1>
-          <p>Table to display analytical data effectively</p>
+           <p class="mt-2">
+            <a href="{{route('Users.create')}}">
+              <button class="btn btn-sm btn-primary">@lang('users::global.NewUser')</button>
+            </a></p>
         </div>
         <ul class="app-breadcrumb breadcrumb side">
           <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>

@@ -21,7 +21,6 @@
             <div class="tile-body ">
             	<div class="col-md-6">
    
-              
                 <div class="form-group">
                   <label class="control-label">@lang('authorization::global.RoleName') <strong>*</strong></label>
                   <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" type="text" name="name" value="{{old('name')}}" placeholder="Enter full name">
@@ -29,7 +28,7 @@
              <div class="invalid-feedback">{{ $errors->first('name') }}</div>
                                 @endif
                 </div>
-                </div class="col-md-6">
+                </div>
                 	<div class="panel panel-default">
                 		<div class="panel-heading col-md-12">
                 		 <label class="control-label">@lang('global.Permissions') </label>

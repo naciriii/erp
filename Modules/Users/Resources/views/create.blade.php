@@ -18,25 +18,27 @@
               	{{csrf_field()}}
           <div class="tile">
             <h3 class="tile-title">@lang('global.Add')</h3>
-            <div class="tile-body col-md-6">
+            <div class="tile-body row">
+              <div class="col-md-4">
    
               
                 <div class="form-group">
-                  <label class="control-label">@lang('users::global.Name') <strong>*</strong></label>
+                  <label class="control-label"><strong>@lang('users::global.Name') <strong>*</strong></strong></label>
                   <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" type="text" name="name" value="{{old('name')}}" placeholder="Enter full name">
                    @if ($errors->has('name'))
              <div class="invalid-feedback">{{ $errors->first('name') }}</div>
                                 @endif
                 </div>
                 <div class="form-group">
-                  <label class="control-label">@lang('users::global.Email') <strong>*</strong></label>
+                  <label class="control-label"><strong>@lang('users::global.Email') <strong>*</strong></strong></label>
                   <input class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" type="email" value="{{old('email')}}" name="email" placeholder="Enter email address">
                    @if ($errors->has('email'))
              <div class="invalid-feedback">{{ $errors->first('email') }}</div>
                                 @endif
                 </div>
                 <div class="form-group">
-                  <label class="control-label">@lang('users::global.Password') </label>
+                  <label class="control-label">
+                    <strong>@lang('users::global.Password') * </strong></label>
                   <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" type="password" name="password" placeholder="New Password">
                    @if ($errors->has('password'))
              <div class="invalid-feedback">{{ $errors->first('password') }}</div>
@@ -44,13 +46,65 @@
 
                 </div>
                  <div class="form-group">
-                  <label class="control-label">@lang('users::global.Password_confirmation') </label>
+                  <label class="control-label"><strong>@lang('users::global.Password_confirmation') *</strong> </label>
                   <input class="form-control{{ $errors->has('passwordl') ? ' is-invalid' : '' }}" type="password" name="password_confirmation" placeholder="Password Confirmation">
                    @if ($errors->has('password_confimation'))
              <div class="invalid-feedback">{{ $errors->first('password_confimation') }}</div>
                                 @endif
 
                 </div>
+              </div>
+              <div class="col-md-4 border-left">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                <label class="control-label">
+                  <strong>@lang('global.Roles')</strong> </label>
+                </div>
+                <div class="panel-body row col-md-12">
+                  @foreach($roles->chunk($roles->count()/2) as $chunks)
+                  <div class="col-md-6 col-sm-6">
+                <div class="form-group">
+                    @foreach($chunks as $chunk)
+                  <div class="toggle">
+                  <label>
+                    <input value="{{$chunk->id}}" name="roles[]" type="checkbox"><span class="button-indecator">{{$chunk->name}}</span>
+                  </label>
+                </div>
+                @endforeach
+                
+                  
+                </div>
+                </div>
+                  @endforeach
+              </div>
+              </div>
+            </div>
+              <div class="col-md-4 border-left">
+                 <div class="panel panel-default">
+                    <div class="panel-heading">
+              <label class="control-label"><strong>@lang('global.Permissions')</strong> </label>
+                </div>
+                <div class="panel-body row col-md-12">
+                
+
+                  @foreach($permissions->chunk($permissions->count()/2) as $chunks)
+                  <div class="col-md-6 col-sm-6">
+                <div class="form-group">
+                    @foreach($chunks as $chunk)
+                  <div class="toggle">
+                  <label>
+                    <input value="{{$chunk->id}}" name="permissions[]" type="checkbox"><span class="button-indecator">{{$chunk->name}}</span>
+                  </label>
+                </div>
+                @endforeach
+                
+                  
+                </div>
+                </div>
+                  @endforeach
+              </div>
+            </div>
+          </div>
               
             </div>
             <div class="tile-footer">
