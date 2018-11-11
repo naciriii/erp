@@ -34,10 +34,13 @@
                 	<div class="panel panel-default">
                 		<div class="panel-heading col-md-12">
                 		 <label class="control-label">@lang('global.Permissions') </label>
+                     <span class="badge badge-{{$role->permissions->count() == $permissions->count() ? 'primary':'secondary'}} ml-1"><i role="button" id="checkAll" class="fa fa-check "></i></span
 
                 		</div>
                 		<div class="panel-body row col-md-12">
-                			@foreach($permissions->chunk($permissions->count()/4) as $chunks)
+                      
+                			 @php $ch = $permissions->count() >4 ? $permissions->count()/4 : 1 @endphp
+                      @foreach($permissions->chunk($ch) as $chunks)
                 			<div class="col-md-3 col-sm-6">
                 <div class="form-group">
                 	  @foreach($chunks as $chunk)
@@ -63,7 +66,7 @@
               
             </div>
             <div class="tile-footer">
-              <button type="submit" class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>@lang('global.Confirm')</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>@lang('global.Cancel')</a>
+              <button type="submit" class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>@lang('global.Confirm')</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="{{url()->previous()}}"><i class="fa fa-fw fa-lg fa-times-circle"></i>@lang('global.Cancel')</a>
             </div>
           </div>
           </form>
@@ -74,6 +77,21 @@
 
 @stop
 @section('js')
+<script type="text/javascript">
+  $('#checkAll').click(function() {
+    if($(this).parent().hasClass('badge-secondary')) {
+      $("[name='permissions[]'").prop('checked',true);
+      $(this).parent().removeClass('badge-secondary').addClass('badge-primary');
+
+    }else {
+       $("[name='permissions[]'").prop('checked',false);
+      $(this).parent().removeClass('badge-primary').addClass('badge-secondary');
+
+    }
+
+
+  })
+</script>
     <script type="text/javascript" src="{{asset('js/plugins/bootstrap-notify.min.js')}}"></script>
     @if(session('response'))
     <script>

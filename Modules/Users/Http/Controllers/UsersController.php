@@ -23,6 +23,7 @@ class UsersController extends Controller
      */
     public function index()
     {
+        //factory(User::class,50)->make();
         $users = User::where('id', '!=', Auth::user()->id)->get();
 
         $data = [
@@ -57,7 +58,7 @@ class UsersController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'email|unique:users',
-            'password' => 'required|confirmed',
+            'password' => 'required|confirmed|min:6',
             'roles.*' => 'integer',
             'permissions.*' => 'integer',
         ]);
@@ -124,7 +125,7 @@ class UsersController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|unique:users,email,'.$id,
-            'password' => 'confirmed',
+            'password' => 'confirmed|min:6',
             'roles.*' => 'integer',
             'permissions.*' => 'integer'
 

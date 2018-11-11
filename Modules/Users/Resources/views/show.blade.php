@@ -62,7 +62,8 @@
                   <strong>@lang('global.Roles')</strong> </label>
                 </div>
                 <div class="panel-body row col-md-12">
-                  @foreach($roles->chunk($roles->count()/2) as $chunks)
+                  @php $ch = $roles->count() >1 ? $roles->count()/2 : 1 @endphp
+                  @foreach($roles->chunk($ch) as $chunks)
                   <div class="col-md-6 col-sm-6">
                 <div class="form-group">
                     @foreach($chunks as $chunk)
@@ -109,7 +110,7 @@
               
             </div>
             <div class="tile-footer">
-              <button type="submit" class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>@lang('global.Confirm')</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>@lang('global.Cancel')</a>
+              <button type="submit" class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>@lang('global.Confirm')</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="{{url()->previous()}}"><i class="fa fa-fw fa-lg fa-times-circle"></i>@lang('global.Cancel')</a>
             </div>
           </div>
           </form>
