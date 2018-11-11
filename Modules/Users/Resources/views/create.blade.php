@@ -38,7 +38,15 @@
                 </div>
                 <div class="form-group">
                   <label class="control-label">
-                    <strong>@lang('users::global.Password') * </strong></label>
+                    <strong>@lang('users::global.Password') * </strong>
+                  </label> 
+
+            <label class="pull-right" >
+   <span class="badge badge-primary"> 
+    <i role="button" id="randomize"  class="fa fa-random fa-lg p-1"></i></span>
+                  <span class="badge badge-primary"><i role="button" id="passtoggle" class="fa fa-eye-slash fa-lg p-1"></i></span>
+
+                  </label>
                   <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" type="password" name="password" placeholder="New Password">
                    @if ($errors->has('password'))
              <div class="invalid-feedback">{{ $errors->first('password') }}</div>
@@ -71,7 +79,6 @@
                   </label>
                 </div>
                 @endforeach
-                
                   
                 </div>
                 </div>
@@ -120,6 +127,31 @@
 @stop
 @section('js')
     <script type="text/javascript" src="{{asset('js/plugins/bootstrap-notify.min.js')}}"></script>
+    <script type="text/javascript">
+
+      //Show password and confirmation on eye click
+      $('#passtoggle').click(function() {
+        if($(this).hasClass('fa-eye-slash')) {
+         $("[name='password'],[name='password_confirmation']").prop('type','text');
+          $(this).removeClass('fa-eye-slash').addClass('fa-eye');
+
+
+        } else {
+          $("[name='password'],[name='password_confirmation']").prop('type','password');
+          $(this).removeClass('fa-eye').addClass('fa-eye-slash');
+
+        }
+      });
+
+      //Generate random password on click
+       $('#randomize').click(function() {
+         $("[name='password'],[name='password_confirmation']").val(Math.random().toString(36).substring(3));
+          if($('#passtoggle').hasClass('fa-eye-slash')) {
+          $('#passtoggle').trigger('click');
+        }
+       
+      });
+    </script>
     @if(session('response'))
     <script>
    @bsNotify(session('response'))
