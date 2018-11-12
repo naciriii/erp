@@ -18,7 +18,10 @@
                 {{csrf_field()}}
                 <input type="hidden" name="_method" value="PATCH">
           <div class="tile">
-            <h3 class="tile-title">@lang('global.Edit')</h3>
+            <h3 class="tile-title">@lang('global.Edit')
+              <span class="pull-right">
+               <button type="submit" class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>@lang('global.Confirm')</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="{{url()->previous()}}"><i class="fa fa-fw fa-lg fa-times-circle"></i>@lang('global.Cancel')</a>
+             </span></h3>
             <div class="tile-body row">
               <div class="col-md-4">
    
@@ -39,7 +42,13 @@
                 </div>
                 <div class="form-group">
                   <label class="control-label">
-                    <strong>@lang('users::global.Password') * </strong></label>
+                    <strong>@lang('users::global.Password')  </strong></label>
+                     <label class="pull-right" >
+   <span class="badge badge-primary"> 
+    <i role="button" id="randomize"  class="fa fa-random fa-lg p-1"></i></span>
+                  <span class="badge badge-primary"><i role="button" id="passtoggle" class="fa fa-eye-slash fa-lg p-1"></i></span>
+
+                  </label>
                   <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" type="password" name="password" placeholder="New Password">
                    @if ($errors->has('password'))
              <div class="invalid-feedback">{{ $errors->first('password') }}</div>
@@ -47,7 +56,7 @@
 
                 </div>
                  <div class="form-group">
-                  <label class="control-label"><strong>@lang('users::global.Password_confirmation') *</strong> </label>
+                  <label class="control-label"><strong>@lang('users::global.Password_confirmation') </strong> </label>
                   <input class="form-control{{ $errors->has('passwordl') ? ' is-invalid' : '' }}" type="password" name="password_confirmation" placeholder="Password Confirmation">
                    @if ($errors->has('password_confimation'))
              <div class="invalid-feedback">{{ $errors->first('password_confimation') }}</div>
@@ -122,9 +131,34 @@
 @stop
 @section('js')
     <script type="text/javascript" src="{{asset('js/plugins/bootstrap-notify.min.js')}}"></script>
+     <script type="text/javascript">
+
+      //Show password and confirmation on eye click
+      $('#passtoggle').click(function() {
+        if($(this).hasClass('fa-eye-slash')) {
+         $("[name='password'],[name='password_confirmation']").prop('type','text');
+          $(this).removeClass('fa-eye-slash').addClass('fa-eye');
+
+
+        } else {
+          $("[name='password'],[name='password_confirmation']").prop('type','password');
+          $(this).removeClass('fa-eye').addClass('fa-eye-slash');
+
+        }
+      });
+
+      //Generate random password on click
+       $('#randomize').click(function() {
+         $("[name='password'],[name='password_confirmation']").val(Math.random().toString(36).substring(3));
+          if($('#passtoggle').hasClass('fa-eye-slash')) {
+          $('#passtoggle').trigger('click');
+        }
+       
+      });
+    </script>
     @if(session('response'))
     <script>
-   @bsNotify(session('response'))
+   {!! bsNotify(session('response'))!!}
  </script>
 
     @endif

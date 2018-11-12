@@ -17,8 +17,14 @@
         	<form method="post" action="{{route('Users.store')}}">
               	{{csrf_field()}}
           <div class="tile">
-            <h3 class="tile-title">@lang('global.Add')</h3>
+            <h3 class="tile-title">@lang('global.Add')
+              <span class="pull-right">
+               <button type="submit" class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>@lang('global.Confirm')</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="{{url()->previous()}}"><i class="fa fa-fw fa-lg fa-times-circle"></i>@lang('global.Cancel')</a>
+             </span>
+            </h3>
+
             <div class="tile-body row">
+
               <div class="col-md-4">
    
               
@@ -55,7 +61,7 @@
                 </div>
                  <div class="form-group">
                   <label class="control-label"><strong>@lang('users::global.Password_confirmation') *</strong> </label>
-                  <input class="form-control{{ $errors->has('passwordl') ? ' is-invalid' : '' }}" type="password" name="password_confirmation" placeholder="Password Confirmation">
+                  <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" type="password" name="password_confirmation" placeholder="Password Confirmation">
                    @if ($errors->has('password_confimation'))
              <div class="invalid-feedback">{{ $errors->first('password_confimation') }}</div>
                                 @endif

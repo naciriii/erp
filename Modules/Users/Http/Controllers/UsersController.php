@@ -125,7 +125,7 @@ class UsersController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|unique:users,email,'.$id,
-            'password' => 'confirmed|min:6',
+            'password' => 'confirmed|nullable|min:6',
             'roles.*' => 'integer',
             'permissions.*' => 'integer'
 
