@@ -184,7 +184,7 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-         return redirect()->back()->with(['response' =>
+         return redirect()->route('Users.index')->with(['response' =>
           [
              trans('users::global.Deleted'),
              trans('users::global.Deleted_success',['user' => '<b>'.$user->name.'</b>']),
