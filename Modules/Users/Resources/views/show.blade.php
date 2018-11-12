@@ -70,7 +70,7 @@
                 <label class="control-label">
                   <strong>@lang('global.Roles')</strong> </label>
                 </div>
-                <div class="panel-body row col-md-12">
+                <div class="panel-body rolesPanel row col-md-12">
                   @php $ch = $roles->count() >1 ? $roles->count()/2 : 1 @endphp
                   @foreach($roles->chunk($ch) as $chunks)
                   <div class="col-md-6 col-sm-6">
@@ -78,7 +78,7 @@
                     @foreach($chunks as $chunk)
                   <div class="toggle">
                   <label>
-                    <input @if($user->hasRole($chunk)) checked="checked" @endif value="{{$chunk->id}}" name="roles[]" type="checkbox"><span class="button-indecator">{{$chunk->name}}</span>
+                    <input data-permissions="{{$chunk->permissions->pluck('id')->toJson()}}" class="roles" @if($user->hasRole($chunk)) checked="checked" @endif value="{{$chunk->id}}" name="roles[]" type="checkbox"><span class="button-indecator">{{$chunk->name}}</span>
                   </label>
                 </div>
                 @endforeach
@@ -104,7 +104,8 @@
                     @foreach($chunks as $chunk)
                   <div class="toggle">
                   <label>
-                    <input @if($user->hasPermissionTo($chunk)) checked="checked" @endif  value="{{$chunk->id}}" name="permissions[]" type="checkbox"><span class="button-indecator">{{$chunk->name}}</span>
+                    <input class="permissions" @if($user->hasPermissionTo($chunk)) checked="checked" @endif 
+                    @if($user->getPermissionsViaRoles()->contains('id',$chunk->id)) disabled @endif value="{{$chunk->id}}" name="permissions[]" type="checkbox"><span class="button-indecator">{{$chunk->name}}</span>
                   </label>
                 </div>
                 @endforeach
@@ -154,6 +155,24 @@
           $('#passtoggle').trigger('click');
         }
        
+      });
+       //Check Permissions based on role
+      $('.rolesPanel').on('click','.roles',function() {
+
+        var perms = $(this).data('permissions');
+        if($(this).is(':checked')) {
+          $(".permissions").filter(function() {
+         
+            return perms.indexOf(parseInt($(this).val())) !== -1;
+          }).prop('checked',true).prop('disabled',true);
+       
+
+        } else{
+          $(".permissions").filter(function() {
+            return perms.indexOf(parseInt($(this).val())) !== -1;
+          }).prop('checked',false).prop('disabled',false);
+
+        }
       });
     </script>
     @if(session('response'))

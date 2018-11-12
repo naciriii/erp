@@ -55,6 +55,8 @@ class UsersController extends Controller
      */
     public function store(Request $request, User $newUser)
     {
+
+
         $this->validate($request, [
             'name' => 'required',
             'email' => 'email|unique:users',
@@ -62,6 +64,7 @@ class UsersController extends Controller
             'roles.*' => 'integer',
             'permissions.*' => 'integer',
         ]);
+
         $newUser->name = $request->name;
         $newUser->email = $request->email;
         $newUser->password = bcrypt($request->password);
@@ -71,7 +74,15 @@ class UsersController extends Controller
 
         }
         if($request->has('permissions')) {
-        $newUser->givePermissionTo($request->permissions);
+
+            $roles = Role::find($request->roles);
+            //Get Roles Related permissions assigned to user through roles
+            $roles_permissions = ($roles != null)?$roles->pluck('permissions')->flatten()->pluck('id'):collect([]);
+            //Get Custom permissions assigned to user directly
+            $custom_permissions = collect($request->permissions)->diff($roles_permissions);
+          
+            //Assign Custom Permissions to user directly
+            $newUser->givePermissionTo($custom_permissions->toArray());
 
         }
         return redirect()->route('Users.show',['id' => encode($newUser->id)])
@@ -137,8 +148,22 @@ class UsersController extends Controller
             $user->password = bcrypt($request->password);
          }
          $user->save();
+         //Synchronize roles
          $user->syncRoles($request->roles);
-         $user->syncPermissions($request->permissions);
+
+         if($request->has('permissions')) {
+
+            $roles = Role::find($request->roles);
+            //Get Roles Related permissions assigned to user through roles
+            $roles_permissions = ($roles != null)?$roles->pluck('permissions')->flatten()->pluck('id'):collect([]);
+            //Get Custom permissions assigned to user directly
+            $custom_permissions = collect($request->permissions)->diff($roles_permissions);
+          
+            //synchronize Custom Permissions to user directly
+                $user->syncPermissions($custom_permissions->toArray());
+
+        }
+     
          return redirect()->back()->with(['response' =>
           [
              trans('users::global.Updated'),

@@ -4,8 +4,10 @@
     <aside class="app-sidebar">
       <div class="app-sidebar__user"><img class="app-sidebar__user-avatar" src="https://s3.amazonaws.com/uifaces/faces/twitter/jsa/48.jpg" alt="User Image">
         <div>
-          <p class="app-sidebar__user-name">Nacer Nsiri</p>
-          <p class="app-sidebar__user-designation">Software Engineer</p>
+          <p class="app-sidebar__user-name">{{Auth::user()->name}}</p>
+          @foreach(Auth::user()->roles as $role)
+          <p class="app-sidebar__user-designation">-{{title_case($role->name)}}</p>
+          @endforeach
         </div>
 
       </div>

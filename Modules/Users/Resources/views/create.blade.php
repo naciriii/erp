@@ -74,7 +74,7 @@
                 <label class="control-label">
                   <strong>@lang('global.Roles')</strong> </label>
                 </div>
-                <div class="panel-body row col-md-12">
+                <div class="panel-body row col-md-12 rolesPanel">
                      @php $ch = $roles->count() >1 ? $roles->count()/2 : 1 @endphp
                   @foreach($roles->chunk($ch) as $chunks)
                   <div class="col-md-6 col-sm-6">
@@ -82,7 +82,7 @@
                     @foreach($chunks as $chunk)
                   <div class="toggle">
                   <label>
-                    <input value="{{$chunk->id}}" name="roles[]" type="checkbox"><span class="button-indecator">{{$chunk->name}}</span>
+                    <input data-permissions="{{$chunk->permissions->pluck('id')->toJson()}}" value="{{$chunk->id}}" class="roles" name="roles[]" type="checkbox"><span class="button-indecator">{{$chunk->name}}</span>
                   </label>
                 </div>
                 @endforeach
@@ -108,7 +108,7 @@
                     @foreach($chunks as $chunk)
                   <div class="toggle">
                   <label>
-                    <input value="{{$chunk->id}}" name="permissions[]" type="checkbox"><span class="button-indecator">{{$chunk->name}}</span>
+                    <input class="permissions" value="{{$chunk->id}}" name="permissions[]" type="checkbox"><span class="button-indecator">{{$chunk->name}}</span>
                   </label>
                 </div>
                 @endforeach
@@ -158,6 +158,25 @@
           $('#passtoggle').trigger('click');
         }
        
+      });
+    
+      //Check Permissions based on role
+      $('.rolesPanel').on('click','.roles',function() {
+
+        var perms = $(this).data('permissions');
+        if($(this).is(':checked')) {
+          $(".permissions").filter(function() {
+         
+            return perms.indexOf(parseInt($(this).val())) !== -1;
+          }).prop('checked',true).prop('disabled',true);
+       
+
+        } else{
+          $(".permissions").filter(function() {
+            return perms.indexOf(parseInt($(this).val())) !== -1;
+          }).prop('checked',false).prop('disabled',false);
+
+        }
       });
     </script>
     @if(session('response'))
