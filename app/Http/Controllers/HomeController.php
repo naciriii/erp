@@ -38,10 +38,12 @@ class HomeController extends Controller
             'email' => 'email|unique:users,email,'.Auth::user()->id,
             'password' => 'confirmed|nullable|min:6'
         ]);
+
         $user = Auth::user();
         $user->name = $request->name;
         $user->email = $request->email;
-        if($request->has('password')) {
+        if($request->filled('password')) {
+         
             $user->password = bcrypt($request->password);
         }
         $user->save();
