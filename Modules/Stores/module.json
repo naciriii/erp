@@ -1,0 +1,24 @@
+{
+    "name": "Stores",
+    "alias": "stores",
+    "description": "",
+    "keywords": [],
+    "active": 1,
+    "order": 0,
+    "providers": [
+        "Modules\\Stores\\Providers\\StoresServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": [],
+    "icon": "far fa-building",
+    "menus": [
+        {
+            "name": "List",
+            "route": "Stores.index",
+            "icon": "fa-circle-o",
+            "order": 0
+        }
+       
+    ]
+}

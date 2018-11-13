@@ -2,6 +2,7 @@
 return [
 'Users' => 'Users',
 'Authorization' => 'Authorization',
+'Stores' => 'Stores'
 
 
 
