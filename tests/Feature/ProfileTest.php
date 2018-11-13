@@ -10,15 +10,8 @@ use App\User;
 class ProfileTest extends TestCase
 {
 	use RefreshDatabase;
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
-    {
-        $this->assertTrue(true);
-    }
+   
+   
     public function testGetProfile()
     {
     	$this->log('TEST GET PROFILE:');
