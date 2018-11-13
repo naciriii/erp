@@ -11,7 +11,7 @@
 |
 */
 
-Route::prefix('authorization')->group(function() {
+Route::prefix('authorization')->middleware('auth')->group(function() {
 	Route::prefix('roles')->group(function() {
 		Route::get('/', 'RoleController@index')->name('Roles.index');
 		Route::get('/create', 'RoleController@create')->name('Roles.create');

@@ -10,7 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::prefix('users')->group(function() {
+Route::prefix('users')->middleware('auth')->group(function() {
     Route::get('/', 'UsersController@index')->name('Users.index');
     Route::get('/create','UsersController@create')->name('Users.create');
     Route::post('/create', 'UsersController@store')->name('Users.store');

@@ -9,5 +9,7 @@ return [
 'Cancel' => 'Cancel',
 'AreYouSure' => 'Are you sure ?',
 'Roles' => 'Roles',
-'Permissions' => 'Permissions'
+'Permissions' => 'Permissions',
+'Home' => 'Home',
+'Profile' => 'Profile'
 ];

@@ -51,7 +51,7 @@ class PermissionController extends Controller
         $newPermission->givePermissionTo($request->permissions);
          }
 
-         return redirect()->route('Permissions.show',['id' => encode($newpermission->id)])
+         return redirect()->route('Permissions.show',['id' => encode($newPermission->id)])
                          ->with(['response' => 
                             [
              trans('permissions::global.Permission_added'),
