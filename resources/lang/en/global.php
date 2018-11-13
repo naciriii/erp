@@ -11,5 +11,7 @@ return [
 'Roles' => 'Roles',
 'Permissions' => 'Permissions',
 'Home' => 'Home',
-'Profile' => 'Profile'
+'Profile' => 'Profile',
+'Profile_updated' => 'Profile Updated',
+'Profile_updated_success' => 'Profile was updated successfully'
 ];
