@@ -87,7 +87,7 @@ class StoresController extends Controller
         $newStore->api_url = $request->api_url;
         $newStore->save();
 
-        return redirect()->route('Stores.index')->with([
+        return redirect()->route('Stores.show',['id' => encode($newStore->id)])->with([
             'response' =>  [
              trans('stores::global.Store_added'),
              trans('stores::global.Store_added_success',['store' => '<b>'.$newStore->name.'</b>']),
@@ -129,7 +129,17 @@ class StoresController extends Controller
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy()
+    public function destroy($id)
     {
+        $id = decode($id);
+        $store= Store::findOrfail($id);
+        $store->delete();
+        return redirect()->back()->with(['response' =>
+          [
+             trans('stores::global.Store_deleted'),
+             trans('stores::global.Store_deleted_success',
+                ['store' => '<b>'.$store->name.'</b>']),
+                'info'
+            ]]);
     }
 }

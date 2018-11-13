@@ -5,6 +5,14 @@ return [
 'BaseUrl' => 'Base Url',
 'ApiUrl' => 'Api Url',
 'CreatedAt' => 'Created At',
-'Unreachable' => ':attr is unreachable'
+'Unreachable' => ':attr is unreachable',
+'Store_added' => 'Store Added !',
+'Store_added_success' => 'Store :store Added Successfully !',
+'Store_updated' => 'Store Updated !',
+'Store_updated_success' => 'Store :store Updated Successfully !',
+'AreYouSureStore' => 'You want to delete this Store ?',
+'Store_deleted' => 'Store Deleted !',
+'Store_deleted_success' => 'Store :store Deleted Successfully !'
+
 
 ];
