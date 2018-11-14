@@ -4,6 +4,7 @@ namespace Modules\Users\Tests;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Role;
 use Permission;
 use App\User;
@@ -11,6 +12,7 @@ use App\User;
 class UsersTest extends TestCase
 {
 	use RefreshDatabase;
+    use WithoutMiddleware;
     /**
      * A basic test example.
      *
@@ -143,7 +145,7 @@ class UsersTest extends TestCase
     }
     public function testShowUser()
     {
-        $this->withoutMiddleware(\App\Http\Middleware\VerifyCsrfToken::class);
+        $this->withMiddleware();
          $user = User::firstOrCreate([
             'name' => 'TestUser',
             'email' => 'test@test.test',
