@@ -44,6 +44,7 @@
 
                   <button type="submit" class="btn btn-sm btn-danger deleteStoreBtn">{{trans('global.Delete')}}</button>
                 </form>
+                <a href="{{route('Store.index',['id' => encode($store->id)])}}"><button class="btn btn-sm btn-primary">{{trans('global.Show')}}</button></a>
                   </td>
                    
                   </tr>

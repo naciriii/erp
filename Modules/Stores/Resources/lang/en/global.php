@@ -4,6 +4,8 @@ return [
 'Name' => 'Name',
 'BaseUrl' => 'Base Url',
 'ApiUrl' => 'Api Url',
+'ApiLogin' => 'Api Login',
+'ApiPassword' => 'Api Password',
 'CreatedAt' => 'Created At',
 'Unreachable' => ':attr is unreachable',
 'Store_added' => 'Store Added !',

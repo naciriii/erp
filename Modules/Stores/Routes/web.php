@@ -17,10 +17,18 @@ Route::prefix('stores')->group(function() {
     Route::post('/store', 'StoresController@store')->name('Stores.store');
     Route::prefix('/{id}')->group(function() {
     	Route::get('/', 'StoresController@show')->name('Stores.show');
+    	Route::patch('/', 'StoresController@update')->name('Stores.update');
     	Route::delete('/', 'StoresController@destroy')->name('Stores.delete');
+
 
 
 
    });
 
+
 });
+
+Route::prefix('store/{id}')->group(function() {
+	Route::get('/','StoreController@index')->name('Store.index');
+
+	});

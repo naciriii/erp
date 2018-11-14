@@ -1,5 +1,10 @@
 <?php
 
 return [
-    'name' => 'Stores'
+    'name' => 'Stores',
+    'api' => [
+    	'auth_url' => '/integration/admin/token',
+    	'categories_url' => '/categories'
+
+    ]
 ];

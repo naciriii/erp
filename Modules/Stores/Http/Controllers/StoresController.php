@@ -45,33 +45,37 @@ class StoresController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'base_url' => 'required|url',
-            'api_url' => 'required|url|unique:stores,api_url'
+            'api_url' => 'required|url|unique:stores,api_url',
+            'api_login' => 'required',
+            'api_password' => 'required'
         ]);
         //Ping base url to check reachability
         $responseCode = '';
         try{
         $client = new Client();
-         $res = $client->request('GET', $request->base_url,['timeout' => 5]);
+         $res = $client->request('GET', $request->base_url,['timeout' => 10]);
          $responseCode = $res->getStatusCode();
 
         } catch(GuzzleException $e) {
-        $responseCode = 404;
+        $responseCode = 0;
+       
         }
         //Ping api url to check reachability
         $responseCode2 = '';
         try {
-             $res2 = $client->request('GET', $request->api_url,['timeout' => 5]);
+             $res2 = $client->request('GET', $request->api_url,['timeout' => 10]);
          $responseCode = $res->getStatusCode();
         
         } catch(GuzzleException $e) {
-            $responseCode2 = 404;
+            $responseCode2 = 0;
+          
         }
         //returns errors in case fail to ping api url or base url
         $errors = [];
-          if($responseCode === 404) {
+          if($responseCode === 0) {
             $errors['base_url'] = trans('stores::global.Unreachable',['attr' => trans('stores::global.BaseUrl')]);
           }
-          if($responseCode2 === 404) {
+          if($responseCode2 === 5) {
             $errors ['api_url'] = trans('stores::global.Unreachable',['attr' => trans('stores::global.ApiUrl')]);
           }
 
@@ -85,6 +89,8 @@ class StoresController extends Controller
         $newStore->name = $request->name;
         $newStore->base_url = $request->base_url;
         $newStore->api_url = $request->api_url;
+        $newStore->api_login = $request->api_login;
+        $newStore->api_password = encrypt($request->api_password);
         $newStore->save();
 
         return redirect()->route('Stores.show',['id' => encode($newStore->id)])->with([
@@ -103,8 +109,14 @@ class StoresController extends Controller
      */
     public function show($id)
     {
-        dd(decode($id));
-        return view('stores::show');
+        $id = decode($id);
+
+        $store = Store::findOrFail($id);
+
+        $data =  [
+            'store' => $store
+        ];
+        return view('stores::show')->with($data);
     }
 
     /**
@@ -123,6 +135,14 @@ class StoresController extends Controller
      */
     public function update(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required',
+            'base_url' => 'required',
+            'api_url' => 'required',
+            'api_login' => 'required'
+        ]);
+        dd($request->all());
+
     }
 
     /**
