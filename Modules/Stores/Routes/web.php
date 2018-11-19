@@ -30,5 +30,6 @@ Route::prefix('stores')->group(function() {
 
 Route::prefix('store/{id}')->group(function() {
 	Route::get('/','StoreController@index')->name('Store.index');
+    Route::get('/products','Store\ProductController@index')->name('Store.Products.index');
 
 	});

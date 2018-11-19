@@ -20,5 +20,13 @@
             "order": 0
         }
        
+    ],
+    "subMenus": [
+        {
+            "name": "Products",
+            "route": "Store.Products.index",
+            "icon": "fa fa-suitcase",
+            "order": 0
+        }
     ]
 }

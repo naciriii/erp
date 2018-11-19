@@ -12,7 +12,7 @@ use Modules\Stores\Repositories\StoreRepository;
 
 class StoreController extends Controller
 {
-    private $repository;
+    protected $repository;
 
 
     public function __construct(Request $request, StoreRepository $repository)
@@ -20,6 +20,8 @@ class StoreController extends Controller
         $id = decode($request->route()->parameter('id'));
         $this->repository = $repository;
         $this->repository->setStore(Store::findOrFail($id));
+       
+        //parent::__construct();
 
     }
     /**
@@ -28,7 +30,7 @@ class StoreController extends Controller
      */
     public function index()
     {
-        return view('stores::index');
+        return view('stores::store.index')->with('store',$this->getStore());
     }
 
     /**
@@ -82,5 +84,11 @@ class StoreController extends Controller
      */
     public function destroy()
     {
+    }
+
+
+    protected function getStore(): Store
+    {
+        return $this->repository->getStore();
     }
 }

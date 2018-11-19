@@ -5,6 +5,8 @@ return [
 'Add' => 'Add',
 'Edit' => 'Edit',
 'Delete' => 'Delete',
+'Manage' => 'Manage',
+'Show' => 'show',
 'Confirm' => 'Confirm',
 'Cancel' => 'Cancel',
 'AreYouSure' => 'Are you sure ?',

@@ -8,79 +8,105 @@ use Modules\Stores\Entities\Store;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Session;
+use Cookie;
 
 class StoreRepository 
 {
 	protected $store;
 	private $client;
+    private $api_token;
+    private $token;
 
 	public function __construct(Client $client)
 	{
 		$this->client = $client;
+        $this->api_token = config('stores.api_token');
 
 	}
 
-	public function setStore(Store $store)
-	{
-		$this->store = $store;
-		Session::put("authorize","Bearer ".$this->getAuthToken());
-		//$this->getAllCategories();
-
-	}
 	public function getAllCategories()
 	{
-		 $categories = $this->getDataFromApi('GET',config('stores.api.categories_url'));
-		return collect($categories->children_data);
 
+
+		 $categories = $this->getDataFromApi('POST',config('stores.api.categories_url'),[
+       
+        'api_url' => $this->store->api_url
+       
+    ]);
+
+		return collect($categories->children_data);
 
 	}
 
+    public function getAllProducts()
+    {
+
+         $products = $this->getDataFromApi('POST',config('stores.api.products_url'),[
+       
+        'api_url' => $this->store->api_url
+       
+    ]);
+
+        return $products;
+
+    }
 
 
 
 
 
 
+    public function setStore(Store $store)
+    {
+        $this->store = $store;
+        if($this->token == null) {
+        $token = "Bearer ".$this->getAuthToken();
+
+        $this->token = $token;
+    }
+
+    }
+    public function getStore():Store
+    {
+        return $this->store;
+    }
 	 private function getAuthToken()
     {
 
     	$login = $this->store->api_login;
     	$pass = decrypt($this->store->api_password);
-
-    $url = $this->store->api_url.config('stores.api.auth_url');
-  
-
-    	$response = $this->client->request('POST', $url, [
+       
+    $url = config('stores.api.auth_url');
+      	$response = $this->client->request('POST', $url, [
     		 'headers' => [
-    		 	"Content-Type"=>"application/json"
+    		 	"Content-Type"=>"application/json",
+                "api-token" => $this->api_token
     ],
     'json' => [
-        'username' => $login,
-        'password' => $pass
-       
+        'login' => $login,
+        'password' => $pass,
+        'api_url' => $this->store->api_url
     ]
-]);
+    ]);
     	return json_decode(trim($response->getBody()->getContents()));
-
     }
-
-    private function getDataFromApi($method, $uri)
+    private function getDataFromApi($method, $uri, $bodyParams = null)
     {
-
-
-        	$response = $this->client->request($method, $this->store->api_url.$uri, 
-        		
-        		 [
+        $body =          [
     'headers' => [
         'Accept'     => 'application/json',
-        'Authorization'      => session('authorize')
+        'token'      => $this->token,
+        "api-token" => $this->api_token
     ]
-]);
+    ];
+        if($bodyParams != null) {
+          $body['json'] = $bodyParams;
+            }
+            
+    $response = $this->client->request($method, $uri, $body);
 
         	$data = $response->getBody()->getContents();
 
         return json_decode($data);
-
-
     }
 }
