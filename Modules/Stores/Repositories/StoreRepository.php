@@ -28,7 +28,7 @@ class StoreRepository
 	{
 
 
-		 $categories = $this->getDataFromApi('POST',config('stores.api.categories_url'),[
+		 $categories = $this->getDataFromApi('POST',config('stores.api.base_url').config('stores.api.categories_url'),[
        
         'api_url' => $this->store->api_url
        
@@ -41,7 +41,7 @@ class StoreRepository
     public function getAllProducts()
     {
 
-         $products = $this->getDataFromApi('POST',config('stores.api.products_url'),[
+         $products = $this->getDataFromApi('POST',config('stores.api.base_url').config('stores.api.products_url'),[
        
         'api_url' => $this->store->api_url
        
@@ -76,7 +76,7 @@ class StoreRepository
     	$login = $this->store->api_login;
     	$pass = decrypt($this->store->api_password);
        
-    $url = config('stores.api.auth_url');
+    $url = config('stores.api.base_url').config('stores.api.auth_url');
       	$response = $this->client->request('POST', $url, [
     		 'headers' => [
     		 	"Content-Type"=>"application/json",
