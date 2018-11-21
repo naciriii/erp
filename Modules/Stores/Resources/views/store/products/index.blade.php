@@ -39,7 +39,7 @@
                     <td>{{$product->sku}}</td>
                     <td></td>
                     <td></td>
-                    <td><a href=""><button class="btn btn-sm btn-primary">{{trans('global.Edit')}}</button></a>
+                    <td><a href="{{route('Store.Products.show',['id'=>encode($store->id),'sku' => $product->sku])}}"><button class="btn btn-sm btn-primary">{{trans('global.Edit')}}</button></a>
                       <form class="d-inline" method="post" action="}">
                         {{csrf_field()}}
                         <input type="hidden" name="_method" value="DELETE">

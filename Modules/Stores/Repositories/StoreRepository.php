@@ -50,6 +50,12 @@ class StoreRepository
         return $products;
 
     }
+    public function getProduct($sku)
+    {
+        $product = $this->getDataFromApi('POST',config('stores.api.base_url').str_replace('{sku}', $sku, config('stores.api.get_product_url')), [
+            'api_url' => $this->store->api_url]);
+        return $product;
+    }
 
 
 

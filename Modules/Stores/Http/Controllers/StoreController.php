@@ -51,14 +51,7 @@ class StoreController extends Controller
     {
     }
 
-    /**
-     * Show the specified resource.
-     * @return Response
-     */
-    public function show()
-    {
-        return view('stores::show');
-    }
+    
 
     /**
      * Show the form for editing the specified resource.

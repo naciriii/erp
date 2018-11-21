@@ -7,7 +7,8 @@ return [
     	'base_url' =>env('base_url','http://mgukn.test/'),
     	'auth_url' => 'api/auth',
     	'categories_url' => 'api/categories',
-    	'products_url' => 'api/products'
+    	'products_url' => 'api/products',
+    	'get_product_url' => 'api/products/{sku}',
 
     ]
 ];
