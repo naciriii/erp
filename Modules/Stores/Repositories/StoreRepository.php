@@ -64,12 +64,14 @@ class StoreRepository
 
     public function setStore(Store $store)
     {
+
         $this->store = $store;
         if($this->token == null) {
         $token = "Bearer ".$this->getAuthToken();
 
         $this->token = $token;
     }
+
 
     }
     public function getStore():Store
@@ -78,7 +80,11 @@ class StoreRepository
     }
 	 private function getAuthToken()
     {
-
+        $store_id = $this->store->id.'_access_token';
+        if(Session::has($store_id)) {
+            return session($store_id);
+        } else {
+            
     	$login = $this->store->api_login;
     	$pass = decrypt($this->store->api_password);
        
@@ -94,7 +100,10 @@ class StoreRepository
         'api_url' => $this->store->api_url
     ]
     ]);
-    	return json_decode(trim($response->getBody()->getContents()));
+        session([$store_id => json_decode(trim($response->getBody()->getContents()))]);
+
+    	return session($store_id);
+    }
     }
     private function getDataFromApi($method, $uri, $bodyParams = null)
     {
