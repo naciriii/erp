@@ -9,6 +9,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
 use Session;
 use Cookie;
+use Crypt;
 
 class StoreRepository 
 {
@@ -33,13 +34,16 @@ class StoreRepository
         'api_url' => $this->store->api_url
        
     ]);
-
+         if(isset($categories->children_data)) {
 		return collect($categories->children_data);
+    } 
+    return collect([]);
 
 	}
 
     public function getAllProducts()
     {
+
 
          $products = $this->getDataFromApi('POST',config('stores.api.base_url').config('stores.api.products_url'),[
        
@@ -56,6 +60,21 @@ class StoreRepository
             'api_url' => $this->store->api_url]);
         return $product;
     }
+    public function addProduct($product)
+    {
+      
+        
+       
+
+        $result = $this->getDataFromApi('POST',config('stores.api.base_url').config('stores.api.add_product_url'),[
+       
+        'api_url' => $this->store->api_url,
+        'product' =>json_encode($product)
+       
+    ]);
+     
+     return $result;
+    }
 
 
 
@@ -64,12 +83,16 @@ class StoreRepository
 
     public function setStore(Store $store)
     {
-
         $this->store = $store;
         if($this->token == null) {
-        $token = "Bearer ".$this->getAuthToken();
 
-        $this->token = $token;
+            $token = $this->getAuthToken();
+           
+     
+        $this->token = "Bearer ".$token;
+            
+
+      
     }
 
 
@@ -78,16 +101,28 @@ class StoreRepository
     {
         return $this->store;
     }
-	 private function getAuthToken()
+	 public function getAuthToken()
     {
         $store_id = $this->store->id.'_access_token';
-        if(Session::has($store_id)) {
-            return session($store_id);
+    
+
+
+
+        if(Cookie::get($store_id)!=null) {
+
+
+            return Crypt::decrypt(Cookie::get($store_id));
+
+
         } else {
+
+
+
+
             
     	$login = $this->store->api_login;
     	$pass = decrypt($this->store->api_password);
-       
+
     $url = config('stores.api.base_url').config('stores.api.auth_url');
       	$response = $this->client->request('POST', $url, [
     		 'headers' => [
@@ -100,9 +135,14 @@ class StoreRepository
         'api_url' => $this->store->api_url
     ]
     ]);
-        session([$store_id => json_decode(trim($response->getBody()->getContents()))]);
+        $result = json_decode(trim($response->getBody()->getContents()));
 
-    	return session($store_id);
+        Cookie::queue($store_id, $result, 15);
+
+      
+
+
+    	return $result;
     }
     }
     private function getDataFromApi($method, $uri, $bodyParams = null)
@@ -114,10 +154,12 @@ class StoreRepository
         "api-token" => $this->api_token
     ]
     ];
+
         if($bodyParams != null) {
+         
           $body['json'] = $bodyParams;
             }
-            
+          
     $response = $this->client->request($method, $uri, $body);
 
         	$data = $response->getBody()->getContents();

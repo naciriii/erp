@@ -17,6 +17,7 @@ class StoreController extends Controller
 
     public function __construct(Request $request, StoreRepository $repository)
     {
+
         $id = decode($request->route()->parameter('id'));
         $this->repository = $repository;
         $this->repository->setStore(Store::findOrFail($id));
@@ -33,24 +34,14 @@ class StoreController extends Controller
         return view('stores::store.index')->with('store',$this->getStore());
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
-    {
-        return view('stores::create');
-    }
+
 
     /**
      * Store a newly created resource in storage.
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request)
-    {
-    }
-
+    
     
 
     /**
