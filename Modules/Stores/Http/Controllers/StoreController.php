@@ -53,14 +53,7 @@ class StoreController extends Controller
         return view('stores::edit');
     }
 
-    /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(Request $request)
-    {
-    }
+   
 
     /**
      * Remove the specified resource from storage.

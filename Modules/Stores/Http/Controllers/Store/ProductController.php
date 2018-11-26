@@ -15,7 +15,7 @@ class ProductController extends StoreController
 	{
 		
 		$result  = $this->repository->getAllProducts();
-		$result->items = collect($result->items);
+		$result->items = $result->items;
 		$data = [
 			'result' => $result,
 			'store' => $this->getStore()
@@ -28,7 +28,10 @@ class ProductController extends StoreController
 	{
 		$result = $this->repository->getProduct($sku);
 		$categories = $this->repository->getAllCategories();
-		$data = ['product' => $result,'categories' => $categories];
+		$data = [
+			'product' => $result,
+			'categories' => $categories,
+			'store' => $this->getStore()];
 		return view('stores::store.products.show')->with($data);
 
 
@@ -43,6 +46,12 @@ class ProductController extends StoreController
 	}
 	public function store($id,Request $request)
 	{
+		$this->validate($request, [
+			'sku' => 'required',
+			'name' => 'required',
+			'price' => 'required',
+			'quantity' => 'required',
+			'category.*' => 'integer']);
 
 		$productObj = $this->getProductModel();
 		//dd($request->all(),$productObj->product);
@@ -60,7 +69,51 @@ class ProductController extends StoreController
 		$productObj->product->customAttributes [] = $categories;
 		
 		$product = $this->repository->addProduct($productObj);
-		dd($product);
+		
+		return redirect()->route('Store.Products.index',['id' =>$id])->with(['response' => 
+                            [
+             trans('stores::global.Product_added'),
+             trans('stores::global.Product_added_success',['product' => '<b>'.$request->name.'</b>']),
+                'info'
+            ]]);
+
+
+
+
+
+	}
+	public function update($id,$sku,Request $request)
+	{
+		$this->validate($request, [
+			'sku' => 'required',
+			'name' => 'required',
+			'price' => 'required',
+			'quantity' => 'required',
+			'category.*' => 'integer']);
+
+		$productObj = $this->getProductModel();
+		//dd($request->all(),$productObj->product);
+		$productObj->product->sku = $request->sku ;
+		$productObj->product->name = $request->name;
+		$productObj->product->price = $request->price;
+		$productObj->product->extensionAttributes->stockItem->qty = $request->quantity;
+		$categories = new \StdClass;
+		
+		$categories->attribute_code = "category_ids";
+		$categories->value = $request->category;
+
+		
+
+		$productObj->product->customAttributes [] = $categories;
+		
+		$product = $this->repository->updateProduct($sku,$productObj);
+		
+		return redirect()->route('Store.Products.index',['id' =>$id])->with(['response' => 
+                            [
+             trans('stores::global.Product_updated'),
+             trans('stores::global.Product_updated_success',['product' => '<b>'.$request->name.'</b>']),
+                'info'
+            ]]);
 
 
 

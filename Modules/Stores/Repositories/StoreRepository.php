@@ -63,9 +63,6 @@ class StoreRepository
     public function addProduct($product)
     {
       
-        
-       
-
         $result = $this->getDataFromApi('POST',config('stores.api.base_url').config('stores.api.add_product_url'),[
        
         'api_url' => $this->store->api_url,
@@ -74,6 +71,15 @@ class StoreRepository
     ]);
      
      return $result;
+    }
+    public function updateProduct($sku,$product)
+    {
+           $result = $this->getDataFromApi('PUT',config('stores.api.base_url').str_replace('{sku}', $sku, config('stores.api.update_product_url')),[
+       
+        'api_url' => $this->store->api_url,
+        'product' =>json_encode($product)
+       
+    ]);
     }
 
 

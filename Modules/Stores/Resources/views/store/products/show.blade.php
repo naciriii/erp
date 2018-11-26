@@ -14,9 +14,9 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="">
+          <form method="post" action="{{route('Store.Products.update',['id' => encode($store->id),'sku' => $product->sku])}}">
                 {{csrf_field()}}
-                <input type="hidden" name="_method" value="PATCH">
+                <input type="hidden" name="_method" value="PUT">
           <div class="tile">
             <h3 class="tile-title">@lang('global.Edit')</h3>
             <div class="tile-body ">
@@ -25,7 +25,7 @@
               
                 <div class="form-group">
                   <label class="control-label">@lang('stores::global.Name') <strong>*</strong></label>
-                  <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" type="text" name="name" value="{{$product->name}}" placeholder=">
+                  <input class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" type="text" name="name" value="{{$product->name}}" placeholder="">
                    @if ($errors->has('name'))
              <div class="invalid-feedback">{{ $errors->first('name') }}</div>
                                 @endif
@@ -105,6 +105,4 @@
     </div>
 
 @stop
-@section('js')
-<script></script>
-      @stop
+

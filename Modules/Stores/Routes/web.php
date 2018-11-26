@@ -35,5 +35,6 @@ Route::prefix('store/{id}')->group(function() {
     Route::get('/products/{sku}','Store\ProductController@show')->name('Store.Products.show');
 
      Route::post('/products','Store\ProductController@store')->name('Store.Products.store');
+     Route::put('/products/{sku}','Store\ProductController@update')->name('Store.Products.update');
 
 	});

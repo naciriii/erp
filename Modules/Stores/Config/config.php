@@ -9,7 +9,8 @@ return [
     	'categories_url' => 'api/categories',
     	'products_url' => 'api/products',
     	'get_product_url' => 'api/products/{sku}',
-    	'add_product_url' => 'api/products/store'
+    	'add_product_url' => 'api/products/store',
+    	'update_product_url' => 'api/products/{sku}'
 
     ]
 ];

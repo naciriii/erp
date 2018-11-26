@@ -33,7 +33,7 @@
                   </tr>
                 </thead>
                 <tbody id="productsTableBody">
-                    @foreach($result->items as $product)
+                    @foreach(collect($result->items) as $product)
                      <tr>
                     <td>{{$product->name}}</td>
                     <td>{{$product->price}}</td>

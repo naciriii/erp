@@ -22,7 +22,11 @@ return [
 'Store_deleted_success' => 'Store :store Deleted Successfully !',
 'StoreMenus' => [
 				'Products' => 'Products'
-				]
+				],
+'Product_added' => 'Product Added !',
+'Product_added_success' => 'Product :product Added Successfully !',
+'Product_updated' => 'Product Updated !',
+'Product_updated_success' => 'Product :product Updated Successfully !',
 
 
 ];
