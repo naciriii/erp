@@ -51,6 +51,7 @@ class StoreRepository
        
     ]);
 
+
         return $products;
 
     }
@@ -74,7 +75,7 @@ class StoreRepository
     }
     public function updateProduct($sku,$product)
     {
-           $result = $this->getDataFromApi('PUT',config('stores.api.base_url').str_replace('{sku}', $sku, config('stores.api.update_product_url')),[
+           $result = $this->getDataFromApi('POST',config('stores.api.base_url').str_replace('{sku}', $sku, config('stores.api.update_product_url')),[
        
         'api_url' => $this->store->api_url,
         'product' =>json_encode($product)
@@ -96,6 +97,7 @@ class StoreRepository
            
      
         $this->token = "Bearer ".$token;
+
             
 
       
@@ -165,10 +167,12 @@ class StoreRepository
          
           $body['json'] = $bodyParams;
             }
+
           
     $response = $this->client->request($method, $uri, $body);
 
         	$data = $response->getBody()->getContents();
+
 
         return json_decode($data);
     }
