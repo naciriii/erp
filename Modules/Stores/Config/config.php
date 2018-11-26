@@ -10,7 +10,8 @@ return [
     	'products_url' => 'api/products',
     	'get_product_url' => 'api/products/{sku}',
     	'add_product_url' => 'api/products/store',
-    	'update_product_url' => 'api/products/update/{sku}'
+    	'update_product_url' => 'api/products/update/{sku}',
+    	'delete_product_url' => 'api/products/delete/{sku}',
 
     ]
 ];

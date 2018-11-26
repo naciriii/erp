@@ -36,5 +36,6 @@ Route::prefix('store/{id}')->group(function() {
 
      Route::post('/products','Store\ProductController@store')->name('Store.Products.store');
      Route::put('/products/{sku}','Store\ProductController@update')->name('Store.Products.update');
+     Route::delete('/products/{sku}','Store\ProductController@delete')->name('Store.Products.destroy');
 
 	});

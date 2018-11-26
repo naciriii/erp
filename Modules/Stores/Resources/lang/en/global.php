@@ -23,10 +23,13 @@ return [
 'StoreMenus' => [
 				'Products' => 'Products'
 				],
+'AreYouSureProduct' => 'You want to delete this Product ?',
 'Product_added' => 'Product Added !',
 'Product_added_success' => 'Product :product Added Successfully !',
 'Product_updated' => 'Product Updated !',
 'Product_updated_success' => 'Product :product Updated Successfully !',
+'Product_deleted' => 'Product Deleted !',
+'Product_deleted_success' => 'Product :product Deleted Successfully !',
 
 
 ];

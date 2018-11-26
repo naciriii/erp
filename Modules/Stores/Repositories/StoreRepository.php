@@ -82,6 +82,13 @@ class StoreRepository
        
     ]);
     }
+    public function deleteProduct($sku)
+    {
+         $product = $this->getDataFromApi('POST',config('stores.api.base_url').str_replace('{sku}', $sku, config('stores.api.delete_product_url')), [
+            'api_url' => $this->store->api_url]);
+        return $product;
+
+    }
 
 
 

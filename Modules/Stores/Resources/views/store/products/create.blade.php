@@ -32,7 +32,10 @@
                 </div>
                 <div class="form-group">
                   <label class="control-label">@lang('stores::global.Price') <strong>*</strong></label>
+                      <div class="input-group">
+                      <div class="input-group-prepend"><span class="input-group-text">€</span></div>
                   <input class="form-control{{ $errors->has('price') ? ' is-invalid' : '' }}" type="text" name="price" value="{{old('price')}}" placeholder="">
+                </div>
                    @if ($errors->has('price'))
              <div class="invalid-feedback">{{ $errors->first('price') }}</div>
                                 @endif
@@ -54,7 +57,7 @@
                  <div class="form-group">
                   <label class="control-label">@lang('stores::global.Category') <strong>*</strong></label>
                  
-                  <select multiple name="category[]" class="form-control">
+                  <select multiple="" id="selectCategories"  name="category[]" class="form-control">
                      @foreach($categories as $c)
 
                      <option
@@ -100,4 +103,11 @@
     </div>
 
 @stop
+@section('js')
+ <script type="text/javascript" src="{{asset('js/plugins/select2.min.js')}}"></script>
 
+<script type="text/javascript">
+   $('#selectCategories').select2();
+</script>
+
+@endsection

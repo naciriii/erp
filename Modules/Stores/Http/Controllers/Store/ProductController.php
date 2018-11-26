@@ -15,8 +15,7 @@ class ProductController extends StoreController
 	{
 		
 		$result  = $this->repository->getAllProducts();
-
-		$result->items = $result->items;
+	
 		$data = [
 			'result' => $result,
 			'store' => $this->getStore()
@@ -28,6 +27,9 @@ class ProductController extends StoreController
 	public function show($id,$sku)
 	{
 		$result = $this->repository->getProduct($sku);
+		if($result == null) {
+			return abort(404);
+		}
 		$categories = $this->repository->getAllCategories();
 		$data = [
 			'product' => $result,
@@ -50,8 +52,8 @@ class ProductController extends StoreController
 		$this->validate($request, [
 			'sku' => 'required',
 			'name' => 'required',
-			'price' => 'required',
-			'quantity' => 'required',
+			'price' => 'required|numeric',
+			'quantity' => 'required|numeric',
 			'category.*' => 'integer']);
 
 		$productObj = $this->getProductModel();
@@ -88,8 +90,8 @@ class ProductController extends StoreController
 		$this->validate($request, [
 			'sku' => 'required',
 			'name' => 'required',
-			'price' => 'required',
-			'quantity' => 'required',
+			'price' => 'required|numeric',
+			'quantity' => 'required|numeric',
 			'category.*' => 'integer']);
 
 		$productObj = $this->getProductModel();
@@ -117,9 +119,23 @@ class ProductController extends StoreController
             ]]);
 
 
+	}
+	public function delete($id,$sku)
+	{
+	$result = $this->repository->deleteProduct($sku);
 
+	$data = [
+			'result' => $result,
+			'store' => $this->getStore()
+		];
+		return redirect()->route('Store.Products.index',['id' =>$id])->with(['response' => 
+                            [
+             trans('stores::global.Product_deleted'),
+             trans('stores::global.Product_deleted_success',['product' => '<b>'.$sku.'</b>']),
+                'info'
+            ]]);
 
-
+		return view('stores::store.products.index')->with($data);
 	}
 
 

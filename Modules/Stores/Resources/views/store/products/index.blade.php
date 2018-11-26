@@ -28,7 +28,6 @@
                     <th>{{trans('stores::global.Price')}}</th>
                     <th>{{trans('stores::global.Sku')}}</th>
                     <th>{{trans('stores::global.Quantity')}}</th>
-                    <th>{{trans('stores::global.Category')}}</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -36,12 +35,11 @@
                     @foreach(collect($result->items) as $product)
                      <tr>
                     <td>{{$product->name}}</td>
-                    <td>{{$product->price}}</td>
+                    <td>€ {{$product->price}}</td>
                     <td>{{$product->sku}}</td>
-                    <td></td>
-                    <td></td>
+                    <td>{{$product->qty}}</td>
                     <td><a href="{{route('Store.Products.show',['id'=>encode($store->id),'sku' => $product->sku])}}"><button class="btn btn-sm btn-primary">{{trans('global.Edit')}}</button></a>
-                      <form class="d-inline" method="post" action="}">
+                      <form class="d-inline" method="post" action="{{route('Store.Products.destroy',['id' => encode($store->id),'sku'=>$product->sku])}}">
                         {{csrf_field()}}
                         <input type="hidden" name="_method" value="DELETE">
 
@@ -49,6 +47,7 @@
                 </form>
                
                   </td>
+
                    
                   </tr>
 
