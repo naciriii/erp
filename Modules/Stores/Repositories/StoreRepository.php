@@ -152,6 +152,7 @@ class StoreRepository
     ]);
         $result = json_decode(trim($response->getBody()->getContents()));
       if(isset($result->status) && $result->status == "Unauthorized Magento") {
+
         
         return abort(404,"Api Credentials Mismatch!");
       }
