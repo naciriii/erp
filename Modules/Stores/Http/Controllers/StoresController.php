@@ -133,7 +133,7 @@ class StoresController extends Controller
      * @param  Request $request
      * @return Response
      */
-    public function update(Request $request)
+    public function update($id,Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
@@ -141,7 +141,60 @@ class StoresController extends Controller
             'api_url' => 'required',
             'api_login' => 'required'
         ]);
-        dd($request->all());
+        $id = decode($id);
+        $store = Store::findOrFail($id);
+                   //Ping base url to check reachability
+        $responseCode = '';
+        try{
+        $client = new Client();
+         $res = $client->request('GET', $request->base_url,['timeout' => 10]);
+         $responseCode = $res->getStatusCode();
+
+        } catch(GuzzleException $e) {
+        $responseCode = 0;
+       
+        }
+        //Ping api url to check reachability
+        $responseCode2 = '';
+        try {
+             $res2 = $client->request('GET', $request->api_url,['timeout' => 10]);
+         $responseCode = $res->getStatusCode();
+        
+        } catch(GuzzleException $e) {
+            $responseCode2 = 0;
+          
+        }
+        //returns errors in case fail to ping api url or base url
+        $errors = [];
+          if($responseCode === 0) {
+            $errors['base_url'] = trans('stores::global.Unreachable',['attr' => trans('stores::global.BaseUrl')]);
+          }
+          if($responseCode2 === 5) {
+            $errors ['api_url'] = trans('stores::global.Unreachable',['attr' => trans('stores::global.ApiUrl')]);
+          }
+
+     if(count($errors)) {
+        //return with old inputs
+        $request->flash();
+        return redirect()->back()->withErrors($errors);
+
+     }
+       
+        $store->name = $request->name;
+        $store->base_url = $request->base_url;
+        $store->api_url = $request->api_url;
+        $store->api_login = $request->api_login;
+        if($request->filled('api_password')) {
+        $store->api_password = encrypt($request->api_password);
+    }
+        $store->save();
+
+        return redirect()->route('Stores.show',['id' => encode($store->id)])->with([
+            'response' =>  [
+             trans('stores::global.Store_updated'),
+             trans('stores::global.Store_updated_success',['store' => '<b>'.$store->name.'</b>']),
+                'info'
+            ]]);
 
     }
 

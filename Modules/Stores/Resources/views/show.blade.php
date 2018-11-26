@@ -95,4 +95,11 @@
         }
       });
     </script>
+        <script type="text/javascript" src="{{asset('js/plugins/bootstrap-notify.min.js')}}"></script>
+    @if(session('response'))
+    <script>
+   {!! bsNotify(session('response')) !!};
+ </script>
+    @endif
+
       @stop
