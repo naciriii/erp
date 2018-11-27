@@ -32,6 +32,7 @@
                   </tr>
                 </thead>
                 <tbody id="productsTableBody">
+                  @if(isset($result->items))
                     @foreach(collect($result->items) as $product)
                      <tr>
                     <td>{{$product->name}}</td>
@@ -52,6 +53,7 @@
                   </tr>
 
                   @endforeach
+                  @endif
                
                 </tbody>
               </table>

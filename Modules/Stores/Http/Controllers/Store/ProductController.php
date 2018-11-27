@@ -15,6 +15,7 @@ class ProductController extends StoreController
 	{
 		
 		$result  = $this->repository->getAllProducts();
+		
 	
 		$data = [
 			'result' => $result,
