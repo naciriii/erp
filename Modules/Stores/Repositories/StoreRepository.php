@@ -10,6 +10,7 @@ use GuzzleHttp\Client;
 use Session;
 use Cookie;
 use Crypt;
+use Cache;
 
 class StoreRepository 
 {
@@ -29,7 +30,7 @@ class StoreRepository
 	{
 
 
-		 $categories = $this->getDataFromApi('POST',true, config('stores.api.base_url').config('stores.api.categories_url'),[
+		 $categories = $this->getDataFromApi('POST',config('stores.api.base_url').config('stores.api.categories_url'),[
        
         'api_url' => $this->store->api_url
        
@@ -44,48 +45,53 @@ class StoreRepository
     public function getAllProducts()
     {
 
-
-         $products = $this->getDataFromApi('POST',true, config('stores.api.base_url').config('stores.api.products_url'),[
+        $products = Cache::remember('products', 30, function () {
+            return  $this->getDataFromApi('POST', config('stores.api.base_url').config('stores.api.products_url'),[
        
         'api_url' => $this->store->api_url
        
-    ]);
-
+    ]); 
+            });
 
         return $products;
 
     }
     public function getProduct($sku)
     {
-        $product = $this->getDataFromApi('POST',false,config('stores.api.base_url').str_replace('{sku}', $sku, config('stores.api.get_product_url')), [
+        $product = $this->getDataFromApi('POST', config('stores.api.base_url').str_replace('{sku}', $sku, config('stores.api.get_product_url')), [
             'api_url' => $this->store->api_url]);
         return $product;
     }
     public function addProduct($product)
     {
       
-        $result = $this->getDataFromApi('POST',false, config('stores.api.base_url').config('stores.api.add_product_url'),[
+        $result = $this->getDataFromApi('POST', config('stores.api.base_url').config('stores.api.add_product_url'),[
        
         'api_url' => $this->store->api_url,
         'product' =>json_encode($product)
        
     ]);
+        Cache::forget('products');
      
      return $result;
     }
     public function updateProduct($sku,$product)
     {
-           $result = $this->getDataFromApi('POST',false, config('stores.api.base_url').str_replace('{sku}', $sku, config('stores.api.update_product_url')),[
+           $result = $this->getDataFromApi('POST', config('stores.api.base_url').str_replace('{sku}', $sku, config('stores.api.update_product_url')),[
        
         'api_url' => $this->store->api_url,
         'product' =>json_encode($product)
        
     ]);
+           Cache::forget('products');
+           return $result;
     }
     public function deleteProduct($sku)
     {
-         $product = $this->getDataFromApi('POST',false, config('stores.api.base_url').str_replace('{sku}', $sku, config('stores.api.delete_product_url')), [
+         $product = $this->getDataFromApi('POST', config('stores.api.base_url').str_replace('{sku}', $sku, config('stores.api.delete_product_url')), [
             'api_url' => $this->store->api_url]);
+
+         Cache::forget('products');
         return $product;
 
     }
@@ -164,7 +170,7 @@ class StoreRepository
     	return $result;
     }
     }
-    private function getDataFromApi($method,$cache =true, $uri, $bodyParams = null)
+    private function getDataFromApi($method, $uri, $bodyParams = null)
     {
         $body =          [
     'headers' => [
@@ -173,9 +179,7 @@ class StoreRepository
         "api-token" => $this->api_token
     ]
     ];
-    if($cache ==true) {
-        $body['headers']['Cache-Control'] = 'max-age=3600';
-    }
+   
 
         if($bodyParams != null) {
          
