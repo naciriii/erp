@@ -45,7 +45,7 @@ class StoreRepository
     public function getAllProducts()
     {
 
-        $products = Cache::remember('products', 30, function () {
+        $products = Cache::remember('products', 5, function () {
             return  $this->getDataFromApi('POST', config('stores.api.base_url').config('stores.api.products_url'),[
        
         'api_url' => $this->store->api_url
