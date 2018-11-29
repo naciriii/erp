@@ -11,8 +11,14 @@ return [
 'Quantity' => 'Quantity',
 'Sku' => 'SKU',
 'Category' => 'Category',
+'Email' => 'Email',
+'FirstName' => 'First Name',
+'LastName' => 'Last Name',
+'Phone' => 'Phone',
+'Address' => 'Address',
 'Unreachable' => ':attr is unreachable',
 'NewProduct' => 'New Product',
+'NewCustomer' => 'New Customer',
 'Store_added' => 'Store Added !',
 'Store_added_success' => 'Store :store Added Successfully !',
 'Store_updated' => 'Store Updated !',
@@ -21,7 +27,8 @@ return [
 'Store_deleted' => 'Store Deleted !',
 'Store_deleted_success' => 'Store :store Deleted Successfully !',
 'StoreMenus' => [
-				'Products' => 'Products'
+				'Products' => 'Products',
+				'Customers' => 'Customers',
 				],
 'AreYouSureProduct' => 'You want to delete this Product ?',
 'Product_added' => 'Product Added !',
@@ -30,6 +37,14 @@ return [
 'Product_updated_success' => 'Product :product Updated Successfully !',
 'Product_deleted' => 'Product Deleted !',
 'Product_deleted_success' => 'Product :product Deleted Successfully !',
+
+'AreYouSureCustomer' => 'You want to delete this Customer ?',
+'Customer_added' => 'Customer Added !',
+'Customer_added_success' => 'Customer :customer Added Successfully !',
+'Customer_updated' => 'Customer Updated !',
+'Customer_updated_success' => 'Customer :customer Updated Successfully !',
+'Customer_deleted' => 'Customer Deleted !',
+'Customer_deleted_success' => 'Customer :customer Deleted Successfully !',
 
 
 ];

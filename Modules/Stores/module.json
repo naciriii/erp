@@ -27,6 +27,12 @@
             "route": "Store.Products.index",
             "icon": "fa fa-suitcase",
             "order": 0
+        },
+         {
+            "name": "Customers",
+            "route": "Store.Customers.index",
+            "icon": "fa fa-vcard",
+            "order": 1
         }
     ]
 }

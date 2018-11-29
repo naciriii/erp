@@ -15,8 +15,9 @@
       <div class="row">
         <div class="col-md-12">
         		@foreach(collect(Module::find('Stores')->subMenus)->sortBy('order') as $subMenu)
-        <a href="{{route($subMenu['route'],['id' => encode($store->id)])}}">
+    
         	<div class="col-md-3 col-lg-3">
+                <a href="{{route($subMenu['route'],['id' => encode($store->id)])}}">
           <div class="widget-small primary coloured-icon"><i class="icon {{$subMenu['icon']}} fa-3x"></i>
             <div class="info">
               <h4>
@@ -24,8 +25,9 @@
               <p><b>5</b></p>
             </div>
           </div>
+           </a>
         </div>
-    </a>
+   
         @endforeach
         </div>
         <div class="clearix"></div>

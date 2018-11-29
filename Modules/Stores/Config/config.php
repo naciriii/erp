@@ -12,6 +12,7 @@ return [
     	'add_product_url' => 'api/products/store',
     	'update_product_url' => 'api/products/update/{sku}',
     	'delete_product_url' => 'api/products/delete/{sku}',
+        'customers_url' => 'api/customers',
 
     ]
 ];
