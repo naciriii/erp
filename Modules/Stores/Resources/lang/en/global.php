@@ -1,5 +1,6 @@
 <?php
 return [
+
 'NewStore' => 'New Store',
 'Name' => 'Name',
 'BaseUrl' => 'Base Url',
@@ -29,6 +30,7 @@ return [
 'StoreMenus' => [
 				'Products' => 'Products',
 				'Customers' => 'Customers',
+				'Categories' => 'Categories',
 				],
 'AreYouSureProduct' => 'You want to delete this Product ?',
 'Product_added' => 'Product Added !',
@@ -47,4 +49,6 @@ return [
 'Customer_deleted_success' => 'Customer :customer Deleted Successfully !',
 
 
+    'Category_added' => 'Category Added !',
+    'Category_added_success' => 'Category :category Added Successfully !',
 ];

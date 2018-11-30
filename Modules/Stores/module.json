@@ -33,6 +33,13 @@
             "route": "Store.Customers.index",
             "icon": "fa fa-vcard",
             "order": 1
+
+        },{
+            "name": "Categories",
+            "route": "Store.Categories.index",
+            "icon": "fa fa-archive",
+            "order": 2
+
         }
     ]
 }

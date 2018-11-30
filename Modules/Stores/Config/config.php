@@ -2,7 +2,7 @@
 
 return [
     'name' => 'Stores',
-    'api_token' => 'nao3ieptlkrjW1RiSaAuS5C1sU6D0IXG',
+    'api_token' => '325bfe991e4d273',
     'api' => [
     	'base_url' =>env('base_url','http://mgukn.test/'),
     	'auth_url' => 'api/auth',

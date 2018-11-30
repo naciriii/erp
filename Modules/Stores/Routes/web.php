@@ -11,22 +11,21 @@
 |
 */
 
-Route::prefix('stores')->group(function() {
+Route::prefix('stores')->group(function () {
     Route::get('/', 'StoresController@index')->name('Stores.index');
     Route::get('/create', 'StoresController@create')->name('Stores.create');
     Route::post('/store', 'StoresController@store')->name('Stores.store');
-    Route::prefix('/{id}')->group(function() {
-    	Route::get('/', 'StoresController@show')->name('Stores.show');
-    	Route::patch('/', 'StoresController@update')->name('Stores.update');
-    	Route::delete('/', 'StoresController@destroy')->name('Stores.delete');
+    Route::prefix('/{id}')->group(function () {
+        Route::get('/', 'StoresController@show')->name('Stores.show');
+        Route::patch('/', 'StoresController@update')->name('Stores.update');
+        Route::delete('/', 'StoresController@destroy')->name('Stores.delete');
 
 
-
-
-   });
+    });
 
 
 });
+
 
 Route::prefix('store/{id}')->group(function() {
 	Route::get('/','StoreController@index')->name('Store.index');
@@ -46,4 +45,11 @@ Route::prefix('store/{id}')->group(function() {
        });
  
 
-	});
+    Route::get('/categories', 'Store\CategoryController@index')->name('Store.Categories.index');
+    Route::get('/categories/create', 'Store\CategoryController@create')->name('Store.Categories.create');
+
+    Route::post('/categories', 'Store\CategoryController@store')->name('Store.Categories.store');
+
+
+
+});
