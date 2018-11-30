@@ -27,24 +27,9 @@ class CategoryController extends StoreController
             'result' => collect($this->categories),
             'store' => $this->getStore()
         ];
+//        dd($data);
         return view('stores::store.categories.index')->with($data);
     }
-
-    /*public function show($id, $sku)
-    {
-        $result = $this->repository->getProduct($sku);
-        if ($result == null) {
-            return abort(404);
-        }
-        $categories = $this->repository->getAllCategories();
-        $data = [
-            'product' => $result,
-            'categories' => $categories,
-            'store' => $this->getStore()];
-        return view('stores::store.products.show')->with($data);
-
-
-    }*/
 
     public function create($id)
     {
@@ -53,126 +38,49 @@ class CategoryController extends StoreController
             'categories' => $categories,
             'store' => $this->getStore()
         ];
-        return view('stores::store.categories.create',$data);
+        return view('stores::store.categories.create', $data);
     }
 
     public function store($id, Request $request)
     {
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required',
+            'is_active' => 'required'
         ]);
+        //dd($request->input());
+        $categoryObj = $this->getCategoryModel();
+        $categoryObj->category->name = $request->name;
+        $categoryObj->category->isActive = ($request->is_active == 0) ? false : true;
+        $categoryObj->category->parentId = ($request->parent_id) ? $request->parent_id : 0;
+
+        $this->repository->addCategory($categoryObj);
 
         return redirect()->route('Store.Categories.index', ['id' => $id])
             ->with(['response' => [
-                trans('stores::global.Product_added'),
-                trans('stores::global.Product_added_success', ['category' => '<b>' . $request->name . '</b>']),
+                trans('stores::global.Category_added'),
+                trans('stores::global.Category_added_success', ['category' => '<b>' . $request->name . '</b>']),
                 'info'
             ]]);
     }
 
-    /*public function update($id, $sku, Request $request)
+    private function getCategoryModel()
     {
-        $this->validate($request, [
-            'sku' => 'required',
-            'name' => 'required',
-            'price' => 'required|numeric',
-            'quantity' => 'required|numeric',
-            'category.*' => 'integer']);
-
-        $productObj = $this->getProductModel();
-        //dd($request->all(),$productObj->product);
-        $productObj->product->sku = $request->sku;
-        $productObj->product->name = $request->name;
-        $productObj->product->price = $request->price;
-        $productObj->product->extensionAttributes->stockItem->qty = $request->quantity;
-        $categories = new \StdClass;
-
-        $categories->attribute_code = "category_ids";
-        $categories->value = $request->category;
-
-
-        $productObj->product->customAttributes [] = $categories;
-
-        $product = $this->repository->updateProduct($sku, $productObj);
-
-        return redirect()->route('Store.Products.index', ['id' => $id])->with(['response' =>
-            [
-                trans('stores::global.Product_updated'),
-                trans('stores::global.Product_updated_success', ['product' => '<b>' . $request->name . '</b>']),
-                'info'
-            ]]);
-
-
-    }*/
-
-    /*public function delete($id, $sku)
-    {
-        $result = $this->repository->deleteProduct($sku);
-
-        $data = [
-            'result' => $result,
-            'store' => $this->getStore()
-        ];
-        return redirect()->route('Store.Products.index', ['id' => $id])->with(['response' =>
-            [
-                trans('stores::global.Product_deleted'),
-                trans('stores::global.Product_deleted_success', ['product' => '<b>' . $sku . '</b>']),
-                'info'
-            ]]);
-
-        return view('stores::store.products.index')->with($data);
-    }*/
-
-
-    /*private function getProductModel()
-    {
-
-        $prod = json_decode('{
-  "product": {
-    "sku": "MY_SKU1",
-    "name": "My Product1",
-    "attributeSetId": "4",
-    "price": 20,
-    "status": 1,
-    "visibility": 4,
-    "typeId": "simple",
-    "weight": 0,
-    "extensionAttributes": {
-      "stockItem": {
-        "stockId": 1,
-        "qty": 20,
-        "isInStock": true,
-        "isQtyDecimal": false,
-        "useConfigMinQty": true,
-        "minQty": 0,
-        "useConfigMinSaleQty": 0,
-        "minSaleQty": 0,
-        "useConfigMaxSaleQty": true,
-        "maxSaleQty": 0,
-        "useConfigBackorders": false,
-        "backorders": 0,
-        "useConfigNotifyStockQty": true,
-        "notifyStockQty": 20,
-        "useConfigQtyIncrements": false,
-        "qtyIncrements": 0,
-        "useConfigEnableQtyInc": false,
-        "enableQtyIncrements": false,
-        "useConfigManageStock": true,
-        "manageStock": true,
-        "lowStockDate": "string",
-        "isDecimalDivided": true,
-        "stockStatusChangedAuto": 0,
-        "extensionAttributes": {}
-      }
-    },
-    "options": [],
-    "tierPrices": [],
-    "customAttributes": [
-    ]
-  },
-  "saveOptions": true
-}');
-        return $prod;
-    }*/
+        $category = json_decode(
+            '{
+            "category": {
+                "id": 0,
+                "parentId": 0,
+                "name": "category 1",
+                "isActive": true,
+                "position": 0,
+                "level": 0,
+                "includeInMenu": true,
+                "extensionAttributes": {},
+                "customAttributes": []
+            }
+          }'
+        );
+        return $category;
+    }
 
 }

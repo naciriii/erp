@@ -31,11 +31,20 @@
                                         <div class="invalid-feedback">{{ $errors->first('name') }}</div>
                                     @endif
                                 </div>
-
+                                <div class="form-group">
+                                    <label class="control-label">@lang('stores::global.IsActive')</label>
+                                    <select id="selectIsActive" name="is_active" class="form-control">
+                                        <option value="0">{{trans('stores::global.False')}}</option>
+                                        <option value="1">{{trans('stores::global.True')}}</option>
+                                    </select>
+                                    @if ($errors->has('is_active'))
+                                        <div class="invalid-feedback">{{ $errors->first('is_active') }}</div>
+                                    @endif
+                                </div>
                                  <div class="form-group">
-                                     <label class="control-label">@lang('stores::global.Category')
-                                         <strong>*</strong></label>
-                                     <select id="selectCategories" name="category[]" class="form-control">
+                                     <label class="control-label">@lang('stores::global.Parent') @lang('stores::global.Category')</label>
+                                     <select id="selectCategories" name="parent_id" class="form-control">
+                                         <option value="">Choose</option>
                                          @foreach($categories as $c)
                                              <option value="{{$c->id}}">
                                                  {{$c->name}}
@@ -79,5 +88,6 @@
     <script type="text/javascript" src="{{asset('js/plugins/select2.min.js')}}"></script>
     <script type="text/javascript">
         $('#selectCategories').select2();
+        $('#selectIsActive').select2();
     </script>
 @endsection
