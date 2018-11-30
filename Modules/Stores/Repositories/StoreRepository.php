@@ -25,6 +25,7 @@ class StoreRepository
         $this->api_token = config('stores.api_token');
     }
 
+
     public function getAllCategories()
     {
         $categories = $this->getDataFromApi('POST', config('stores.api.base_url') . config('stores.api.categories_url'), [
