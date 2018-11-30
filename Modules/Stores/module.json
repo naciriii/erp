@@ -27,11 +27,19 @@
             "route": "Store.Products.index",
             "icon": "fa fa-suitcase",
             "order": 0
+        },
+         {
+            "name": "Customers",
+            "route": "Store.Customers.index",
+            "icon": "fa fa-vcard",
+            "order": 1
+
         },{
             "name": "Categories",
             "route": "Store.Categories.index",
             "icon": "fa fa-archive",
             "order": 2
+
         }
     ]
 }

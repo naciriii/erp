@@ -26,20 +26,30 @@ Route::prefix('stores')->group(function () {
 
 });
 
-Route::prefix('store/{id}')->group(function () {
-    Route::get('/', 'StoreController@index')->name('Store.index');
-    Route::get('/products', 'Store\ProductController@index')->name('Store.Products.index');
-    Route::get('/products/create', 'Store\ProductController@create')->name('Store.Products.create');
-    Route::get('/products/{sku}', 'Store\ProductController@show')->name('Store.Products.show');
 
-    Route::post('/products', 'Store\ProductController@store')->name('Store.Products.store');
-    Route::put('/products/{sku}', 'Store\ProductController@update')->name('Store.Products.update');
-    Route::delete('/products/{sku}', 'Store\ProductController@delete')->name('Store.Products.destroy');
+Route::prefix('store/{id}')->group(function() {
+	Route::get('/','StoreController@index')->name('Store.index');
+
+    Route::prefix('/products')->group(function() {
+           Route::get('/','Store\ProductController@index')->name('Store.Products.index');
+           Route::get('/create','Store\ProductController@create')->name('Store.Products.create');
+           Route::get('/{sku}','Store\ProductController@show')->name('Store.Products.show');
+           Route::post('/','Store\ProductController@store')->name('Store.Products.store');
+           Route::put('{sku}','Store\ProductController@update')->name('Store.Products.update');
+           Route::delete('/{sku}','Store\ProductController@delete')->name('Store.Products.destroy');
+    });
+
+    Route::prefix('/customers')->group(function() {
+           Route::get('/','Store\CustomerController@index')->name('Store.Customers.index');
+           Route::post('/getcustomers','Store\CustomerController@getCustomers')->name('Store.Customers.getCustomers');
+       });
+ 
 
     Route::get('/categories', 'Store\CategoryController@index')->name('Store.Categories.index');
     Route::get('/categories/create', 'Store\CategoryController@create')->name('Store.Categories.create');
 
     Route::post('/categories', 'Store\CategoryController@store')->name('Store.Categories.store');
+
 
 
 });

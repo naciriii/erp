@@ -82,6 +82,34 @@ class StoreRepository
         return $product;
     }
 
+
+     /**
+     * Display a listing of Customers.
+     * @return Response
+     */
+
+    public function getAllCustomers($page_size = 10, $current_page = 1)
+    {
+
+
+
+        $customers = $this->getDataFromApi('POST', config('stores.api.base_url').config('stores.api.customers_url'),[
+       
+        'api_url' => $this->store->api_url,
+        'page_size' => $page_size,
+        'current_page' => $current_page
+       
+    ]); 
+           
+        return $customers;
+
+    }
+
+
+
+
+
+
     public function setStore(Store $store)
     {
         $this->store = $store;

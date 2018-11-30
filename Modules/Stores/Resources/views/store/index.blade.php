@@ -1,6 +1,7 @@
 @extends('stores::layouts.master')
 
 @section('content')
+
     <div class="app-content">
         <div class="app-title">
             <div>
@@ -26,6 +27,7 @@
                     </div>
                 </div>
             @endforeach
+
         </div>
         {{--<div class="row">
             <div class="col-md-12">
