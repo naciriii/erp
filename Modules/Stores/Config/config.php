@@ -2,7 +2,7 @@
 
 return [
     'name' => 'Stores',
-    'api_token' => '325bfe991e4d273',
+    'api_token' => env('INTEGRATION_TOKEN','325bfe991e4d273'),
     'api' => [
     	'base_url' =>env('base_url','http://mgukn.test/'),
     	'auth_url' => 'api/auth',
