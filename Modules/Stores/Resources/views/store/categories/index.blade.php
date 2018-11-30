@@ -38,11 +38,17 @@
                                     <tr>
                                         <td>{{$category->name}}</td>
                                         <td>
-                                            @if($category->is_active == 1) <i class="fa fa-check"></i>
-                                            @else <i class="fa fa-times"></i>
+                                            @if($category->is_active == 1)
+                                                <label class="badge badge-primary">
+                                                    <i class="fa fa-check"></i>
+                                                </label>
+                                            @else
+                                                <label class="badge badge-danger">
+                                                    <i class="fa fa-times"></i>
+                                                </label>
                                             @endif
                                         </td>
-                                        <td>{{$result->where('parent_id',$category->parent_id)->first()->name}}</td>
+                                        <td>{{$result->where('id',$category->parent_id)->first()->name or ''}}</td>
                                         <td>Action</td>
                                     </tr>
                                 @endforeach
@@ -82,5 +88,9 @@
 
     </script>
     <script type="text/javascript" src="{{asset('js/plugins/bootstrap-notify.min.js')}}"></script>
-
+    @if(session('response'))
+        <script>
+            {!! bsNotify(session('response')) !!};
+        </script>
+    @endif
 @stop

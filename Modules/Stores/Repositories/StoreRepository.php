@@ -37,6 +37,16 @@ class StoreRepository
         return collect([]);
     }
 
+    public  function addCategory($category)
+    {
+        $result = $this->getDataFromApi('POST', config('stores.api.base_url') . config('stores.api.add_category_url'), [
+            'api_url' => $this->store->api_url,
+            'category' => json_encode($category)
+        ]);
+
+        return $result;
+    }
+
     public function getAllProducts()
     {
         $products = Cache::remember('products', 5, function () {
@@ -167,7 +177,10 @@ class StoreRepository
             $body['json'] = $bodyParams;
         }
         $response = $this->client->request($method, $uri, $body);
+
+
         $data = $response->getBody()->getContents();
+
         return json_decode($data);
     }
 }
