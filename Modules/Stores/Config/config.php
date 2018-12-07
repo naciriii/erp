@@ -2,12 +2,16 @@
 
 return [
     'name' => 'Stores',
-    'api_token' => env('INTEGRATION_TOKEN','nao3ieptlkrjW1RiSaAuS5C1sU6D0IXG'),
+    'api_token' => env('INTEGRATION_TOKEN','40xrcnc1wvciowun3drtn8cumz5lxo0j'),
     'api' => [
     	'base_url' =>env('base_url','http://mgukn.test/'),
     	'auth_url' => 'api/auth',
     	'categories_url' => 'api/categories',
+        'get_category_url' => 'api/categories/{cat}',
+        'update_category_url' => 'api/categories/update/{cat}',
+        'delete_category_url' => 'api/categories/delete/{cat}',
         'add_category_url' => 'api/categories/store',
+
     	'products_url' => 'api/products',
     	'get_product_url' => 'api/products/{sku}',
     	'add_product_url' => 'api/products/store',

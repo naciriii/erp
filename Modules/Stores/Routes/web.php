@@ -49,6 +49,12 @@ Route::prefix('store/{id}')->group(function () {
         Route::get('/create', 'Store\CategoryController@create')->name('Store.Categories.create');
         Route::post('/store', 'Store\CategoryController@store')->name('Store.Categories.store');
 
+        Route::get('/{cat}', 'Store\CategoryController@show')->name('Store.Categories.show');
+
+        Route::put('/{cat}', 'Store\CategoryController@update')->name('Store.Categories.update');
+        Route::delete('/{cat}', 'Store\CategoryController@delete')->name('Store.Categories.destroy');
+
+
     });
 
 
