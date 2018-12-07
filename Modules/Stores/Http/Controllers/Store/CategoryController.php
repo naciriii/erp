@@ -27,7 +27,6 @@ class CategoryController extends StoreController
             'result' => collect($this->categories),
             'store' => $this->getStore()
         ];
-//        dd($data);
         return view('stores::store.categories.index')->with($data);
     }
 
@@ -47,7 +46,6 @@ class CategoryController extends StoreController
             'name' => 'required',
             'is_active' => 'required'
         ]);
-        //dd($request->input());
         $categoryObj = $this->getCategoryModel();
         $categoryObj->category->name = $request->name;
         $categoryObj->category->isActive = ($request->is_active == 0) ? false : true;
