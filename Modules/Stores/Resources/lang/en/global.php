@@ -22,6 +22,8 @@ return [
     'IsActive' => 'Is active',
     'False' => 'False',
     'True' => 'True',
+    'Password'=>'Password',
+    'ConfirmPassword'=>'Confirm Password',
     'Unreachable' => ':attr is unreachable',
     'NewProduct' => 'New Product',
     'NewCategory' => 'New Category',
