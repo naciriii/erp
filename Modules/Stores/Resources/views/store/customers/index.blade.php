@@ -58,7 +58,8 @@
 
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
-                                <nav aria-label="Page navigation example" class="pull-right">
+                                <nav id="simple-pagination" class="pull-right"></nav>
+                                {{--}}<nav aria-label="Page navigation example" class="pull-right">
                                     <ul class="pagination pull-right">
                                         <li class="page-item @if($result->search_criteria->current_page - 1 == 0) disabled @endif">
                                             <a class="page-link"
@@ -101,7 +102,7 @@
 
 
 
-                                            
+
 
                                         @endif
 
@@ -113,18 +114,10 @@
 
 
                                     </ul>
-                                </nav>
+                                </nav>--}}
+
                             </div>
-                            <div class="col-md-12">
-                                @for ($i = 1; $i <= (ceil($result->total_count / $result->search_criteria->page_size)); $i++)
-                                    <li class="page-item @if($result->search_criteria->current_page == $i) active @endif">
-                                        <a class="page-link"
-                                           href="{{route('Store.Customers.index',['id'=>encode($store->id), 'page'=>$i])}}">
-                                            {{$i}}
-                                        </a>
-                                    </li>
-                                @endfor
-                            </div>
+
                         </div>
 
 
@@ -136,12 +129,30 @@
     </main>
 
 @stop
+@section ('css')
+    <link rel="stylesheet" type="text/css" href="{{asset('css/simplePagination.css')}}">
+@stop
 @section('js')
     <script type="text/javascript" src="{{asset('js/plugins/jquery.dataTables.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/plugins/dataTables.bootstrap.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/plugins/sweetalert.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery.simplePagination.js')}}"></script>
 
     <script type="text/javascript">
+
+        $(function() {
+            var total = {{$result->total_count}};
+            var pageSize = {{$result->search_criteria->page_size}};
+            var cerrentPage = {{$result->search_criteria->current_page}};
+            $("#simple-pagination").pagination({
+                items: total ,
+                itemsOnPage: pageSize,
+                cssStyle: 'light-theme',
+                hrefTextPrefix: '?page=',
+                currentPage:cerrentPage
+            });
+        });
+
         $('#customersTable').DataTable({
             paginate: false,
             bInfo: false
