@@ -55,71 +55,11 @@
                             </tbody>
                         </table>
 
-
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
                                 <nav id="simple-pagination" class="pull-right"></nav>
-                                {{--}}<nav aria-label="Page navigation example" class="pull-right">
-                                    <ul class="pagination pull-right">
-                                        <li class="page-item @if($result->search_criteria->current_page - 1 == 0) disabled @endif">
-                                            <a class="page-link"
-                                               href="{{route('Store.Customers.index',['id'=>encode($store->id), 'page'=>$result->search_criteria->current_page-1])}}">Previous</a>
-                                        </li>
-
-
-                                        @if((ceil($result->total_count / $result->search_criteria->page_size)) <= 3)
-                                            @for ($i = 1; $i <= (ceil($result->total_count / $result->search_criteria->page_size)); $i++)
-                                                <li class="page-item @if($result->search_criteria->current_page == $i) active @endif">
-                                                    <a class="page-link"
-                                                       href="{{route('Store.Customers.index',['id'=>encode($store->id), 'page'=>$i])}}">
-                                                        {{$i}}
-                                                    </a>
-                                                </li>
-                                            @endfor
-                                        @elseif((ceil($result->total_count / $result->search_criteria->page_size)) >= 4)
-
-                                            @if($result->search_criteria->page_size >= 3 )
-                                                @for ($i = 1; $i <= 3; $i++)
-                                                    <li class="page-item @if($result->search_criteria->current_page == $i) active @endif">
-                                                        <a class="page-link"
-                                                           href="{{route('Store.Customers.index',['id'=>encode($store->id), 'page'=>$i])}}">
-                                                            {{$i}}
-                                                        </a>
-                                                    </li>
-                                                @endfor
-                                                <li class="page-item"><a class="page-link" href="{{route('Store.Customers.index',['id'=>encode($store->id), 'page'=>4])}}">...</a>
-                                                </li>
-                                            @else
-                                                @for ($i = 3; $i <= $result->search_criteria->current_page + 3; $i++)
-                                                    <li class="page-item @if($result->search_criteria->current_page == $i) active @endif">
-                                                        <a class="page-link"
-                                                           href="{{route('Store.Customers.index',['id'=>encode($store->id), 'page'=>$i])}}">
-                                                            {{$i}}
-                                                        </a>
-                                                    </li>
-                                                @endfor
-                                            @endif
-
-
-
-
-
-                                        @endif
-
-
-                                        <li class="page-item @if($result->search_criteria->current_page + 1 > ceil($result->total_count / $result->search_criteria->page_size)) disabled @endif">
-                                            <a class="page-link"
-                                               href="{{route('Store.Customers.index',['id'=>encode($store->id), 'page'=>$result->search_criteria->current_page +1])}}">Next</a>
-                                        </li>
-
-
-                                    </ul>
-                                </nav>--}}
-
                             </div>
-
                         </div>
-
 
                     </div>
                 </div>
@@ -139,19 +79,7 @@
     <script type="text/javascript" src="{{asset('js/jquery.simplePagination.js')}}"></script>
 
     <script type="text/javascript">
-
-        $(function() {
-            var total = {{$result->total_count}};
-            var pageSize = {{$result->search_criteria->page_size}};
-            var cerrentPage = {{$result->search_criteria->current_page}};
-            $("#simple-pagination").pagination({
-                items: total ,
-                itemsOnPage: pageSize,
-                cssStyle: 'light-theme',
-                hrefTextPrefix: '?page=',
-                currentPage:cerrentPage
-            });
-        });
+        {!! simplePagination($result,'#simple-pagination') !!}
 
         $('#customersTable').DataTable({
             paginate: false,

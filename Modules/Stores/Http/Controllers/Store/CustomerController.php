@@ -13,10 +13,8 @@ class CustomerController extends StoreController
     public function index()
     {
 
-        $page_size = 10;
         $current_page = $this->page;
-
-        $result = $this->repository->getAllCustomers($page_size, $current_page);
+        $result = $this->repository->getAllCustomers(10, $current_page);
 
         $data = [
             'store' => $this->getStore(),
