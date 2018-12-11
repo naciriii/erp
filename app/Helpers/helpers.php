@@ -30,26 +30,24 @@ function bsNotify($params)
 }
 
 /**
- * @param $result: collection
+ * @param $result : collection
  * {
  *  $result->total_count,
  *  $result->search_criteria->page_size,
  *  $result->search_criteria->current_page
  * }
- * @param $htmlId: html component
+ * @param $htmlId : html component id
  * @return string
  */
 
 function simplePagination($result, $htmlId)
 {
-    return "$(function () {
-            $('" . $htmlId . "').pagination({
+    return "$('" . $htmlId . "').pagination({
                 items: " . $result->total_count . ",
                 itemsOnPage: " . $result->search_criteria->page_size . ",
                 cssStyle: 'light-theme',
                 hrefTextPrefix: '?page=',
                 currentPage: " . $result->search_criteria->current_page . ",
                 listStyle: 'pagination',
-            });
-        });";
+            });";
 }
