@@ -7,7 +7,11 @@ return [
     	'base_url' =>env('base_url','http://mgukn.test/'),
     	'auth_url' => 'api/auth',
     	'categories_url' => 'api/categories',
+        'get_category_url' => 'api/categories/{cat}',
+        'update_category_url' => 'api/categories/update/{cat}',
+        'delete_category_url' => 'api/categories/delete/{cat}',
         'add_category_url' => 'api/categories/store',
+
     	'products_url' => 'api/products',
     	'get_product_url' => 'api/products/{sku}',
     	'add_product_url' => 'api/products/store',

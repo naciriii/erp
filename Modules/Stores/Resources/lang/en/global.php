@@ -22,6 +22,8 @@ return [
     'IsActive' => 'Is active',
     'False' => 'False',
     'True' => 'True',
+    'Password'=>'Password',
+    'ConfirmPassword'=>'Confirm Password',
     'Unreachable' => ':attr is unreachable',
     'NewProduct' => 'New Product',
     'NewCategory' => 'New Category',
@@ -57,4 +59,8 @@ return [
 
     'Category_added' => 'Category Added !',
     'Category_added_success' => 'Category :category Added Successfully !',
+    'Category_updated' => 'Category Updated !',
+    'Category_updated_success' => 'Category :category Updated Successfully !',
+    'Category_deleted' => 'Category Deleted !',
+    'Category_deleted_success' => 'Category :category Deleted Successfully !',
 ];

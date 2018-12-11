@@ -36,6 +36,10 @@ class StoresServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->register(RouteServiceProvider::class);
+        $this->app->bind(
+            'Modules\Stores\Repositories\BaseRepository',
+            'Modules\Stores\Repositories\StoreRepository'
+        );
     }
 
     /**

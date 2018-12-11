@@ -12,7 +12,7 @@ use Cookie;
 use Crypt;
 use Cache;
 
-class StoreRepository
+class StoreRepository implements BaseRepository
 {
     protected $store;
     private $client;
@@ -25,7 +25,6 @@ class StoreRepository
         $this->api_token = config('stores.api_token');
     }
 
-
     public function getAllCategories()
     {
         $categories = $this->getDataFromApi('POST', config('stores.api.base_url') . config('stores.api.categories_url'), [
@@ -37,7 +36,15 @@ class StoreRepository
         return collect([]);
     }
 
-    public  function addCategory($category)
+    public function getCategory($cat)
+    {
+
+        $category = $this->getDataFromApi('POST', config('stores.api.base_url') . str_replace('{cat}', $cat, config('stores.api.get_category_url')), [
+            'api_url' => $this->store->api_url]);
+        return $category;
+    }
+
+    public function addCategory($category)
     {
         $result = $this->getDataFromApi('POST', config('stores.api.base_url') . config('stores.api.add_category_url'), [
             'api_url' => $this->store->api_url,
@@ -45,6 +52,25 @@ class StoreRepository
         ]);
 
         return $result;
+    }
+
+    public function updateCategory($category, $cat)
+    {
+        $result = $this->getDataFromApi('POST', config('stores.api.base_url')
+            . str_replace('{cat}', $cat, config('stores.api.update_category_url')), [
+            'api_url' => $this->store->api_url,
+            'category' => json_encode($category)
+        ]);
+        return $result;
+    }
+
+    public function deleteCategory($cat)
+    {
+        $category = $this->getDataFromApi('POST', config('stores.api.base_url') . str_replace('{cat}',
+                $cat, config('stores.api.delete_category_url')), [
+            'api_url' => $this->store->api_url]);
+        Cache::forget('categories');
+        return $category;
     }
 
     public function getAllProducts()
@@ -93,31 +119,24 @@ class StoreRepository
     }
 
 
-     /**
+    /**
      * Display a listing of Customers.
      * @return Response
      */
 
-    public function getAllCustomers($page_size = 10, $current_page = 1)
+    public function getAllCustomers($page_size, $current_page)
     {
+        $customers = $this->getDataFromApi('POST', config('stores.api.base_url') . config('stores.api.customers_url'), [
 
+            'api_url' => $this->store->api_url,
+            'page_size' => $page_size,
+            'current_page' => $current_page
 
+        ]);
 
-        $customers = $this->getDataFromApi('POST', config('stores.api.base_url').config('stores.api.customers_url'),[
-       
-        'api_url' => $this->store->api_url,
-        'page_size' => $page_size,
-        'current_page' => $current_page
-       
-    ]); 
-           
         return $customers;
 
     }
-
-
-
-
 
 
     public function setStore(Store $store)

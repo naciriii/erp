@@ -49,7 +49,20 @@
                                             @endif
                                         </td>
                                         <td>{{$result->where('id',$category->parent_id)->first()->name or ''}}</td>
-                                        <td>Action</td>
+                                        <td>
+                                            <a href="{{route('Store.Categories.show',['id'=>encode($store->id),'cat' => encode($category->id)])}}">
+                                                <button class="btn btn-sm btn-primary">{{trans('global.Edit')}}</button>
+                                            </a>
+                                            <form class="d-inline" method="post"
+                                                  action="{{route('Store.Categories.destroy',['id' => encode($store->id),'cat'=>encode($category->id)])}}">
+                                                {{csrf_field()}}
+                                                <input type="hidden" name="_method" value="DELETE">
+
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-danger deleteProductBtn">{{trans('global.Delete')}}</button>
+                                            </form>
+
+                                        </td>
                                     </tr>
                                 @endforeach
                             @endif

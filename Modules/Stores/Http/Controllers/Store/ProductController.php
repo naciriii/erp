@@ -12,17 +12,12 @@ class ProductController extends StoreController
 
     public function index()
     {
-
         $result = $this->repository->getAllProducts();
-
-
         $data = [
             'result' => $result,
             'store' => $this->getStore()
         ];
-
         return view('stores::store.products.index')->with($data);
-
     }
 
     public function show($id, $sku)
@@ -35,10 +30,9 @@ class ProductController extends StoreController
         $data = [
             'product' => $result,
             'categories' => $categories,
-            'store' => $this->getStore()];
+            'store' => $this->getStore()
+        ];
         return view('stores::store.products.show')->with($data);
-
-
     }
 
     public function create($id)
@@ -67,7 +61,6 @@ class ProductController extends StoreController
 
         $categories->attribute_code = "category_ids";
         $categories->value = $request->category;
-
 
         $productObj->product->customAttributes [] = $categories;
 

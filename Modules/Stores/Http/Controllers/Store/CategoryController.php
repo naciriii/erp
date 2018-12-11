@@ -50,13 +50,64 @@ class CategoryController extends StoreController
         $categoryObj->category->name = $request->name;
         $categoryObj->category->isActive = ($request->is_active == 0) ? false : true;
         $categoryObj->category->parentId = ($request->parent_id) ? $request->parent_id : 0;
-
         $this->repository->addCategory($categoryObj);
-
         return redirect()->route('Store.Categories.index', ['id' => $id])
             ->with(['response' => [
                 trans('stores::global.Category_added'),
                 trans('stores::global.Category_added_success', ['category' => '<b>' . $request->name . '</b>']),
+                'info'
+            ]]);
+    }
+
+    public function show($id, $cat)
+    {
+        $this->extract($this->repository->getAllCategories());
+        $result = $this->categories;
+        $category = $this->repository->getCategory(decode($cat));
+        if ($result == null) {
+            return abort(404);
+        }
+        $data = [
+            'categories' => $result,
+            'category' => $category,
+            'store' => $this->getStore()
+        ];
+        return view('stores::store.categories.show')->with($data);
+    }
+
+    public function update(Request $request, $id, $cat)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'is_active' => 'required'
+        ]);
+        $categoryObj = $this->getCategoryModel();
+        $categoryObj->category->name = $request->name;
+        $categoryObj->category->isActive = ($request->is_active == 0) ? false : true;
+
+        if ($request->parent_id) {
+            $this->repository->deleteCategory(decode($cat));
+            $categoryObj->category->parentId = $request->parent_id;
+            $this->repository->addCategory($categoryObj);
+        } else {
+            $this->repository->updateCategory($categoryObj, decode($cat));
+        }
+
+        return redirect()->route('Store.Categories.index', ['id' => $id])->with(['response' =>
+            [
+                trans('stores::global.Category_updated'),
+                trans('stores::global.Category_updated_success', ['category' => '<b>' . $request->name . '</b>']),
+                'info'
+            ]]);
+    }
+
+    public function delete($id, $cat)
+    {
+        $this->repository->deleteCategory(decode($cat));
+        return redirect()->route('Store.Categories.index', ['id' => $id])->with(['response' =>
+            [
+                trans('stores::global.Category_deleted'),
+                trans('stores::global.Category_deleted_success', ['category' => '<b>' . decode($cat) . '</b>']),
                 'info'
             ]]);
     }

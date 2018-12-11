@@ -41,6 +41,10 @@ Route::prefix('store/{id}')->group(function () {
 
     Route::prefix('/customers')->group(function () {
         Route::get('/', 'Store\CustomerController@index')->name('Store.Customers.index');
+        Route::get('/create', 'Store\CustomerController@create')->name('Store.Customers.create');
+        Route::post('/create', 'Store\CustomerController@store')->name('Store.Customers.store');
+        Route::put('/{customer}', 'Store\CustomerController@update')->name('Store.Customers.update');
+        Route::delete('/{customer}', 'Store\CustomerController@delete')->name('Store.Customers.destroy');
         Route::post('/getcustomers', 'Store\CustomerController@getCustomers')->name('Store.Customers.getCustomers');
     });
 
@@ -48,8 +52,9 @@ Route::prefix('store/{id}')->group(function () {
         Route::get('/', 'Store\CategoryController@index')->name('Store.Categories.index');
         Route::get('/create', 'Store\CategoryController@create')->name('Store.Categories.create');
         Route::post('/store', 'Store\CategoryController@store')->name('Store.Categories.store');
-
+        Route::get('/{cat}', 'Store\CategoryController@show')->name('Store.Categories.show');
+        Route::put('/{cat}', 'Store\CategoryController@update')->name('Store.Categories.update');
+        Route::delete('/{cat}', 'Store\CategoryController@delete')->name('Store.Categories.destroy');
     });
-
 
 });
