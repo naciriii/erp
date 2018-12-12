@@ -24,18 +24,6 @@ class CustomerController extends StoreController
         return view('stores::store.customers.index')->with($data);
     }
 
-    public function show($id, $customerId)
-    {
-        $result = $this->repository->getCustomer($customerId);
-        if ($result == null) {
-            return abort(404);
-        }
-        $data = [
-            'customer' => $result,
-            'store' => $this->getStore()];
-        return view('stores::store.customers.show')->with($data);
-    }
-
     public function create($id)
     {
         $data = ['store' => $this->getStore()];
@@ -60,32 +48,52 @@ class CustomerController extends StoreController
                 'password.regex' => 'Classes of characters: Lower Case, Upper Case, Digits, Special Characters.'
             ]);
 
+
         $customerObj = $this->getCustomerModel();
         //user
         $customerObj->customer->firstname = $request->first_name;
         $customerObj->customer->lastname = $request->last_name;
         $customerObj->customer->email = $request->email;
+        $customerObj->customer->prefix = ($request->name_prefix) ? $request->name_prefix : '';
+        $customerObj->customer->middlename = ($request->middle_name) ? $request->middle_name : '';
+        $customerObj->customer->suffix = ($request->name_suffix) ? $request->name_suffix : '';
+        $customerObj->customer->taxvat = ($request->tax_vat) ? $request->tax_vat : '';
+        $customerObj->customer->gender = ($request->gender) ? $request->gender : '';
+        $customerObj->customer->dob = ($request->birth_date) ? $request->birth_date : '';
         $customerObj->password = $request->password;
 
-
         //address
-        $address = new \StdClass;
+        $customerObj->customer->addresses[0]->customer_id = 0;
+        $customerObj->customer->addresses[0]->region_id = 0;
+        $customerObj->customer->addresses[0]->country_id = $request->country;
+        $customerObj->customer->addresses[0]->street[0] = $request->street_address;
+        $customerObj->customer->addresses[0]->firstname = $request->first_name;
+        $customerObj->customer->addresses[0]->lastname = $request->last_name;
+        $customerObj->customer->addresses[0]->telephone = $request->phone_number;
+        $customerObj->customer->addresses[0]->city = $request->city;
+        $customerObj->customer->addresses[0]->postcode = $request->postal_code;
 
-        $address->street = $request->street_address;
-        $address->postcode = $request->postal_code;
-        $address->city = $request->city;
-        $address->telephone = $request->phone_number;
+        return redirect()->route('Store.Customers.index', ['id' => $id])
+            ->with(
+                ['response' => [
+                    trans('stores::global.Customer_added'),
+                    trans('stores::global.Customer_added_success', ['customer' => '<b>' . $request->first_name . '</b>']),
+                    'info'
+                ]]);
+    }
 
-        $customerObj->customer->addresses [] = $address;
-        dd($customerObj);
-        /*
-        $customer = $this->repository->addCustomer($customerObj);
-        return redirect()->route('Store.Customers.index', ['id' => $id])->with(['response' =>
-            [
-                trans('stores::global.Customer_added'),
-                trans('stores::global.Customer_added_success', ['customer' => '<b>' . $request->name . '</b>']),
-                'info'
-            ]]);*/
+    public function show($id, $customer)
+    {
+        $result = $this->repository->getCustomer(decode($customer));
+        if ($result == null) {
+            return abort(404);
+        }
+
+        $data = [
+            'customer' => $result,
+            'store' => $this->getStore()
+        ];
+        return view('stores::store.customers.show')->with($data);
     }
 
     public function update($id, Request $request)
@@ -94,15 +102,43 @@ class CustomerController extends StoreController
             'first_name' => 'required|min:4',
             'last_name' => 'required|min:4',
             'email' => 'required|email',
-            'password' => 'required|confirmed',
+            'street_address' => 'required',
+            'city' => 'required',
+            'country' => 'required',
+            'postal_code' => 'required',
+            'phone_number' => 'required',
+            'password' => 'required|confirmed|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
             'password_confirmation' => 'required',
-        ]);
+        ],
+            [
+                'password.regex' => 'Classes of characters: Lower Case, Upper Case, Digits, Special Characters.'
+            ]);
+
 
         $customerObj = $this->getCustomerModel();
+        //user
         $customerObj->customer->firstname = $request->first_name;
         $customerObj->customer->lastname = $request->last_name;
         $customerObj->customer->email = $request->email;
+        $customerObj->customer->prefix = ($request->name_prefix) ? $request->name_prefix : '';
+        $customerObj->customer->middlename = ($request->middle_name) ? $request->middle_name : '';
+        $customerObj->customer->suffix = ($request->name_suffix) ? $request->name_suffix : '';
+        $customerObj->customer->taxvat = ($request->tax_vat) ? $request->tax_vat : '';
+        $customerObj->customer->gender = ($request->gender) ? $request->gender : '';
+        $customerObj->customer->dob = ($request->birth_date) ? $request->birth_date : '';
         $customerObj->password = $request->password;
+
+        //address
+        $customerObj->customer->addresses[0]->customer_id = 0;
+        $customerObj->customer->addresses[0]->region_id = 0;
+        $customerObj->customer->addresses[0]->country_id = $request->country;
+        $customerObj->customer->addresses[0]->street[0] = $request->street_address;
+        $customerObj->customer->addresses[0]->firstname = $request->first_name;
+        $customerObj->customer->addresses[0]->lastname = $request->last_name;
+        $customerObj->customer->addresses[0]->telephone = $request->phone_number;
+        $customerObj->customer->addresses[0]->city = $request->city;
+        $customerObj->customer->addresses[0]->postcode = $request->postal_code;
+
         $customer = $this->repository->updateCustomer($customerObj);
         return redirect()->route('Store.Customers.index', ['id' => $id])->with(['response' =>
             [
@@ -112,9 +148,9 @@ class CustomerController extends StoreController
             ]]);
     }
 
-    public function delete($id, $customerId)
+    public function delete($id, $customer)
     {
-        $result = $this->repository->deleteCustomer($customerId);
+        $result = $this->repository->deleteCustomers(decode($customer));
         $data = [
             'result' => $result,
             'store' => $this->getStore()
@@ -122,7 +158,7 @@ class CustomerController extends StoreController
         return redirect()->route('Store.Customers.index', ['id' => $id])->with(['response' =>
             [
                 trans('stores::global.Customer_deleted'),
-                trans('stores::global.Customer_deleted_success', ['customer' => '<b>' . $customerId . '</b>']),
+                trans('stores::global.Customer_deleted_success', ['customer' => '<b>' . decode($customer) . '</b>']),
                 'info'
             ]]);
 
@@ -182,24 +218,14 @@ class CustomerController extends StoreController
                                 "defaultShipping": true,
                                 "defaultBilling": true,
                                 "extensionAttributes": {},
-                                "customAttributes": [
-                                  {
-                                    "attributeCode": "string",
-                                    "value": "string"
-                                  }
-                                ]
+                                "customAttributes": []
                               }
                             ],
                             "disableAutoGroupChange": 0,
                             "extensionAttributes": {},
-                            "customAttributes": [
-                              {
-                                "attributeCode": "string",
-                                "value": "string"
-                              }
-                            ]
+                            "customAttributes": []
                           },
-                          "password": "string",
+                          "password": "strinG_123",
                           "redirectUrl": "string"
                         }');
 

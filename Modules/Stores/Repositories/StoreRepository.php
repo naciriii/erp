@@ -127,17 +127,52 @@ class StoreRepository implements BaseRepository
     public function getAllCustomers($page_size, $current_page)
     {
         $customers = $this->getDataFromApi('POST', config('stores.api.base_url') . config('stores.api.customers_url'), [
-
             'api_url' => $this->store->api_url,
             'page_size' => $page_size,
             'current_page' => $current_page
-
         ]);
-
         return $customers;
-
     }
 
+    public function getCustomer($customerId)
+    {
+        $customer = $this->getDataFromApi('POST',
+            config('stores.api.base_url') . str_replace('{customerId}',
+                $customerId, config('stores.api.get_customer_url')), [
+            'api_url' => $this->store->api_url]);
+        return $customer;
+    }
+
+    public function addCustomer($customer)
+    {
+        $result = $this->getDataFromApi('POST', config('stores.api.base_url') . config('stores.api.add_customer_url'), [
+            'api_url' => $this->store->api_url,
+            'customer' => json_encode($customer)
+        ]);
+
+        return $result;
+    }
+
+
+    public function updatCustomer($customerId,$customer)
+    {
+        $result = $this->getDataFromApi('POST', config('stores.api.base_url') . str_replace('{customerId}', $customerId,
+                config('stores.api.update_customer_url')), [
+            'api_url' => $this->store->api_url,
+            'customer' => json_encode($customer)
+        ]);
+        Cache::forget('customers');
+        return $result;
+    }
+
+    public function deleteCustomers($customerId)
+    {
+        $customer = $this->getDataFromApi('POST', config('stores.api.base_url') . str_replace('{customerId}', $customerId,
+                config('stores.api.delete_customer_url')), [
+            'api_url' => $this->store->api_url]);
+        Cache::forget('customers');
+        return $customer;
+    }
 
     public function setStore(Store $store)
     {

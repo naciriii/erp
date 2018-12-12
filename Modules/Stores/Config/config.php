@@ -17,7 +17,11 @@ return [
     	'add_product_url' => 'api/products/store',
     	'update_product_url' => 'api/products/update/{sku}',
     	'delete_product_url' => 'api/products/delete/{sku}',
-        'customers_url' => 'api/customers',
 
+        'customers_url' => 'api/customers',
+        'delete_customer_url' => 'api/customers/delete/{customerId}',
+        'get_customer_url' => 'api/customers/{customerId}',
+        'update_customer_url' => 'api/products/update/{customerId}',
+        'add_customer_url' => 'api/customers/store',
     ]
 ];

@@ -41,14 +41,28 @@
                                         <td>{{$customer->email}}</td>
                                         <td>{{$customer->firstname}}</td>
                                         <td>{{$customer->lastname}}</td>
-                                        <td>@if(count($customer->addresses))
+                                        <td>
+                                            @if(count($customer->addresses))
                                                 {{$customer->addresses[0]->telephone}}
-                                            @endif</td>
-                                        <td>@if(count($customer->addresses))
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if(count($customer->addresses))
                                                 {{$customer->addresses[0]->country_id.' '.$customer->addresses[0]->city.' '.$customer->addresses[0]->postcode}}
-                                            @endif</td>
+                                            @endif
+                                        </td>
                                         <td>{{$customer->created_at}}</td>
-                                        <td></td>
+                                        <td>
+                                            <a class="btn btn-sm btn-primary"
+                                               href="{{route('Store.Customers.show',['id'=>encode($store->id),'customer' => encode($customer->id)])}}">
+                                                {{trans('global.Edit')}}
+                                            </a>
+                                            <form class="d-inline" method="post" action="{{route('Store.Customers.destroy',['id' => encode($store->id),'customer'=>encode($customer->id)])}}">
+                                                {{csrf_field()}}
+                                                <input type="hidden" name="_method" value="DELETE">
+                                                <button type="submit" class="btn btn-sm btn-danger deleteCustomerBtn">{{trans('global.Delete')}}</button>
+                                            </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             @endif
