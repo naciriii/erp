@@ -15,7 +15,7 @@ class CustomerController extends StoreController
     {
 
         $current_page = $this->page;
-        $result = $this->repository->all(['page_size' => 10, 'current_page' => $current_page]);
+        $result = $this->repository->all(['page_size' => 20, 'current_page' => $current_page]);
 
         $data = [
             'store' => $this->getStore(),

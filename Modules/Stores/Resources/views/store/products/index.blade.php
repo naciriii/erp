@@ -61,6 +61,12 @@
                             @endif
                             </tbody>
                         </table>
+
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <nav id="simple-pagination" class="pull-right"></nav>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -68,13 +74,21 @@
     </main>
 
 @stop
+@section ('css')
+    <link rel="stylesheet" type="text/css" href="{{asset('css/simplePagination.css')}}">
+@stop
 @section('js')
     <script type="text/javascript" src="{{asset('js/plugins/jquery.dataTables.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/plugins/dataTables.bootstrap.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/plugins/sweetalert.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/plugins/jquery.simplePagination.js')}}"></script>
 
     <script type="text/javascript">
-        $('#productsTable').DataTable();
+        {!! simplePagination($result,'#simple-pagination') !!}
+        $('#productsTable').DataTable({
+            paginate: false,
+            bInfo: false
+        });
 
         $("#productsTableBody").on('click', '.deleteProductBtn', function (e) {
             e.preventDefault();
