@@ -41,7 +41,10 @@
                                         <td>€ {{$product->price}}</td>
                                         <td>{{$product->sku}}</td>
                                         <td>
-                                            <img class="img-thumbnail" style="width: 100px; height: 100px" src="{{$store->base_url.config('stores.api.public_resources').$product->custom_attributes[1]->value}}">
+                                            @if(collect($product->custom_attributes)->where('attribute_code','image')->first() != null)
+                                            <img class="img-thumbnail" style="width: 100px; height: 100px"
+                                                 src="{{$store->base_url.config('stores.api.public_resources').collect($product->custom_attributes)->where('attribute_code','image')->first()->value}}">
+                                            @endif
                                         </td>
                                         <td>{{$product->qty}}</td>
                                         <td>
