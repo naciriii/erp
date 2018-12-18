@@ -22,7 +22,7 @@ class CategoryController extends StoreController
 
     public function index()
     {
-        $this->extract($this->repository->getAllCategories());
+        $this->extract($this->repository->all());
         $data = [
             'result' => collect($this->categories),
             'store' => $this->getStore()
@@ -32,7 +32,7 @@ class CategoryController extends StoreController
 
     public function create($id)
     {
-        $categories = $this->repository->getAllCategories();
+        $categories = $this->repository->all();
         $data = [
             'categories' => $categories,
             'store' => $this->getStore()
@@ -50,7 +50,7 @@ class CategoryController extends StoreController
         $categoryObj->category->name = $request->name;
         $categoryObj->category->isActive = ($request->is_active == 0) ? false : true;
         $categoryObj->category->parentId = ($request->parent_id) ? $request->parent_id : 0;
-        $this->repository->addCategory($categoryObj);
+        $this->repository->add($categoryObj);
         return redirect()->route('Store.Categories.index', ['id' => $id])
             ->with(['response' => [
                 trans('stores::global.Category_added'),
@@ -61,9 +61,9 @@ class CategoryController extends StoreController
 
     public function show($id, $cat)
     {
-        $this->extract($this->repository->getAllCategories());
+        $this->extract($this->repository->all());
         $result = $this->categories;
-        $category = $this->repository->getCategory(decode($cat));
+        $category = $this->repository->find(decode($cat));
         if ($result == null) {
             return abort(404);
         }
@@ -86,11 +86,11 @@ class CategoryController extends StoreController
         $categoryObj->category->isActive = ($request->is_active == 0) ? false : true;
 
         if ($request->parent_id) {
-            $this->repository->deleteCategory(decode($cat));
+            $this->repository->delete(decode($cat));
             $categoryObj->category->parentId = $request->parent_id;
-            $this->repository->addCategory($categoryObj);
+            $this->repository->add($categoryObj);
         } else {
-            $this->repository->updateCategory($categoryObj, decode($cat));
+            $this->repository->update($categoryObj, decode($cat));
         }
 
         return redirect()->route('Store.Categories.index', ['id' => $id])->with(['response' =>
@@ -103,7 +103,7 @@ class CategoryController extends StoreController
 
     public function delete($id, $cat)
     {
-        $this->repository->deleteCategory(decode($cat));
+        $this->repository->delete(decode($cat));
         return redirect()->route('Store.Categories.index', ['id' => $id])->with(['response' =>
             [
                 trans('stores::global.Category_deleted'),

@@ -43,7 +43,8 @@ Route::prefix('store/{id}')->group(function () {
         Route::get('/', 'Store\CustomerController@index')->name('Store.Customers.index');
         Route::get('/create', 'Store\CustomerController@create')->name('Store.Customers.create');
         Route::post('/create', 'Store\CustomerController@store')->name('Store.Customers.store');
-        Route::put('/{customer}', 'Store\CustomerController@update')->name('Store.Customers.update');
+        Route::get('/{customer}', 'Store\CustomerController@show')->name('Store.Customers.show');
+        Route::put('/{customerId}', 'Store\CustomerController@update')->name('Store.Customers.update');
         Route::delete('/{customer}', 'Store\CustomerController@delete')->name('Store.Customers.destroy');
         Route::post('/getcustomers', 'Store\CustomerController@getCustomers')->name('Store.Customers.getCustomers');
     });

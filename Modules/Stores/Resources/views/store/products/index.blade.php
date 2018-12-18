@@ -27,17 +27,22 @@
                                 <th>{{trans('stores::global.Name')}}</th>
                                 <th>{{trans('stores::global.Price')}}</th>
                                 <th>{{trans('stores::global.Sku')}}</th>
+                                <th>{{trans('stores::global.Image')}}</th>
                                 <th>{{trans('stores::global.Quantity')}}</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody id="productsTableBody">
                             @if(isset($result->items))
+
                                 @foreach(collect($result->items) as $product)
                                     <tr>
                                         <td>{{$product->name}}</td>
                                         <td>€ {{$product->price}}</td>
                                         <td>{{$product->sku}}</td>
+                                        <td>
+                                            <img class="img-thumbnail" style="width: 100px; height: 100px" src="{{$store->base_url.config('stores.api.public_resources').$product->custom_attributes[1]->value}}">
+                                        </td>
                                         <td>{{$product->qty}}</td>
                                         <td>
                                             <a href="{{route('Store.Products.show',['id'=>encode($store->id),'sku' => $product->sku])}}">
@@ -47,19 +52,13 @@
                                                   action="{{route('Store.Products.destroy',['id' => encode($store->id),'sku'=>$product->sku])}}">
                                                 {{csrf_field()}}
                                                 <input type="hidden" name="_method" value="DELETE">
-
-                                                <button type="submit"
-                                                        class="btn btn-sm btn-danger deleteProductBtn">{{trans('global.Delete')}}</button>
+                                                <button type="submit" class="btn btn-sm btn-danger deleteProductBtn">{{trans('global.Delete')}}</button>
                                             </form>
-
                                         </td>
-
-
                                     </tr>
 
                                 @endforeach
                             @endif
-
                             </tbody>
                         </table>
                     </div>

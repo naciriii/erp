@@ -7,8 +7,8 @@ use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 use App\Http\Controllers\Controller;
 use Modules\Stores\Entities\Store;
-use Modules\Stores\Repositories\BaseRepository;
-use Modules\Stores\Repositories\StoreRepository;
+use Modules\Stores\Repositories\Contracts\BaseRepository;
+use Modules\Stores\Repositories\ProductRepository;
 
 
 class StoreController extends Controller
@@ -19,6 +19,7 @@ class StoreController extends Controller
 
     public function __construct(Request $request, BaseRepository $repository)
     {
+
 
         $id = decode($request->route()->parameter('id'));
         $this->page = $request->get('page') ?? 0;
