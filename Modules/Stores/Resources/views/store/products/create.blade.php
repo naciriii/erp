@@ -106,6 +106,9 @@
                                             </small>
                                         @endif
                                     </div>
+                                    <div class="form-group" id="img-show" style="display: none">
+                                        <img style="width: 250px; height: 250px" class="img-fluid" id="img-preview" src="" alt="">
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -130,6 +133,24 @@
 
     <script type="text/javascript">
         $('#selectCategories').select2();
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#img-show').show();
+                    $('#img-preview').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $("#image").change(function(){
+
+            readURL(this);
+        });
     </script>
 
 @endsection
