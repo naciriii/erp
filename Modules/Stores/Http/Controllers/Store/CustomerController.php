@@ -15,7 +15,7 @@ class CustomerController extends StoreController
     {
 
         $current_page = $this->page;
-        $result = $this->repository->getAllCustomers(10, $current_page);
+        $result = $this->repository->all(['page_size' => 10, 'current_page' => $current_page]);
 
         $data = [
             'store' => $this->getStore(),
@@ -81,7 +81,7 @@ class CustomerController extends StoreController
         $customerObj->customer->addresses[0]->city = $request->city;
         $customerObj->customer->addresses[0]->postcode = $request->postal_code;
 
-        $customer = $this->repository->addCustomer($customerObj);
+        $customer = $this->repository->add($customerObj);
 
         return redirect()->route('Store.Customers.index', ['id' => $id])
             ->with(
@@ -94,7 +94,7 @@ class CustomerController extends StoreController
 
     public function show($id, $customerId)
     {
-        $result = $this->repository->getCustomer(decode($customerId));
+        $result = $this->repository->find(decode($customerId));
         if ($result == null) {
             return abort(404);
         }
@@ -154,7 +154,7 @@ class CustomerController extends StoreController
         $customerObj->customer->addresses[0]->city = $request->city;
         $customerObj->customer->addresses[0]->postcode = $request->postal_code;
 
-        $customer = $this->repository->updateCustomer($customerObj, decode($customerId));
+        $customer = $this->repository->update($customerObj, decode($customerId));
         return redirect()->route('Store.Customers.index', ['id' => $id])->with(['response' =>
             [
                 trans('stores::global.Customer_updated'),
@@ -165,7 +165,7 @@ class CustomerController extends StoreController
 
     public function delete($id, $customer)
     {
-        $result = $this->repository->deleteCustomers(decode($customer));
+        $result = $this->repository->delete(decode($customer));
         $data = [
             'result' => $result,
             'store' => $this->getStore()

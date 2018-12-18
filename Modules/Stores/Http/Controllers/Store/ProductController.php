@@ -4,6 +4,7 @@ namespace Modules\Stores\Http\Controllers\Store;
 
 use Modules\Stores\Http\Controllers\StoreController;
 use Illuminate\Http\Request;
+use Modules\Stores\Repositories\CategoryRepository;
 
 
 class ProductController extends StoreController
@@ -12,7 +13,7 @@ class ProductController extends StoreController
 
     public function index()
     {
-        $result = $this->repository->getAllProducts();
+        $result = $this->repository->all();
         $data = [
             'result' => $result,
             'store' => $this->getStore()
@@ -23,11 +24,11 @@ class ProductController extends StoreController
 
     public function show($id, $sku)
     {
-        $result = $this->repository->getProduct($sku);
+        $result = $this->repository->find($sku);
         if ($result == null) {
             return abort(404);
         }
-        $categories = $this->repository->getAllCategories();
+        $categories = $this->repository->categories();
         $data = [
             'product' => $result,
             'categories' => $categories,
@@ -38,7 +39,7 @@ class ProductController extends StoreController
 
     public function create($id)
     {
-        $categories = $this->repository->getAllCategories();
+        $categories = $this->repository->categories();
         $data = ['categories' => $categories, 'store' => $this->getStore()];
         return view('stores::store.products.create')->with($data);
     }
@@ -65,7 +66,7 @@ class ProductController extends StoreController
         $categories->value = $request->category;
         $productObj->product->customAttributes [] = $categories;
 
-        $product = $this->repository->addProduct($productObj);
+        $product = $this->repository->add($productObj);
 
         if ($product) {
             $media = $this->getProductMedia();
@@ -109,7 +110,7 @@ class ProductController extends StoreController
         $categories->attribute_code = "category_ids";
         $categories->value = $request->category;
         $productObj->product->customAttributes [] = $categories;
-        $product = $this->repository->updateProduct($sku, $productObj);
+        $product = $this->repository->update($sku, $productObj);
 
         if ($product) {
             $media = $this->getProductMedia();
@@ -133,7 +134,7 @@ class ProductController extends StoreController
 
     public function delete($id, $sku)
     {
-        $result = $this->repository->deleteProduct($sku);
+        $result = $this->repository->delete($sku);
 
         $data = [
             'result' => $result,
