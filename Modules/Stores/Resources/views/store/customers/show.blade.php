@@ -15,16 +15,15 @@
         <div class="row">
             <div class="col-md-12">
                 <form method="post"
-                      action="{{route('Store.Customers.update',['id' => encode($store->id),'customer'=> encode($customer->id)])}}">
+                      action="{{route('Store.Customers.update',['id' => encode($store->id),'customerId'=> encode($customer->id)])}}">
                     {{csrf_field()}}
+                    <input type="hidden" name="_method" value="PUT">
                     <div class="tile">
                         <h3 class="tile-title">@lang('global.Edit')</h3>
                         <div class="tile-body ">
                             <div class="row">
 
-
                                 <div class="col-sm col-md-6">
-
                                     <div class="form-group">
                                         <label class="control-label">{{trans('stores::global.NamePrefix')}}</label>
                                         <input class="form-control{{ $errors->has('name_prefix') ? ' is-invalid' : '' }}"
@@ -91,7 +90,7 @@
                                     <div class="form-group">
                                         <label class="control-label">{{trans('stores::global.DateOfBirth')}}</label>
                                         <input class="form-control{{ $errors->has('birth_date') ? ' is-invalid' : '' }}"
-                                               id="birth-date" type="text" placeholder=""
+                                               id="birth-date" name="birth_date" type="text" placeholder=""
                                                value="{{$customer->dob or old('birth_date')}}">
 
                                         @if ($errors->has('birth_date'))
@@ -99,10 +98,20 @@
                                         @endif
                                     </div>
 
+                                    <div class="form-group">
+                                        <label class="control-label">{{trans('stores::global.Password')}}
+                                            <strong>*</strong></label>
+                                        <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
+                                               type="password" placeholder="" name="password"
+                                               value="{{old('password')}}">
 
+                                        @if ($errors->has('password'))
+                                            <div class="invalid-feedback">{{ $errors->first('password') }}</div>
+                                        @endif
+                                    </div>
                                 </div>
-                                <div class="col-sm col-md-6">
 
+                                <div class="col-sm col-md-6">
                                     <div class="form-group">
                                         <label class="control-label">{{trans('stores::global.TaxVAT')}}</label>
                                         <input class="form-control{{ $errors->has('tax_vat') ? ' is-invalid' : '' }}"
@@ -117,7 +126,6 @@
                                         <label class="control-label">{{trans('stores::global.Gender')}}</label>
                                         <select id="gender" name="gender"
                                                 class="form-control{{ $errors->has('gender') ? ' is-invalid' : '' }}">
-                                            <option value=""></option>
                                             <option value="1"
                                                     @if(property_exists($customer, "gender") and $customer->gender == 1) selected @endif>{{trans('stores::global.Male')}}</option>
                                             <option value="2"
@@ -134,7 +142,7 @@
                                         <label class="control-label">{{trans('stores::global.StreetAddress')}}
                                             <strong>*</strong></label>
                                         <input class="form-control{{ $errors->has('street_address') ? ' is-invalid' : '' }}"
-                                               type="text" name="street_address" value="{{old('street_address')}}"
+                                               type="text" name="street_address" value="{{$customer->addresses[0]->street[0] or old('street_address')}}"
                                                placeholder="">
                                         @if ($errors->has('street_address'))
                                             <div class="invalid-feedback">{{ $errors->first('street_address') }}</div>
@@ -145,7 +153,7 @@
                                         <label class="control-label">{{trans('stores::global.City')}}
                                             <strong>*</strong></label>
                                         <input class="form-control{{ $errors->has('city') ? ' is-invalid' : '' }}"
-                                               type="text" name="city" value="{{old('city')}}" placeholder="">
+                                               type="text" name="city" value="{{$customer->addresses[0]->city or old('city')}}" placeholder="">
                                         @if ($errors->has('city'))
                                             <div class="invalid-feedback">{{ $errors->first('city') }}</div>
                                         @endif
@@ -410,7 +418,7 @@
                                         <label class="control-label">{{trans('stores::global.PostalCode')}}
                                             <strong>*</strong></label>
                                         <input class="form-control{{ $errors->has('postal_code') ? ' is-invalid' : '' }}"
-                                               type="text" name="postal_code" value="{{old('postal_code')}}"
+                                               type="text" name="postal_code" value="{{$customer->addresses[0]->postcode or old('postal_code')}}"
                                                placeholder="">
                                         @if ($errors->has('postal_code'))
                                             <div class="invalid-feedback">{{ $errors->first('postal_code') }}</div>
@@ -421,15 +429,26 @@
                                         <label class="control-label">{{trans('stores::global.PhoneNumber')}}
                                             <strong>*</strong></label>
                                         <input class="form-control{{ $errors->has('phone_number') ? ' is-invalid' : '' }}"
-                                               type="text" name="phone_number" value="{{old('phone_number')}}"
+                                               type="text" name="phone_number" value="{{$customer->addresses[0]->telephone or old('phone_number')}}"
                                                placeholder="">
                                         @if ($errors->has('phone_number'))
                                             <div class="invalid-feedback">{{ $errors->first('phone_number') }}</div>
                                         @endif
                                     </div>
 
+                                    <div class="form-group">
+                                        <label class="control-label">{{trans('stores::global.ConfirmPassword')}}
+                                            <strong>*</strong></label>
+                                        <input class="form-control{{ $errors->has('password_confirmation') ? ' is-invalid' : '' }}"
+                                               type="password" placeholder="" name="password_confirmation"
+                                               value="{{old('password_confirmation')}}">
 
+                                        @if ($errors->has('password_confirmation'))
+                                            <div class="invalid-feedback">{{ $errors->first('password_confirmation') }}</div>
+                                        @endif
+                                    </div>
                                 </div>
+
                             </div>
                         </div>
                         <div class="tile-footer text-center">
@@ -456,9 +475,10 @@
         $('#gender').select2();
         $('#country').select2();
         $('#birth-date').datepicker({
-            format: "yyyy-mm-dd",
+            format: 'yyyy-mm-dd',
             autoclose: true,
-            todayHighlight: true
+            todayHighlight: true,
+            endDate: '0d'
         });
     </script>
 

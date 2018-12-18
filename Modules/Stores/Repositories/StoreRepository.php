@@ -118,6 +118,28 @@ class StoreRepository implements BaseRepository
         return $product;
     }
 
+    public function addProductMedia($media, $sku)
+    {
+        $media = $this->getDataFromApi('POST',
+            config('stores.api.base_url') . str_replace('{sku}', $sku, config('stores.api.add_product_media_url')), [
+                'api_url' => $this->store->api_url,
+                'entry' => json_encode($media)
+            ]);
+        Cache::forget('products');
+        return $media;
+    }
+
+    public function updateProductMedia($media, $sku, $mediaId)
+    {
+        $media = $this->getDataFromApi('POST',
+            config('stores.api.base_url') . str_replace('{sku}', $sku, config('stores.api.update_product_media_url')), [
+                'api_url' => $this->store->api_url,
+                'entry' => json_encode($media),
+                'mediaId' => $mediaId
+            ]);
+        Cache::forget('products');
+        return $media;
+    }
 
     /**
      * Display a listing of Customers.
@@ -139,8 +161,18 @@ class StoreRepository implements BaseRepository
         $customer = $this->getDataFromApi('POST',
             config('stores.api.base_url') . str_replace('{customerId}',
                 $customerId, config('stores.api.get_customer_url')), [
-            'api_url' => $this->store->api_url]);
+                'api_url' => $this->store->api_url]);
         return $customer;
+    }
+
+    public function getCustomerBy($field, $value)
+    {
+        $customers = $this->getDataFromApi('POST', config('stores.api.base_url') . config('stores.api.customers_filter_url'), [
+            'api_url' => $this->store->api_url,
+            'field' => $field,
+            'value' => $value
+        ]);
+        return $customers;
     }
 
     public function addCustomer($customer)
@@ -149,12 +181,10 @@ class StoreRepository implements BaseRepository
             'api_url' => $this->store->api_url,
             'customer' => json_encode($customer)
         ]);
-
         return $result;
     }
 
-
-    public function updatCustomer($customerId,$customer)
+    public function updateCustomer($customer, $customerId)
     {
         $result = $this->getDataFromApi('POST', config('stores.api.base_url') . str_replace('{customerId}', $customerId,
                 config('stores.api.update_customer_url')), [

@@ -4,6 +4,7 @@ namespace Modules\Stores\Http\Controllers\Store;
 
 use Modules\Stores\Http\Controllers\StoreController;
 use Illuminate\Http\Request;
+use Illuminate\Support\MessageBag;
 
 
 class CustomerController extends StoreController
@@ -48,18 +49,25 @@ class CustomerController extends StoreController
                 'password.regex' => 'Classes of characters: Lower Case, Upper Case, Digits, Special Characters.'
             ]);
 
+        //check if email exist in DB
+        $user = $this->repository->getCustomerBy('email', $request->email);
+        if ($user->total_count != 0) {
+            $errors = new MessageBag;
+            $errors->add('email', 'Email already exist');
+            return redirect()->back()->withErrors($errors);
+        }
 
         $customerObj = $this->getCustomerModel();
         //user
         $customerObj->customer->firstname = $request->first_name;
         $customerObj->customer->lastname = $request->last_name;
         $customerObj->customer->email = $request->email;
-        $customerObj->customer->prefix = ($request->name_prefix) ? $request->name_prefix : '';
-        $customerObj->customer->middlename = ($request->middle_name) ? $request->middle_name : '';
-        $customerObj->customer->suffix = ($request->name_suffix) ? $request->name_suffix : '';
-        $customerObj->customer->taxvat = ($request->tax_vat) ? $request->tax_vat : '';
-        $customerObj->customer->gender = ($request->gender) ? $request->gender : '';
-        $customerObj->customer->dob = ($request->birth_date) ? $request->birth_date : '';
+        $customerObj->customer->prefix = $request->name_prefix;
+        $customerObj->customer->middlename = $request->middle_name;
+        $customerObj->customer->suffix = $request->name_suffix;
+        $customerObj->customer->taxvat = $request->tax_vat;
+        $customerObj->customer->gender = $request->gender;
+        $customerObj->customer->dob = $request->birth_date;
         $customerObj->password = $request->password;
 
         //address
@@ -73,6 +81,8 @@ class CustomerController extends StoreController
         $customerObj->customer->addresses[0]->city = $request->city;
         $customerObj->customer->addresses[0]->postcode = $request->postal_code;
 
+        $customer = $this->repository->addCustomer($customerObj);
+
         return redirect()->route('Store.Customers.index', ['id' => $id])
             ->with(
                 ['response' => [
@@ -82,9 +92,9 @@ class CustomerController extends StoreController
                 ]]);
     }
 
-    public function show($id, $customer)
+    public function show($id, $customerId)
     {
-        $result = $this->repository->getCustomer(decode($customer));
+        $result = $this->repository->getCustomer(decode($customerId));
         if ($result == null) {
             return abort(404);
         }
@@ -96,7 +106,7 @@ class CustomerController extends StoreController
         return view('stores::store.customers.show')->with($data);
     }
 
-    public function update($id, Request $request)
+    public function update($id, $customerId, Request $request)
     {
         $this->validate($request, [
             'first_name' => 'required|min:4',
@@ -106,30 +116,35 @@ class CustomerController extends StoreController
             'city' => 'required',
             'country' => 'required',
             'postal_code' => 'required',
-            'phone_number' => 'required',
-            'password' => 'required|confirmed|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
-            'password_confirmation' => 'required',
-        ],
-            [
-                'password.regex' => 'Classes of characters: Lower Case, Upper Case, Digits, Special Characters.'
-            ]);
-
+            'phone_number' => 'required'
+        ]);
 
         $customerObj = $this->getCustomerModel();
         //user
+        $customerObj->customer->id = decode($customerId);
         $customerObj->customer->firstname = $request->first_name;
         $customerObj->customer->lastname = $request->last_name;
         $customerObj->customer->email = $request->email;
-        $customerObj->customer->prefix = ($request->name_prefix) ? $request->name_prefix : '';
-        $customerObj->customer->middlename = ($request->middle_name) ? $request->middle_name : '';
-        $customerObj->customer->suffix = ($request->name_suffix) ? $request->name_suffix : '';
-        $customerObj->customer->taxvat = ($request->tax_vat) ? $request->tax_vat : '';
-        $customerObj->customer->gender = ($request->gender) ? $request->gender : '';
-        $customerObj->customer->dob = ($request->birth_date) ? $request->birth_date : '';
-        $customerObj->password = $request->password;
+        $customerObj->customer->prefix = $request->name_prefix;
+        $customerObj->customer->middlename = $request->middle_name;
+        $customerObj->customer->suffix = $request->name_suffix;
+        $customerObj->customer->taxvat = $request->tax_vat;
+        $customerObj->customer->gender = $request->gender;
+        $customerObj->customer->dob = $request->birth_date;
+        $customerObj->customer->websiteId = 1;
+
+        if ($request->has('password')) {
+            $this->validate($request, [
+                'password' => 'required|confirmed|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/',
+                'password_confirmation' => 'required',
+            ], [
+                'password.regex' => 'Classes of characters: Lower Case, Upper Case, Digits, Special Characters.'
+            ]);
+            $customerObj->password = $request->password;
+        }
 
         //address
-        $customerObj->customer->addresses[0]->customer_id = 0;
+        $customerObj->customer->addresses[0]->customerId = decode($customerId);
         $customerObj->customer->addresses[0]->region_id = 0;
         $customerObj->customer->addresses[0]->country_id = $request->country;
         $customerObj->customer->addresses[0]->street[0] = $request->street_address;
@@ -139,11 +154,11 @@ class CustomerController extends StoreController
         $customerObj->customer->addresses[0]->city = $request->city;
         $customerObj->customer->addresses[0]->postcode = $request->postal_code;
 
-        $customer = $this->repository->updateCustomer($customerObj);
+        $customer = $this->repository->updateCustomer($customerObj, decode($customerId));
         return redirect()->route('Store.Customers.index', ['id' => $id])->with(['response' =>
             [
                 trans('stores::global.Customer_updated'),
-                trans('stores::global.Customer_updated_success', ['customer' => '<b>' . $request->name . '</b>']),
+                trans('stores::global.Customer_updated_success', ['customer' => '<b>' . $request->first_name . '</b>']),
                 'info'
             ]]);
     }
@@ -175,8 +190,6 @@ class CustomerController extends StoreController
                             "defaultBilling": "string",
                             "defaultShipping": "string",
                             "confirmation": "string",
-                            "createdAt": "string",
-                            "updatedAt": "string",
                             "createdIn": "string",
                             "dob": "string",
                             "email": "string",
@@ -225,7 +238,7 @@ class CustomerController extends StoreController
                             "extensionAttributes": {},
                             "customAttributes": []
                           },
-                          "password": "strinG_123",
+                          "password": "Demo1234",
                           "redirectUrl": "string"
                         }');
 

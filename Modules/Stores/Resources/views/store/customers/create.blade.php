@@ -473,7 +473,8 @@
         $('#birth-date').datepicker({
             format: "yyyy-mm-dd",
             autoclose: true,
-            todayHighlight: true
+            todayHighlight: true,
+            endDate: '0d'
         });
     </script>
 @endsection
