@@ -12,11 +12,17 @@ class ProductRepository extends BaseRepository implements BaseRepositoryI
 
     public function all($params = null)
     {
-        $products = Cache::remember('products', 5, function () {
+        $products = $this->getDataFromApi('POST', config('stores.api.base_url') . config('stores.api.products_url'), [
+            'api_url' => $this->store->api_url,
+            'page_size' => $params['page_size'],
+            'current_page' => $params['current_page']
+        ]);
+
+        /*$products = Cache::remember('products', 5, function () {
             return $this->getDataFromApi('POST', config('stores.api.base_url') . config('stores.api.products_url'), [
                 'api_url' => $this->store->api_url
             ]);
-        });
+        });*/
         return $products;
     }
 

@@ -13,7 +13,7 @@ class CustomerRepository extends BaseRepository implements BaseRepositoryI
      * Display a listing of Customers.
      * @return Response
      */
-//[$page_size, $current_page]
+
     public function all($params = null)
     {
         $customers = $this->getDataFromApi('POST', config('stores.api.base_url') . config('stores.api.customers_url'), [

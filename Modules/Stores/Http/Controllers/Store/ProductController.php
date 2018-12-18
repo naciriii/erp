@@ -4,7 +4,6 @@ namespace Modules\Stores\Http\Controllers\Store;
 
 use Modules\Stores\Http\Controllers\StoreController;
 use Illuminate\Http\Request;
-use Modules\Stores\Repositories\CategoryRepository;
 
 
 class ProductController extends StoreController
@@ -13,7 +12,9 @@ class ProductController extends StoreController
 
     public function index()
     {
-        $result = $this->repository->all();
+        $current_page = $this->page;
+        $result = $this->repository->all(['page_size' => 20, 'current_page' => $current_page]);
+
         $data = [
             'result' => $result,
             'store' => $this->getStore()
