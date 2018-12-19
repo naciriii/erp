@@ -36,14 +36,14 @@
                             @if(isset($result->items))
 
                                 @foreach(collect($result->items) as $product)
-                                    <tr>
+                                    <tr @if($product->qty <= 10) class="bg-warning" @endif>
                                         <td>{{$product->name}}</td>
                                         <td>€ {{$product->price}}</td>
                                         <td>{{$product->sku}}</td>
                                         <td>
                                             @if(collect($product->custom_attributes)->where('attribute_code','image')->first() != null)
-                                            <img class="img-thumbnail" style="width: 100px; height: 100px"
-                                                 src="{{$store->base_url.config('stores.api.public_resources').collect($product->custom_attributes)->where('attribute_code','image')->first()->value}}">
+                                                <img class="img-thumbnail" style="width: 100px; height: 100px"
+                                                     src="{{$store->base_url.config('stores.api.public_resources').collect($product->custom_attributes)->where('attribute_code','image')->first()->value}}">
                                             @endif
                                         </td>
                                         <td>{{$product->qty}}</td>
@@ -55,7 +55,8 @@
                                                   action="{{route('Store.Products.destroy',['id' => encode($store->id),'sku'=>$product->sku])}}">
                                                 {{csrf_field()}}
                                                 <input type="hidden" name="_method" value="DELETE">
-                                                <button type="submit" class="btn btn-sm btn-danger deleteProductBtn">{{trans('global.Delete')}}</button>
+                                                <button type="submit"
+                                                        class="btn btn-sm btn-danger deleteProductBtn">{{trans('global.Delete')}}</button>
                                             </form>
                                         </td>
                                     </tr>

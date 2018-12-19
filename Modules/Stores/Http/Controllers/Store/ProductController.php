@@ -14,12 +14,10 @@ class ProductController extends StoreController
     {
         $current_page = $this->page;
         $result = $this->repository->all(['page_size' => 20, 'current_page' => $current_page]);
-
         $data = [
             'result' => $result,
             'store' => $this->getStore()
         ];
-
         return view('stores::store.products.index')->with($data);
     }
 
@@ -29,6 +27,7 @@ class ProductController extends StoreController
         if ($result == null) {
             return abort(404);
         }
+
         $categories = $this->repository->categories();
         $data = [
             'product' => $result,
@@ -77,7 +76,7 @@ class ProductController extends StoreController
             $media->entry->content->base64_encoded_data = base64_encode(file_get_contents($request->file('image')));
             $media->entry->content->type = $request->image->getClientMimeType();
             $media->entry->content->name = time() . '.' . $request->image->getClientOriginalExtension();
-            $media = $this->repository->addProductMedia($media, $request->sku);
+            $this->repository->addProductMedia($media, $request->sku);
         }
 
         return redirect()->route('Store.Products.index', ['id' => $id])->with(['response' =>
@@ -95,9 +94,7 @@ class ProductController extends StoreController
             'name' => 'required',
             'price' => 'required|numeric',
             'quantity' => 'required|numeric',
-            'category.*' => 'integer',
-            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
-            'media_id' => 'required'
+            'category.*' => 'integer'
         ]);
 
         $productObj = $this->getProductModel();
@@ -113,16 +110,26 @@ class ProductController extends StoreController
         $productObj->product->customAttributes [] = $categories;
         $product = $this->repository->update($sku, $productObj);
 
-        if ($product) {
+        if ($request->hasFile('image')) {
+
+            $this->validate($request, [
+                'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            ]);
+
             $media = $this->getProductMedia();
-            $media->entry->id = decode($request->media_id);
             $media->entry->mediaType = 'image';
             $media->entry->label = $request->sku;
             $media->entry->file = $request->sku;
             $media->entry->content->base64_encoded_data = base64_encode(file_get_contents($request->file('image')));
             $media->entry->content->type = $request->image->getClientMimeType();
             $media->entry->content->name = time() . '.' . $request->image->getClientOriginalExtension();
-            $this->repository->updateProductMedia($media, $request->sku,$request->media_id);
+
+            if ($request->media_id) {
+                $media->entry->id = $request->media_id;
+                $this->repository->updateProductMedia($media, $request->sku, $request->media_id);
+            } else {
+                $this->repository->addProductMedia($media, $request->sku);
+            }
         }
 
         return redirect()->route('Store.Products.index', ['id' => $id])->with(['response' =>

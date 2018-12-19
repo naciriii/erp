@@ -18,11 +18,6 @@ class ProductRepository extends BaseRepository implements BaseRepositoryI
             'current_page' => $params['current_page']
         ]);
 
-        /*$products = Cache::remember('products', 5, function () {
-            return $this->getDataFromApi('POST', config('stores.api.base_url') . config('stores.api.products_url'), [
-                'api_url' => $this->store->api_url
-            ]);
-        });*/
         return $products;
     }
 

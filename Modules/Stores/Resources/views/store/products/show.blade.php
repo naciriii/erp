@@ -129,24 +129,21 @@
                                                 <div class="row">
 
                                                     <div class="col-md-6">
-                                                            <img style="width: 250px; height: 250px" class="img-fluid"
-                                                                 src="{{$store->base_url.config('stores.api.public_resources').$product->media_gallery_entries[0]->file}}"
-                                                                 alt="">
-
+                                                        @if(count($product->media_gallery_entries))
+                                                            <img class="img-thumbnail" style="width: 250px; height: 250px;"
+                                                                 src="{{$store->base_url.config('stores.api.public_resources').
+                                                                 $product->media_gallery_entries[0]->file}}">
+                                                            <input type="hidden" name="media_id" value="{{$product->media_gallery_entries[0]->id}}">
+                                                        @endif
                                                     </div>
 
                                                     <div class="col-md-6" id="img-show" style="display: none">
                                                             <img style="width: 250px; height: 250px" class="img-fluid" id="img-preview" src="" alt="">
-
                                                     </div>
 
                                                 </div>
-
                                             </div>
 
-
-                                        <input type="hidden" name="media_id"
-                                               value="{{encode($product->media_gallery_entries[0]->id)}}">
                                     </div>
                                 </div>
                             </div>
