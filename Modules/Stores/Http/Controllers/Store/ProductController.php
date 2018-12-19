@@ -4,7 +4,7 @@ namespace Modules\Stores\Http\Controllers\Store;
 
 use Modules\Stores\Http\Controllers\StoreController;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
 
 class ProductController extends StoreController
 {
@@ -27,6 +27,12 @@ class ProductController extends StoreController
         if ($result == null) {
             return abort(404);
         }
+
+        $from = new Carbon(collect($result->custom_attributes)->where('attribute_code','special_from_date')->first()->value);
+        collect($result->custom_attributes)->where('attribute_code','special_from_date')->first()->value = $from->format('Y-m-d');
+
+        $to = new Carbon(collect($result->custom_attributes)->where('attribute_code','special_to_date')->first()->value);
+        collect($result->custom_attributes)->where('attribute_code','special_to_date')->first()->value = $to->format('Y-m-d');
 
         $categories = $this->repository->categories();
         $data = [
@@ -60,11 +66,37 @@ class ProductController extends StoreController
         $productObj->product->name = $request->name;
         $productObj->product->price = $request->price;
         $productObj->product->extensionAttributes->stockItem->qty = $request->quantity;
+
         $categories = new \StdClass;
 
         $categories->attribute_code = "category_ids";
         $categories->value = $request->category;
         $productObj->product->customAttributes [] = $categories;
+
+        if ($request->special_price) {
+
+            $this->validate($request, [
+                'special_price' => 'required | numeric',
+                'special_from_date' => 'required | date',
+                'special_to_date' => 'required | date'
+            ]);
+
+            $specialPrice = new \StdClass;
+            $specialPrice->attribute_code = "special_price";
+            $specialPrice->value = $request->special_price;
+            $productObj->product->customAttributes [] = $specialPrice;
+
+            $specialFromDate = new \StdClass;
+            $specialFromDate->attribute_code = "special_from_date";
+            $specialFromDate->value = $request->special_from_date;// "2019-01-18 00:00:00";
+            $productObj->product->customAttributes [] = $specialFromDate;
+
+            $specialToDate = new \StdClass;
+            $specialToDate->attribute_code = "special_to_date";
+            $specialToDate->value = $request->special_to_date; //"2019-02-12 00:00:00";
+            $productObj->product->customAttributes [] = $specialToDate;
+
+        }
 
         $product = $this->repository->add($productObj);
 
@@ -103,11 +135,36 @@ class ProductController extends StoreController
         $productObj->product->name = $request->name;
         $productObj->product->price = $request->price;
         $productObj->product->extensionAttributes->stockItem->qty = $request->quantity;
-        $categories = new \StdClass;
 
+        $categories = new \StdClass;
         $categories->attribute_code = "category_ids";
         $categories->value = $request->category;
         $productObj->product->customAttributes [] = $categories;
+
+        if ($request->special_price) {
+
+            $this->validate($request, [
+                'special_price' => 'required | numeric',
+                'special_from_date' => 'required | date',
+                'special_to_date' => 'required | date'
+            ]);
+
+            $specialPrice = new \StdClass;
+            $specialPrice->attribute_code = "special_price";
+            $specialPrice->value = $request->special_price;
+            $productObj->product->customAttributes [] = $specialPrice;
+
+            $specialFromDate = new \StdClass;
+            $specialFromDate->attribute_code = "special_from_date";
+            $specialFromDate->value = $request->special_from_date;
+            $productObj->product->customAttributes [] = $specialFromDate;
+
+            $specialToDate = new \StdClass;
+            $specialToDate->attribute_code = "special_to_date";
+            $specialToDate->value = $request->special_to_date;
+            $productObj->product->customAttributes [] = $specialToDate;
+        }
+
         $product = $this->repository->update($sku, $productObj);
 
         if ($request->hasFile('image')) {

@@ -31,6 +31,12 @@ return [
     'PhoneNumber' => 'Phone Number',
     'Image' => 'Image',
 
+    'specialFromDate' => 'Special From Date',
+    'specialToDate' => 'Special To Date',
+    'SpecialPrice' => 'Special Price',
+    'Ok' => 'Ok',
+    'AdvancedPricing' => 'Advanced Pricing',
+
     'Phone' => 'Phone',
     'Address' => 'Address',
     'Status' => 'Status',
