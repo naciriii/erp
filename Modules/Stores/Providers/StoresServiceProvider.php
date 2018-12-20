@@ -49,6 +49,10 @@ class StoresServiceProvider extends ServiceProvider
             ->needs('Modules\Stores\Repositories\Contracts\BaseRepository')
             ->give('Modules\Stores\Repositories\ProductRepository');
 
+        $this->app->when('Modules\Stores\Http\Controllers\Store\OrderController')
+            ->needs('Modules\Stores\Repositories\Contracts\BaseRepository')
+            ->give('Modules\Stores\Repositories\OrderRepository');
+
         $this->app->when('Modules\Stores\Http\Controllers\StoreController')
             ->needs('Modules\Stores\Repositories\Contracts\BaseRepository')
             ->give('Modules\Stores\Repositories\StoreRepository');
