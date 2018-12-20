@@ -14,6 +14,7 @@ class ProductController extends StoreController
     {
         $current_page = $this->page;
         $result = $this->repository->all(['page_size' => 20, 'current_page' => $current_page]);
+
         $data = [
             'result' => $result,
             'store' => $this->getStore()
@@ -27,12 +28,13 @@ class ProductController extends StoreController
         if ($result == null) {
             return abort(404);
         }
+        if(count(collect($result->custom_attributes)->where('attribute_code','special_to_date'))){
+            $from = new Carbon(collect($result->custom_attributes)->where('attribute_code','special_from_date')->first()->value);
+            collect($result->custom_attributes)->where('attribute_code','special_from_date')->first()->value = $from->format('Y-m-d');
 
-        $from = new Carbon(collect($result->custom_attributes)->where('attribute_code','special_from_date')->first()->value);
-        collect($result->custom_attributes)->where('attribute_code','special_from_date')->first()->value = $from->format('Y-m-d');
-
-        $to = new Carbon(collect($result->custom_attributes)->where('attribute_code','special_to_date')->first()->value);
-        collect($result->custom_attributes)->where('attribute_code','special_to_date')->first()->value = $to->format('Y-m-d');
+            $to = new Carbon(collect($result->custom_attributes)->where('attribute_code','special_to_date')->first()->value);
+            collect($result->custom_attributes)->where('attribute_code','special_to_date')->first()->value = $to->format('Y-m-d');
+        }
 
         $categories = $this->repository->categories();
         $data = [
@@ -88,12 +90,12 @@ class ProductController extends StoreController
 
             $specialFromDate = new \StdClass;
             $specialFromDate->attribute_code = "special_from_date";
-            $specialFromDate->value = $request->special_from_date;// "2019-01-18 00:00:00";
+            $specialFromDate->value = $request->special_from_date;
             $productObj->product->customAttributes [] = $specialFromDate;
 
             $specialToDate = new \StdClass;
             $specialToDate->attribute_code = "special_to_date";
-            $specialToDate->value = $request->special_to_date; //"2019-02-12 00:00:00";
+            $specialToDate->value = $request->special_to_date;
             $productObj->product->customAttributes [] = $specialToDate;
 
         }
@@ -163,6 +165,22 @@ class ProductController extends StoreController
             $specialToDate->attribute_code = "special_to_date";
             $specialToDate->value = $request->special_to_date;
             $productObj->product->customAttributes [] = $specialToDate;
+        } else {
+            $specialPrice = new \StdClass;
+            $specialPrice->attribute_code = "special_price";
+            $specialPrice->value = '';
+            $productObj->product->customAttributes [] = $specialPrice;
+
+            $specialFromDate = new \StdClass;
+            $specialFromDate->attribute_code = "special_from_date";
+            $specialFromDate->value = '';
+            $productObj->product->customAttributes [] = $specialFromDate;
+
+            $specialToDate = new \StdClass;
+            $specialToDate->attribute_code = "special_to_date";
+            $specialToDate->value = '';
+            $productObj->product->customAttributes [] = $specialToDate;
+            //dd($productObj->product->customAttributes);
         }
 
         $product = $this->repository->update($sku, $productObj);

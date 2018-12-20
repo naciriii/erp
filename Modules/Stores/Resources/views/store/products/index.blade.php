@@ -38,7 +38,11 @@
                                 @foreach(collect($result->items) as $product)
                                     <tr @if($product->qty <= 10) class="bg-warning" @endif>
                                         <td>{{$product->name}}</td>
+                                        
                                         <td>€ {{$product->price}}</td>
+
+
+
                                         <td>{{$product->sku}}</td>
                                         <td>
                                             @if(collect($product->custom_attributes)->where('attribute_code','image')->first() != null)

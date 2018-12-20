@@ -139,7 +139,11 @@
                                                                         </div>
                                                                         <input class="form-control{{ $errors->has('special_price') ? ' is-invalid' : '' }}"
                                                                                type="text" name="special_price"
-                                                                               value="{{collect($product->custom_attributes)->where('attribute_code','special_price')->first()->value}}"
+                                                                               @if(count(collect($product->custom_attributes)->where('attribute_code','special_price')))
+                                                                               value="{{collect($product->custom_attributes)->where('attribute_code','special_price')->first()->value or ''}}"
+                                                                               @else
+                                                                               value = ""
+                                                                               @endif
                                                                                placeholder="">
                                                                     </div>
                                                                     @if ($errors->has('special_price'))
@@ -154,7 +158,14 @@
                                                                     <input class="form-control{{ $errors->has('special_from_date') ? ' is-invalid' : '' }}"
                                                                            id="special-from" type="text" placeholder=""
                                                                            name="special_from_date"
-                                                                           value="{{collect($product->custom_attributes)->where('attribute_code','special_from_date')->first()->value}}">
+
+                                                                           @if(count(collect($product->custom_attributes)->where('attribute_code','special_from_date')))
+                                                                           value="{{collect($product->custom_attributes)->where('attribute_code','special_from_date')->first()->value}}"
+                                                                           @else
+                                                                           value=""
+                                                                           @endif
+
+                                                                           >
 
                                                                     @if ($errors->has('special_from_date'))
                                                                         <div class="invalid-feedback">{{ $errors->first('special_from_date') }}</div>
@@ -168,7 +179,13 @@
                                                                     <input class="form-control{{ $errors->has('special_to_date') ? ' is-invalid' : '' }}"
                                                                            id="special-to" type="text" placeholder=""
                                                                            name="special_to_date"
-                                                                           value="{{collect($product->custom_attributes)->where('attribute_code','special_to_date')->first()->value}}">
+
+                                                                           @if(count(collect($product->custom_attributes)->where('attribute_code','special_to_date')))
+                                                                           value="{{collect($product->custom_attributes)->where('attribute_code','special_to_date')->first()->value}}"
+                                                                           @else
+                                                                           value=""
+                                                                           @endif
+                                                                           >
 
                                                                     @if ($errors->has('special_to_date'))
                                                                         <div class="invalid-feedback">{{ $errors->first('special_to_date') }}</div>
