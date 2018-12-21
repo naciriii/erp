@@ -120,14 +120,8 @@
 
     <script type="text/javascript">
 
+        {!! dataTable('#productsTable') !!}
         {!! simplePagination($result,'#simple-pagination',$findBy) !!}
-
-        $('#productsTable').DataTable({
-            paginate: false,
-            bInfo: false,
-            searching: false,
-            ordering: false
-        });
 
         $("#productsTableBody").on('click', '.deleteProductBtn', function (e) {
             e.preventDefault();

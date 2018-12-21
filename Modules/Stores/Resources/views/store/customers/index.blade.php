@@ -102,14 +102,12 @@
     <script type="text/javascript" src="{{asset('js/plugins/jquery.simplePagination.js')}}"></script>
 
     <script type="text/javascript">
+
+        {!! dataTable('#customersTable') !!}
         {!! simplePagination($result,'#simple-pagination',$findBy) !!}
 
-        $('#customersTable').DataTable({
-            paginate: false,
-            bInfo: false,
-            searching: false,
-            ordering: false
-        });
+
+
 
 
         $("#customersTableBody").on('click', '.deleteCustomerBtn', function (e) {

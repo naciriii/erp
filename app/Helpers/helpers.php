@@ -29,6 +29,15 @@ function bsNotify($params)
 
 }
 
+function dataTable($htmlId){
+    return "$('".$htmlId."').DataTable({
+            paginate: false,
+            bInfo: false,
+            searching: false,
+            ordering: false
+        });";
+}
+
 /**
  * @param $result : collection
  * {
