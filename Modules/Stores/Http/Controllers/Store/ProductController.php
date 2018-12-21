@@ -13,7 +13,7 @@ class ProductController extends StoreController
     public function index()
     {
         $current_page = $this->page;
-        $result = $this->repository->all(['page_size' => 2, 'current_page' => $current_page]);
+        $result = $this->repository->all(['page_size' => 20, 'current_page' => $current_page]);
 
         foreach ($result->items as $item) {
             if (count(collect($item->custom_attributes)->where('attribute_code', 'special_from_date'))) {
@@ -248,7 +248,7 @@ class ProductController extends StoreController
     {
         $current_page = $this->page;
         $params = [
-            'page_size' => 2,
+            'page_size' => 20,
             'current_page' => $current_page
         ];
 

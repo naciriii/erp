@@ -141,24 +141,6 @@
                     }
                 });
         });
-
-        {{--}}$('#search').keyup(function () {
-            if (this.value.length > 2) {
-                $.get("{{route('Store.Products.findProductBy',['id'=>encode($store->id)])}}",
-                    {
-                        "_token": "{{ csrf_token() }}",
-                        string: this.value
-                    },
-                    function (data) {
-                    $.each(data.products.items, function (index, value) {
-                        console.log((value));
-                    })
-                        //console.log(data.products.items);
-                        //console.log(this.value);
-                        //$( ".result" ).html( data );
-                    });
-            }
-        })--}}
     </script>
     <script type="text/javascript" src="{{asset('js/plugins/bootstrap-notify.min.js')}}"></script>
     @if(session('response'))

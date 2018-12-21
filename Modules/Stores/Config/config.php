@@ -27,6 +27,7 @@ return [
         'get_customer_url' => 'api/customers/{customerId}',
         'update_customer_url' => 'api/customers/update/{customerId}',
         'add_customer_url' => 'api/customers/store',
-        'customers_filter_url'=>'api/customers/findby'
+        'customers_filter_url'=>'api/customers/findby',
+        'customers_search_url'=>'api/customers/search'
     ]
 ];

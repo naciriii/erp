@@ -19,7 +19,8 @@ class CustomerController extends StoreController
 
         $data = [
             'store' => $this->getStore(),
-            'result' => $result
+            'result' => $result,
+            'findBy'=>''
         ];
 
         return view('stores::store.customers.index')->with($data);
@@ -180,6 +181,21 @@ class CustomerController extends StoreController
         return view('stores::store.customers.index')->with($data);
     }
 
+
+    public function searchCustomer($id, Request $request)
+    {
+        $current_page = $this->page;
+
+        $result = $this->repository->searchCustomers($request->search,['page_size' => 20, 'current_page' => $current_page]);
+
+        $data = [
+            'store' => $this->getStore(),
+            'result' => $result,
+            'findBy'=>$request->search
+        ];
+
+        return view('stores::store.customers.index')->with($data);
+    }
 
     private function getCustomerModel()
     {

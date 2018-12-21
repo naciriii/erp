@@ -72,4 +72,16 @@ class CustomerRepository extends BaseRepository implements BaseRepositoryI
         return $customer;
     }
 
+
+    public function searchCustomers($search,$params)
+    {
+        $customers = $this->getDataFromApi('POST', config('stores.api.base_url') . config('stores.api.customers_search_url'), [
+            'api_url' => $this->store->api_url,
+            'search' => $search,
+            'page_size' => $params['page_size'],
+            'current_page' => $params['current_page']
+        ]);
+        return $customers;
+    }
+
 }

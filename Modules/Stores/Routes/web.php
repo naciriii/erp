@@ -38,13 +38,11 @@ Route::prefix('store/{id}')->group(function () {
         Route::post('/', 'Store\ProductController@store')->name('Store.Products.store');
         Route::put('{sku}', 'Store\ProductController@update')->name('Store.Products.update');
         Route::delete('/{sku}', 'Store\ProductController@delete')->name('Store.Products.destroy');
-
-
-
     });
 
     Route::prefix('/customers')->group(function () {
         Route::get('/', 'Store\CustomerController@index')->name('Store.Customers.index');
+        Route::get('/search', 'Store\CustomerController@searchCustomer')->name('Store.Customers.Search');
         Route::get('/create', 'Store\CustomerController@create')->name('Store.Customers.create');
         Route::post('/create', 'Store\CustomerController@store')->name('Store.Customers.store');
         Route::get('/{customer}', 'Store\CustomerController@show')->name('Store.Customers.show');
