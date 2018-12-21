@@ -45,7 +45,7 @@
                             </thead>
                             <tbody id="customersTableBody">
                             @if(isset($result->items))
-                                @foreach(collect($result->items) as $customer)
+                                @foreach(collect($result->items)->sortByDesc('created_at') as $customer)
                                     <tr>
                                         <td>{{$customer->email}}</td>
                                         <td>{{$customer->firstname}}</td>
@@ -107,7 +107,8 @@
         $('#customersTable').DataTable({
             paginate: false,
             bInfo: false,
-            searching: false
+            searching: false,
+            ordering: false
         });
 
 

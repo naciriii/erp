@@ -48,7 +48,7 @@
                             <tbody id="productsTableBody">
                             @if(isset($result->items))
 
-                                @foreach(collect($result->items) as $product)
+                                @foreach(collect($result->items)->sortByDesc('created_at') as $product)
                                     <tr @if($product->qty <= 10) class="bg-warning" @endif>
                                         <td>{{$product->name}}</td>
 
@@ -125,7 +125,8 @@
         $('#productsTable').DataTable({
             paginate: false,
             bInfo: false,
-            searching: false
+            searching: false,
+            ordering: false
         });
 
         $("#productsTableBody").on('click', '.deleteProductBtn', function (e) {
