@@ -244,7 +244,7 @@ class ProductController extends StoreController
         return view('stores::store.products.index')->with($data);
     }
 
-    public function findProductBy($id, Request $request)
+    public function search($id, Request $request)
     {
         $current_page = $this->page;
         $params = [
@@ -252,7 +252,7 @@ class ProductController extends StoreController
             'current_page' => $current_page
         ];
 
-        $result = $this->repository->getProductBy('name', $request->search, $params);
+        $result = $this->repository->search($request->search, $params);
 
         foreach ($result->items as $item) {
             if (count(collect($item->custom_attributes)->where('attribute_code', 'special_from_date'))) {

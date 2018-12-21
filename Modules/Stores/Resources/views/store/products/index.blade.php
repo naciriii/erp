@@ -25,7 +25,7 @@
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
                                 <nav class="navbar navbar-light bg-light pull-right">
-                                    <form class="form-inline" method="get" action="{{route('Store.Products.findProductBy',['id'=>encode($store->id)])}}">
+                                    <form class="form-inline" method="get" action="{{route('Store.Products.search',['id'=>encode($store->id)])}}">
                                         <input id="search" name="search" class="form-control mr-sm-2" type="search"
                                                placeholder="Search" aria-label="Search" value="{{$findBy or ''}}">
                                         <!--button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search
