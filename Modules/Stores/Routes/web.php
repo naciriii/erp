@@ -32,11 +32,15 @@ Route::prefix('store/{id}')->group(function () {
 
     Route::prefix('/products')->group(function () {
         Route::get('/', 'Store\ProductController@index')->name('Store.Products.index');
+        Route::get('/find', 'Store\ProductController@findProductBy')->name('Store.Products.findProductBy');
         Route::get('/create', 'Store\ProductController@create')->name('Store.Products.create');
         Route::get('/{sku}', 'Store\ProductController@show')->name('Store.Products.show');
         Route::post('/', 'Store\ProductController@store')->name('Store.Products.store');
         Route::put('{sku}', 'Store\ProductController@update')->name('Store.Products.update');
         Route::delete('/{sku}', 'Store\ProductController@delete')->name('Store.Products.destroy');
+
+
+
     });
 
     Route::prefix('/customers')->group(function () {

@@ -36,6 +36,7 @@ return [
     'SpecialPrice' => 'Special Price',
     'Ok' => 'Ok',
     'AdvancedPricing' => 'Advanced Pricing',
+    'Cancel' => 'Cancel',
 
     'Phone' => 'Phone',
     'Address' => 'Address',

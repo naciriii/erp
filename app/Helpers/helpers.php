@@ -37,16 +37,22 @@ function bsNotify($params)
  *  $result->search_criteria->current_page
  * }
  * @param $htmlId : html component id
+ * @param search: string
  * @return string
  */
 
-function simplePagination($result, $htmlId)
+function simplePagination($result, $htmlId,$findBy)
 {
+    if($findBy != ''){
+        $hrefTextPrefix = "hrefTextPrefix: '?search=$findBy&page=',";
+    }else{
+        $hrefTextPrefix = "hrefTextPrefix: '?page=',";
+    }
     return "$('" . $htmlId . "').pagination({
                 items: " . $result->total_count . ",
                 itemsOnPage: " . $result->search_criteria->page_size . ",
                 cssStyle: 'light-theme',
-                hrefTextPrefix: '?page=',
+                ".$hrefTextPrefix ."
                 currentPage: " . $result->search_criteria->current_page . ",
                 listStyle: 'pagination',
             });";

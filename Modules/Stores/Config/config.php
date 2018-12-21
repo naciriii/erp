@@ -18,9 +18,9 @@ return [
     	'add_product_url' => 'api/products/store',
     	'update_product_url' => 'api/products/update/{sku}',
     	'delete_product_url' => 'api/products/delete/{sku}',
-
         'add_product_media_url' => 'api/products/add/media/{sku}',
         'update_product_media_url' => 'api/products/update/media/{sku}',
+        'products_filter_url'=>'api/products/findby',
 
         'customers_url' => 'api/customers',
         'delete_customer_url' => 'api/customers/delete/{customerId}',

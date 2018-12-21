@@ -13,11 +13,24 @@ class ProductController extends StoreController
     public function index()
     {
         $current_page = $this->page;
-        $result = $this->repository->all(['page_size' => 20, 'current_page' => $current_page]);
+        $result = $this->repository->all(['page_size' => 2, 'current_page' => $current_page]);
+
+        foreach ($result->items as $item) {
+            if (count(collect($item->custom_attributes)->where('attribute_code', 'special_from_date'))) {
+                $from = new Carbon(collect($item->custom_attributes)->where('attribute_code', 'special_from_date')->first()->value);
+                collect($item->custom_attributes)->where('attribute_code', 'special_from_date')->first()->value = $from->format('Y-m-d');
+            }
+
+            if (count(collect($item->custom_attributes)->where('attribute_code', 'special_to_date'))) {
+                $to = new Carbon(collect($item->custom_attributes)->where('attribute_code', 'special_to_date')->first()->value);
+                collect($item->custom_attributes)->where('attribute_code', 'special_to_date')->first()->value = $to->format('Y-m-d');
+            }
+        }
 
         $data = [
             'result' => $result,
-            'store' => $this->getStore()
+            'store' => $this->getStore(),
+            'findBy'=>''
         ];
         return view('stores::store.products.index')->with($data);
     }
@@ -28,12 +41,12 @@ class ProductController extends StoreController
         if ($result == null) {
             return abort(404);
         }
-        if(count(collect($result->custom_attributes)->where('attribute_code','special_to_date'))){
-            $from = new Carbon(collect($result->custom_attributes)->where('attribute_code','special_from_date')->first()->value);
-            collect($result->custom_attributes)->where('attribute_code','special_from_date')->first()->value = $from->format('Y-m-d');
+        if (count(collect($result->custom_attributes)->where('attribute_code', 'special_to_date'))) {
+            $from = new Carbon(collect($result->custom_attributes)->where('attribute_code', 'special_from_date')->first()->value);
+            collect($result->custom_attributes)->where('attribute_code', 'special_from_date')->first()->value = $from->format('Y-m-d');
 
-            $to = new Carbon(collect($result->custom_attributes)->where('attribute_code','special_to_date')->first()->value);
-            collect($result->custom_attributes)->where('attribute_code','special_to_date')->first()->value = $to->format('Y-m-d');
+            $to = new Carbon(collect($result->custom_attributes)->where('attribute_code', 'special_to_date')->first()->value);
+            collect($result->custom_attributes)->where('attribute_code', 'special_to_date')->first()->value = $to->format('Y-m-d');
         }
 
         $categories = $this->repository->categories();
@@ -97,7 +110,6 @@ class ProductController extends StoreController
             $specialToDate->attribute_code = "special_to_date";
             $specialToDate->value = $request->special_to_date;
             $productObj->product->customAttributes [] = $specialToDate;
-
         }
 
         $product = $this->repository->add($productObj);
@@ -168,23 +180,22 @@ class ProductController extends StoreController
         } else {
             $specialPrice = new \StdClass;
             $specialPrice->attribute_code = "special_price";
-            $specialPrice->value = '';
+            $specialPrice->value = null;
             $productObj->product->customAttributes [] = $specialPrice;
 
             $specialFromDate = new \StdClass;
             $specialFromDate->attribute_code = "special_from_date";
-            $specialFromDate->value = '';
+            $specialFromDate->value = null;
             $productObj->product->customAttributes [] = $specialFromDate;
 
             $specialToDate = new \StdClass;
             $specialToDate->attribute_code = "special_to_date";
-            $specialToDate->value = '';
+            $specialToDate->value = null;
             $productObj->product->customAttributes [] = $specialToDate;
-            //dd($productObj->product->customAttributes);
         }
 
-        $product = $this->repository->update($sku, $productObj);
 
+        $product = $this->repository->update($sku, $productObj);
         if ($request->hasFile('image')) {
 
             $this->validate($request, [
@@ -233,6 +244,36 @@ class ProductController extends StoreController
         return view('stores::store.products.index')->with($data);
     }
 
+    public function findProductBy($id, Request $request)
+    {
+        $current_page = $this->page;
+        $params = [
+            'page_size' => 2,
+            'current_page' => $current_page
+        ];
+
+        $result = $this->repository->getProductBy('name', $request->search, $params);
+
+        foreach ($result->items as $item) {
+            if (count(collect($item->custom_attributes)->where('attribute_code', 'special_from_date'))) {
+                $from = new Carbon(collect($item->custom_attributes)->where('attribute_code', 'special_from_date')->first()->value);
+                collect($item->custom_attributes)->where('attribute_code', 'special_from_date')->first()->value = $from->format('Y-m-d');
+            }
+
+            if (count(collect($item->custom_attributes)->where('attribute_code', 'special_to_date'))) {
+                $to = new Carbon(collect($item->custom_attributes)->where('attribute_code', 'special_to_date')->first()->value);
+                collect($item->custom_attributes)->where('attribute_code', 'special_to_date')->first()->value = $to->format('Y-m-d');
+            }
+        }
+
+        $data = [
+            'result' => $result,
+            'store' => $this->getStore(),
+            'findBy' => $request->search
+        ];
+
+        return view('stores::store.products.index')->with($data);
+    }
 
     private function getProductModel()
     {
