@@ -68,16 +68,13 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="control-label">{{trans('stores::global.Password')}}
-                                            <strong>*</strong></label>
+                                        <label class="control-label">{{trans('stores::global.Password')}}<strong>*</strong></label>
                                         <label class="pull-right">
-                                            <span class="badge badge-primary"><i role="button" id="passtoggle"
-                                                                                 class="fa fa-eye-slash fa-lg p-1"></i></span>
+                                            <span class="badge badge-primary">
+                                                <i role="button" id="passtoggle" class="fa fa-eye-slash fa-lg p-1"></i>
+                                            </span>
                                         </label>
-                                        <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
-                                               type="password" placeholder="" name="password"
-                                               value="{{old('password')}}">
-
+                                        <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" type="password" placeholder="" name="password" value="{{old('password')}}">
                                         @if ($errors->has('password'))
                                             <div class="invalid-feedback">{{ $errors->first('password') }}</div>
                                         @endif
@@ -373,7 +370,6 @@
                                         @endif
                                     </div>
 
-
                                     <div class="form-group">
                                         <label class="control-label">{{trans('stores::global.ConfirmPassword')}}
                                             <strong>*</strong></label>
@@ -403,8 +399,8 @@
             <div class="clearix"></div>
         </div>
     </div>
-
 @stop
+
 @section('js')
     <script type="text/javascript" src="{{asset('js/plugins/select2.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/plugins/bootstrap-datepicker.min.js')}}"></script>

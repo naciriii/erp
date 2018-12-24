@@ -379,7 +379,6 @@
                                         @endif
                                     </div>
 
-
                                     <div class="form-group">
                                         <label class="control-label">{{trans('stores::global.ConfirmPassword')}}
                                             <strong>*</strong></label>
@@ -409,7 +408,6 @@
             <div class="clearix"></div>
         </div>
     </div>
-
 @stop
 @section('js')
     <script type="text/javascript" src="{{asset('js/plugins/select2.min.js')}}"></script>
