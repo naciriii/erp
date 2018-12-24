@@ -23,15 +23,15 @@
                             <div class="row">
                                 <div class="col-sm col-md-6">
 
-                                    <div class="form-group">
-                                        <label class="control-label">{{trans('stores::global.NamePrefix')}}</label>
-                                        <input class="form-control{{ $errors->has('name_prefix') ? ' is-invalid' : '' }}"
-                                               type="text" name="name_prefix"
-                                               value="{{old('name_prefix')}}" placeholder="">
-                                        @if ($errors->has('name_prefix'))
-                                            <div class="invalid-feedback">{{ $errors->first('name_prefix') }}</div>
-                                        @endif
-                                    </div>
+                                    {{--}} <div class="form-group">
+                                         <label class="control-label">{{trans('stores::global.NamePrefix')}}</label>
+                                         <input class="form-control{{ $errors->has('name_prefix') ? ' is-invalid' : '' }}"
+                                                type="text" name="name_prefix"
+                                                value="{{old('name_prefix')}}" placeholder="">
+                                         @if ($errors->has('name_prefix'))
+                                             <div class="invalid-feedback">{{ $errors->first('name_prefix') }}</div>
+                                         @endif
+                                     </div> --}}
 
                                     <div class="form-group">
                                         <label class="control-label">{{trans('stores::global.FirstName')}}
@@ -44,7 +44,7 @@
                                         @endif
                                     </div>
 
-                                    <div class="form-group">
+                                    {{--}}<div class="form-group">
                                         <label class="control-label">{{trans('stores::global.MiddleName')}}</label>
                                         <input class="form-control{{ $errors->has('middle_name') ? ' is-invalid' : '' }}"
                                                type="text" name="middle_name"
@@ -52,7 +52,7 @@
                                         @if ($errors->has('middle_name'))
                                             <div class="invalid-feedback">{{ $errors->first('middle_name') }}</div>
                                         @endif
-                                    </div>
+                                    </div> --}}
 
                                     <div class="form-group">
                                         <label class="control-label">{{trans('stores::global.LastName')}}
@@ -65,7 +65,7 @@
                                         @endif
                                     </div>
 
-                                    <div class="form-group">
+                                    {{--}}<div class="form-group">
                                         <label class="control-label">{{trans('stores::global.NameSuffix')}}</label>
                                         <input class="form-control{{ $errors->has('name_suffix') ? ' is-invalid' : '' }}"
                                                type="text" name="name_suffix"
@@ -73,7 +73,7 @@
                                         @if ($errors->has('name_suffix'))
                                             <div class="invalid-feedback">{{ $errors->first('name_suffix') }}</div>
                                         @endif
-                                    </div>
+                                    </div> --}}
 
                                     <div class="form-group">
                                         <label class="control-label">{{trans('stores::global.Email')}}
@@ -86,20 +86,34 @@
                                         @endif
                                     </div>
 
-                                    <div class="form-group">
-                                        <label class="control-label">{{trans('stores::global.DateOfBirth')}}</label>
-                                        <input class="form-control{{ $errors->has('birth_date') ? ' is-invalid' : '' }}"
-                                               id="birth-date" type="text" placeholder="" name="birth_date"
-                                               value="{{old('birth_date')}}">
+                                    {{--}} <div class="form-group">
+                                       <label class="control-label">{{trans('stores::global.DateOfBirth')}}</label>
+                                       <input class="form-control{{ $errors->has('birth_date') ? ' is-invalid' : '' }}"
+                                              id="birth-date" type="text" placeholder="" name="birth_date"
+                                              value="{{old('birth_date')}}">
 
-                                        @if ($errors->has('birth_date'))
-                                            <div class="invalid-feedback">{{ $errors->first('birth_date') }}</div>
+                                       @if ($errors->has('birth_date'))
+                                           <div class="invalid-feedback">{{ $errors->first('birth_date') }}</div>
+                                       @endif
+                                   </div> --}}
+                                    <div class="form-group">
+                                        <label class="control-label">{{trans('stores::global.PhoneNumber')}}
+                                            <strong>*</strong></label>
+                                        <input class="form-control{{ $errors->has('phone_number') ? ' is-invalid' : '' }}"
+                                               type="text" name="phone_number" value="{{old('phone_number')}}"
+                                               placeholder="">
+                                        @if ($errors->has('phone_number'))
+                                            <div class="invalid-feedback">{{ $errors->first('phone_number') }}</div>
                                         @endif
                                     </div>
 
                                     <div class="form-group">
                                         <label class="control-label">{{trans('stores::global.Password')}}
                                             <strong>*</strong></label>
+                                        <label class="pull-right">
+                                            <span class="badge badge-primary"><i role="button" id="passtoggle"
+                                                                                 class="fa fa-eye-slash fa-lg p-1"></i></span>
+                                        </label>
                                         <input class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}"
                                                type="password" placeholder="" name="password"
                                                value="{{old('password')}}">
@@ -112,17 +126,17 @@
 
                                 <div class="col-sm col-md-6">
 
-                                    <div class="form-group">
-                                        <label class="control-label">{{trans('stores::global.TaxVAT')}}</label>
-                                        <input class="form-control{{ $errors->has('tax_vat') ? ' is-invalid' : '' }}"
-                                               type="text" name="tax_vat"
-                                               value="{{old('tax_vat')}}" placeholder="">
-                                        @if ($errors->has('tax_vat'))
-                                            <div class="invalid-feedback">{{ $errors->first('tax_vat') }}</div>
-                                        @endif
-                                    </div>
+                                    {{--}} <div class="form-group">
+                                         <label class="control-label">{{trans('stores::global.TaxVAT')}}</label>
+                                         <input class="form-control{{ $errors->has('tax_vat') ? ' is-invalid' : '' }}"
+                                                type="text" name="tax_vat"
+                                                value="{{old('tax_vat')}}" placeholder="">
+                                         @if ($errors->has('tax_vat'))
+                                             <div class="invalid-feedback">{{ $errors->first('tax_vat') }}</div>
+                                         @endif
+                                     </div> --}}
 
-                                    <div class="form-group">
+                                    {{--}} <div class="form-group">
                                         <label class="control-label">{{trans('stores::global.Gender')}}</label>
                                         <select id="gender" name="gender" class="form-control{{ $errors->has('gender') ? ' is-invalid' : '' }}">
                                             <option value="1">{{trans('stores::global.Male')}}</option>
@@ -132,7 +146,7 @@
                                         @if ($errors->has('gender'))
                                             <div class="invalid-feedback">{{ $errors->first('gender') }}</div>
                                         @endif
-                                    </div>
+                                    </div> --}}
 
                                     <div class="form-group">
                                         <label class="control-label">{{trans('stores::global.StreetAddress')}}
@@ -421,17 +435,6 @@
                                         @endif
                                     </div>
 
-                                    <div class="form-group">
-                                        <label class="control-label">{{trans('stores::global.PhoneNumber')}}
-                                            <strong>*</strong></label>
-                                        <input class="form-control{{ $errors->has('phone_number') ? ' is-invalid' : '' }}"
-                                               type="text" name="phone_number" value="{{old('phone_number')}}"
-                                               placeholder="">
-                                        @if ($errors->has('phone_number'))
-                                            <div class="invalid-feedback">{{ $errors->first('phone_number') }}</div>
-                                        @endif
-                                    </div>
-
 
                                     <div class="form-group">
                                         <label class="control-label">{{trans('stores::global.ConfirmPassword')}}
@@ -475,6 +478,19 @@
             autoclose: true,
             todayHighlight: true,
             endDate: '0d'
+        });
+
+        //Show password and confirmation on eye click
+        $('#passtoggle').click(function () {
+            if ($(this).hasClass('fa-eye-slash')) {
+                $("[name='password']").prop('type', 'text');
+                $("[name='password_confirmation']").prop('type', 'text');
+                $(this).removeClass('fa-eye-slash').addClass('fa-eye');
+            } else {
+                $("[name='password']").prop('type', 'password');
+                $("[name='password_confirmation']").prop('type', 'password');
+                $(this).removeClass('fa-eye').addClass('fa-eye-slash');
+            }
         });
     </script>
 @endsection

@@ -79,7 +79,6 @@ return [
     'Customer_deleted' => 'Customer Deleted !',
     'Customer_deleted_success' => 'Customer :customer Deleted Successfully !',
 
-
     'Category_added' => 'Category Added !',
     'Category_added_success' => 'Category :category Added Successfully !',
     'Category_updated' => 'Category Updated !',

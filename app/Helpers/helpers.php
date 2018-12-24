@@ -29,6 +29,11 @@ function bsNotify($params)
 
 }
 
+
+/**
+ * @param $htmlId: : data table id
+ * @return string
+ */
 function dataTable($htmlId){
     return "$('".$htmlId."').DataTable({
             paginate: false,
