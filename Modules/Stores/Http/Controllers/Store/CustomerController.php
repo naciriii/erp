@@ -63,12 +63,6 @@ class CustomerController extends StoreController
         $customerObj->customer->firstname = $request->first_name;
         $customerObj->customer->lastname = $request->last_name;
         $customerObj->customer->email = $request->email;
-        //$customerObj->customer->prefix = $request->name_prefix;
-        //$customerObj->customer->middlename = $request->middle_name;
-        //$customerObj->customer->suffix = $request->name_suffix;
-        //$customerObj->customer->taxvat = $request->tax_vat;
-        //$customerObj->customer->gender = $request->gender;
-        //$customerObj->customer->dob = $request->birth_date;
         $customerObj->password = $request->password;
 
         //address
@@ -126,12 +120,6 @@ class CustomerController extends StoreController
         $customerObj->customer->firstname = $request->first_name;
         $customerObj->customer->lastname = $request->last_name;
         $customerObj->customer->email = $request->email;
-        //$customerObj->customer->prefix = $request->name_prefix;
-        //$customerObj->customer->middlename = $request->middle_name;
-        //$customerObj->customer->suffix = $request->name_suffix;
-        //$customerObj->customer->taxvat = $request->tax_vat;
-        //$customerObj->customer->gender = $request->gender;
-        //$customerObj->customer->dob = $request->birth_date;
         $customerObj->customer->websiteId = 1;
 
         if ($request->has('password')) {
