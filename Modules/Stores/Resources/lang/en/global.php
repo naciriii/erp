@@ -36,6 +36,7 @@ return [
     'SpecialPrice' => 'Special Price',
     'Ok' => 'Ok',
     'AdvancedPricing' => 'Advanced Pricing',
+    'Cancel' => 'Cancel',
 
     'Phone' => 'Phone',
     'Address' => 'Address',
@@ -77,7 +78,6 @@ return [
     'Customer_updated_success' => 'Customer :customer Updated Successfully !',
     'Customer_deleted' => 'Customer Deleted !',
     'Customer_deleted_success' => 'Customer :customer Deleted Successfully !',
-
 
     'Category_added' => 'Category Added !',
     'Category_added_success' => 'Category :category Added Successfully !',

@@ -32,6 +32,7 @@ Route::prefix('store/{id}')->group(function () {
 
     Route::prefix('/products')->group(function () {
         Route::get('/', 'Store\ProductController@index')->name('Store.Products.index');
+        Route::get('/search', 'Store\ProductController@search')->name('Store.Products.search');
         Route::get('/create', 'Store\ProductController@create')->name('Store.Products.create');
         Route::get('/{sku}', 'Store\ProductController@show')->name('Store.Products.show');
         Route::post('/', 'Store\ProductController@store')->name('Store.Products.store');
@@ -41,6 +42,7 @@ Route::prefix('store/{id}')->group(function () {
 
     Route::prefix('/customers')->group(function () {
         Route::get('/', 'Store\CustomerController@index')->name('Store.Customers.index');
+        Route::get('/search', 'Store\CustomerController@searchCustomer')->name('Store.Customers.Search');
         Route::get('/create', 'Store\CustomerController@create')->name('Store.Customers.create');
         Route::post('/create', 'Store\CustomerController@store')->name('Store.Customers.store');
         Route::get('/{customer}', 'Store\CustomerController@show')->name('Store.Customers.show');

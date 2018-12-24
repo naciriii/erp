@@ -18,15 +18,16 @@ return [
     	'add_product_url' => 'api/products/store',
     	'update_product_url' => 'api/products/update/{sku}',
     	'delete_product_url' => 'api/products/delete/{sku}',
-
         'add_product_media_url' => 'api/products/add/media/{sku}',
         'update_product_media_url' => 'api/products/update/media/{sku}',
+        'products_search_url'=>'api/products/search',
 
         'customers_url' => 'api/customers',
         'delete_customer_url' => 'api/customers/delete/{customerId}',
         'get_customer_url' => 'api/customers/{customerId}',
         'update_customer_url' => 'api/customers/update/{customerId}',
         'add_customer_url' => 'api/customers/store',
-        'customers_filter_url'=>'api/customers/findby'
+        'customers_filter_url'=>'api/customers/findby',
+        'customers_search_url'=>'api/customers/search'
     ]
 ];

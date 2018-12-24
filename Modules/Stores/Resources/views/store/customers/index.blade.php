@@ -21,7 +21,16 @@
             <div class="col-md-12">
                 <div class="tile">
                     <div class="tile-body">
-
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <nav class="navbar navbar-light bg-light pull-right">
+                                    <form class="form-inline" method="get" action="{{route('Store.Customers.Search',['id'=>encode($store->id)])}}">
+                                        <input id="search" name="search" class="form-control mr-sm-2" type="search"
+                                               placeholder="Search" aria-label="Search" value="{{$findBy or ''}}">
+                                    </form>
+                                </nav>
+                            </div>
+                        </div>
                         <table class="table table-hover table-bordered" id="customersTable">
                             <thead>
                             <tr>
@@ -36,7 +45,7 @@
                             </thead>
                             <tbody id="customersTableBody">
                             @if(isset($result->items))
-                                @foreach(collect($result->items) as $customer)
+                                @foreach(collect($result->items)->sortByDesc('created_at') as $customer)
                                     <tr>
                                         <td>{{$customer->email}}</td>
                                         <td>{{$customer->firstname}}</td>
@@ -93,12 +102,12 @@
     <script type="text/javascript" src="{{asset('js/plugins/jquery.simplePagination.js')}}"></script>
 
     <script type="text/javascript">
-        {!! simplePagination($result,'#simple-pagination') !!}
 
-        $('#customersTable').DataTable({
-            paginate: false,
-            bInfo: false
-        });
+        {!! dataTable('#customersTable') !!}
+        {!! simplePagination($result,'#simple-pagination',$findBy) !!}
+
+
+
 
 
         $("#customersTableBody").on('click', '.deleteCustomerBtn', function (e) {

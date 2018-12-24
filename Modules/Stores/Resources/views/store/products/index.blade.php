@@ -9,7 +9,8 @@
                 <p class="mt-2">
                     <a href="{{route('Store.Products.create',['id'=>encode($store->id)])}}">
                         <button class="btn btn-sm btn-primary">@lang('stores::global.NewProduct')</button>
-                    </a></p>
+                    </a>
+                </p>
             </div>
             <ul class="app-breadcrumb breadcrumb side">
                 <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
@@ -21,6 +22,18 @@
             <div class="col-md-12">
                 <div class="tile">
                     <div class="tile-body">
+                        <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <nav class="navbar navbar-light bg-light pull-right">
+                                    <form class="form-inline" method="get" action="{{route('Store.Products.search',['id'=>encode($store->id)])}}">
+                                        <input id="search" name="search" class="form-control mr-sm-2" type="search"
+                                               placeholder="Search" aria-label="Search" value="{{$findBy or ''}}">
+                                        <!--button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search
+                                        </button-->
+                                    </form>
+                                </nav>
+                            </div>
+                        </div>
                         <table class="table table-hover table-bordered" id="productsTable">
                             <thead>
                             <tr>
@@ -35,12 +48,26 @@
                             <tbody id="productsTableBody">
                             @if(isset($result->items))
 
-                                @foreach(collect($result->items) as $product)
+                                @foreach(collect($result->items)->sortByDesc('created_at') as $product)
                                     <tr @if($product->qty <= 10) class="bg-warning" @endif>
                                         <td>{{$product->name}}</td>
-                                        
-                                        <td>€ {{$product->price}}</td>
 
+                                        <td>
+                                            @if(count(collect($product->custom_attributes)->where('attribute_code','special_price')))
+                                                Regular Price  <s>€ {{$product->price}} </s>
+                                                <br>
+                                                Promotion
+                                                €{{collect($product->custom_attributes)->where('attribute_code','special_price')->first()->value}}
+
+                                                <br>
+                                                From
+                                                {{collect($product->custom_attributes)->where('attribute_code','special_from_date')->first()->value}}
+                                                To
+                                                {{collect($product->custom_attributes)->where('attribute_code','special_to_date')->first()->value}}
+                                            @else
+                                                {{$product->price}}
+                                            @endif
+                                        </td>
 
 
                                         <td>{{$product->sku}}</td>
@@ -92,11 +119,9 @@
     <script type="text/javascript" src="{{asset('js/plugins/jquery.simplePagination.js')}}"></script>
 
     <script type="text/javascript">
-        {!! simplePagination($result,'#simple-pagination') !!}
-        $('#productsTable').DataTable({
-            paginate: false,
-            bInfo: false
-        });
+
+        {!! dataTable('#productsTable') !!}
+        {!! simplePagination($result,'#simple-pagination',$findBy) !!}
 
         $("#productsTableBody").on('click', '.deleteProductBtn', function (e) {
             e.preventDefault();
@@ -111,7 +136,6 @@
                     }
                 });
         });
-
     </script>
     <script type="text/javascript" src="{{asset('js/plugins/bootstrap-notify.min.js')}}"></script>
     @if(session('response'))
