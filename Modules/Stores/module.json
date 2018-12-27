@@ -39,7 +39,12 @@
             "route": "Store.Categories.index",
             "icon": "fa fa-archive",
             "order": 2
-
+        },
+        {
+            "name": "Orders",
+            "route": "Store.Orders.index",
+            "icon": "fa fa-first-order",
+            "order": 3
         }
     ]
 }

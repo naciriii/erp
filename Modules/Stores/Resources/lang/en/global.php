@@ -51,6 +51,7 @@ return [
     'NewProduct' => 'New Product',
     'NewCategory' => 'New Category',
     'NewCustomer' => 'New Customer',
+    'NewOrder' => 'New Order',
     'Store_added' => 'Store Added !',
     'Store_added_success' => 'Store :store Added Successfully !',
     'Store_updated' => 'Store Updated !',
@@ -62,6 +63,7 @@ return [
         'Products' => 'Products',
         'Customers' => 'Customers',
         'Categories' => 'Categories',
+        'Orders' => 'Orders',
     ],
     'AreYouSureProduct' => 'You want to delete this Product ?',
     'Product_added' => 'Product Added !',
@@ -85,4 +87,15 @@ return [
     'Category_updated_success' => 'Category :category Updated Successfully !',
     'Category_deleted' => 'Category Deleted !',
     'Category_deleted_success' => 'Category :category Deleted Successfully !',
+
+    'Id' => 'Id',
+    'PurchasePoint' => 'Purchase Point',
+    'PurchaseDate' => 'Purchase Date',
+    'BillToName' => 'Bill To Name',
+    'ShipToName' => 'Ship To Name',
+    'GrandTotalBase' => 'GrandTotal (Base)',
+    'GrandTotalPruchased' => 'GrandTotal (Pruchased)',
+    'Status' => 'Status',
+    'View' => 'View'
+
 ];

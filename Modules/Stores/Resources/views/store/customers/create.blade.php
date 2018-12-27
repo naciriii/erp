@@ -405,15 +405,7 @@
     <script type="text/javascript" src="{{asset('js/plugins/select2.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/plugins/bootstrap-datepicker.min.js')}}"></script>
     <script type="text/javascript">
-        $('#gender').select2();
         $('#country').select2();
-        $('#birth-date').datepicker({
-            format: "yyyy-mm-dd",
-            autoclose: true,
-            todayHighlight: true,
-            endDate: '0d'
-        });
-
         //Show password and confirmation on eye click
         $('#passtoggle').click(function () {
             if ($(this).hasClass('fa-eye-slash')) {

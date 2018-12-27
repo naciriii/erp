@@ -31,11 +31,12 @@ function bsNotify($params)
 
 
 /**
- * @param $htmlId: : data table id
+ * @param $htmlId : : data table id
  * @return string
  */
-function dataTable($htmlId){
-    return "$('".$htmlId."').DataTable({
+function dataTable($htmlId)
+{
+    return "$('" . $htmlId . "').DataTable({
             paginate: false,
             bInfo: false,
             searching: false,
@@ -51,22 +52,22 @@ function dataTable($htmlId){
  *  $result->search_criteria->current_page
  * }
  * @param $htmlId : html component id
- * @param search: string
+ * @param search : string
  * @return string
  */
 
-function simplePagination($result, $htmlId,$findBy)
+function simplePagination($result, $htmlId, $findBy)
 {
-    if($findBy != ''){
+    if ($findBy != '') {
         $hrefTextPrefix = "hrefTextPrefix: '?search=$findBy&page=',";
-    }else{
+    } else {
         $hrefTextPrefix = "hrefTextPrefix: '?page=',";
     }
     return "$('" . $htmlId . "').pagination({
                 items: " . $result->total_count . ",
                 itemsOnPage: " . $result->search_criteria->page_size . ",
                 cssStyle: 'light-theme',
-                ".$hrefTextPrefix ."
+                " . $hrefTextPrefix . "
                 currentPage: " . $result->search_criteria->current_page . ",
                 listStyle: 'pagination',
             });";

@@ -60,4 +60,14 @@ Route::prefix('store/{id}')->group(function () {
         Route::delete('/{cat}', 'Store\CategoryController@delete')->name('Store.Categories.destroy');
     });
 
+    Route::prefix('/orders')->group(function () {
+        Route::get('/', 'Store\OrderController@index')->name('Store.Orders.index');
+        Route::get('/search', 'Store\OrderController@search')->name('Store.Orders.search');
+        Route::get('/create', 'Store\OrderController@create')->name('Store.Orders.create');
+        //Route::post('/store', 'Store\CategoryController@store')->name('Store.Categories.store');
+        Route::get('/{orderId}', 'Store\OrderController@show')->name('Store.Orders.show');
+        //Route::put('/{cat}', 'Store\CategoryController@update')->name('Store.Categories.update');
+        Route::delete('/{orderId}', 'Store\OrderController@delete')->name('Store.Orders.destroy');
+    });
+
 });
