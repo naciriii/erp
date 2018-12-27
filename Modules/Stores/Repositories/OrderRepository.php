@@ -33,6 +33,17 @@ class OrderRepository extends BaseRepository implements BaseRepositoryI
         return "update";
     }
 
+    public function updateStatus($statusObj)
+    {
+        $order = $this->getDataFromApi(
+            'POST',
+            config('stores.api.base_url') . config('stores.api.orders_update_status_url'), [
+            'api_url' => $this->store->api_url,
+            'entity' => json_encode($statusObj)
+        ]);
+        return $order;
+    }
+
     public function delete($orderId)
     {
         return "delete";

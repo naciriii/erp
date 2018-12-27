@@ -66,8 +66,8 @@ Route::prefix('store/{id}')->group(function () {
         Route::get('/create', 'Store\OrderController@create')->name('Store.Orders.create');
         //Route::post('/store', 'Store\CategoryController@store')->name('Store.Categories.store');
         Route::get('/{orderId}', 'Store\OrderController@show')->name('Store.Orders.show');
-        //Route::put('/{cat}', 'Store\CategoryController@update')->name('Store.Categories.update');
         Route::delete('/{orderId}', 'Store\OrderController@delete')->name('Store.Orders.destroy');
+        Route::post('/update/status', 'Store\OrderController@updateStatus')->name('Store.Orders.updateStatus');
     });
 
 });

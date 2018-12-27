@@ -17,7 +17,7 @@ class OrderController extends StoreController
         $data = [
             'store' => $this->getStore(),
             'result' => $result,
-            'findBy'=>''
+            'findBy' => ''
         ];
 
         return view('stores::store.orders.index')->with($data);
@@ -54,5 +54,40 @@ class OrderController extends StoreController
     {
         // TODO: update order
         return "update order";
+    }
+
+    public function updateStatus($id,Request $request)
+    {
+
+        if($request->status == 1){
+            $status = 'cancel';
+        }elseif($request->status == 2){
+            $status  = 'hold';
+        }elseif($request->status == 3){
+            $status = 'unhold';
+        }else{
+            return redirect()->back();
+        }
+
+        $statusObj =json_decode('{
+            "entity": {
+                "entity_id": 1,
+                "state":"",
+                "status": ""
+            }
+        }');
+
+        $statusObj->entity->entity_id = $request->entity_id;
+        $statusObj->entity->state = $status;
+        $statusObj->entity->status = $status;
+
+        $result= $this->repository->updateStatus($statusObj);
+
+        return redirect()->route('Store.Orders.index', ['id' => $id])->with(['response' =>
+            [
+                trans('stores::global.Order_status_updated'),
+                trans('stores::global.Order_updated_success', ['order' => '<b>' . $request->order_id . '</b>']),
+                'info'
+            ]]);
     }
 }

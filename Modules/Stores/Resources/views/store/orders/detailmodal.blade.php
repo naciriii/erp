@@ -17,14 +17,16 @@
 
                             </div>
                             <div class="col-md-6">
-                                <form class="form-inline pull-right">
-
+                                <form class="form-inline pull-right" method="post" action="{{route('Store.Orders.updateStatus',['id'=>encode($store->id)])}}">
+                                    {{csrf_field()}}
+                                    <input type="hidden" name="order_id" id="order-id">
+                                    <input type="hidden" name="entity_id" id="entity-id">
                                     <div class="form-group mb-2">
                                         <select id="status" name="status" class="form-control">
-                                            <option value="">Pending</option>
-                                            <option value="">Cancel</option>
-                                            <option value="">Hold</option>
-                                            <option value="">Unhold</option>
+                                            <option value="0">Action</option>
+                                            <option value="1">Cancel</option>
+                                            <option value="2">Hold</option>
+                                            <option value="3">Unhold</option>
                                         </select>
                                     </div>
 
@@ -184,88 +186,3 @@
 </div>
 <!-- Modal /-->
 
-@section('js')
-    <script type="text/javascript" src="{{asset('js/plugins/select2.min.js')}}"></script>
-
-    <script type="text/javascript">
-        $('#status').select2();
-
-        function showDetails(data, customer_id, store_id) {
-
-            $('#orderDetail #increment-id').text(data.increment_id);
-            $('#orderDetail #remote-ip').text(data.remote_ip);
-            $('#orderDetail #order-date').text(data.created_at);
-            $('#orderDetail #order-status').text(data.status);
-            $('#orderDetail #store-name').text(data.store_name);
-            $('#orderDetail #customer').text(data.customer_firstname + ' ' + data.customer_lastname);
-            $('#orderDetail #customer').attr('href', '/store/' + store_id + '/customers/' + customer_id);
-            $('#orderDetail #customer-email').text(data.customer_email);
-            $('#orderDetail #customer-email').attr('href', 'mailto:' + data.customer_email);
-
-            //product list
-            $.each(data.items, function (index, value) {
-                $('#products tr').after('<tr>' +
-                    '<td>' + value.name + '</br>{{trans('stores::global.Sku')}}: ' + value.sku + '</td>' +
-                    '<td>Ordered</td>' +
-                    '<td>' + value.original_price + '</td>' +
-                    '<td>' + value.price + '</td>' +
-                    '<td>Ordered ' + value.qty_ordered + '</td>' +
-                    '<td>€ xxx </td>' +
-                    '<td>€ ' + value.tax_amount + '</td>' +
-                    '<td>' + value.tax_percent + '%</td>' +
-                    '<td>' + value.discount_amount + '</td>' +
-                    '<td>€ ' + value.row_total + '</td>' +
-                    '</tr>');
-            });
-
-            $('#orderDetail #subtotal').text('€ ' + data.subtotal);
-            $('#orderDetail #shipping-amount').text('€ ' + data.shipping_amount);
-            $('#orderDetail #grand-total').text('€ ' + data.grand_total);
-            $('#orderDetail #total-due').text('€ ' + data.total_due);
-            $('#orderDetail #amount-paid').text(data.payment.amount_paid == null ? '€ ' + 0 : '€ ' + data.payment.amount_paid);
-            $('#orderDetail #amount-refunded').text(data.payment.amount_refunded == null ? '€ ' + 0 : '€ ' + data.payment.amount_refunded);
-
-            var billing = '';
-            var shipping = '';
-            if (data.billing_address.address_type == 'billing') {
-                billing = '<span id="billing-customer">' + data.billing_address.firstname + ' ' + data.billing_address.lastname + '</span>' +
-                    '</br>' +
-                    '<span id="billing-street">' + data.billing_address.street[0] + '</span>' +
-                    '</br>' +
-                    '<span id="billing-address">' + data.billing_address.city + ', ' + data.billing_address.region + ', ' + data.billing_address.postcode + '</span>' +
-                    '</br>' +
-                    '<span id="billing-country">' + data.billing_address.country_id + '</span>' +
-                    '</br>' +
-                    '<span id="billing-tel">T:<a href="tel:' + data.billing_address.telephone + '">' + data.billing_address.telephone + '</a></span>'
-                $('#orderDetail #billing-address p').html(billing);
-            }
-
-            if (data.extension_attributes.shipping_assignments[0].shipping.address.address_type == 'shipping') {
-                shipping = '<span id="shipping-customer">' + data.extension_attributes.shipping_assignments[0].shipping.address.firstname + ' ' + data.extension_attributes.shipping_assignments[0].shipping.address.lastname + '</span>' +
-                    '</br>' +
-                    '<span id="shipping-street">' + data.extension_attributes.shipping_assignments[0].shipping.address.street[0] + '</span>' +
-                    '</br>' +
-                    '<span id="shipping-address">' + data.extension_attributes.shipping_assignments[0].shipping.address.city + ', ' + data.extension_attributes.shipping_assignments[0].shipping.address.region + ', ' + data.extension_attributes.shipping_assignments[0].shipping.address.postcode + '</span>' +
-                    '</br>' +
-                    '<span id="shipping-country">' + data.extension_attributes.shipping_assignments[0].shipping.address.country_id + '</span>' +
-                    '</br>' +
-                    '<span id="shipping-tel">T:<a href="tel:' + data.extension_attributes.shipping_assignments[0].shipping.address.telephone + '">' + data.extension_attributes.shipping_assignments[0].shipping.address.telephone + '</a></span>'
-                $('#orderDetail #shipping-address p').html(shipping);
-            }
-
-            var link = '<a target="_blank" href="' + '/store/' + store_id + '/customers/' + customer_id + '">' +
-                '{{trans('global.Edit')}}' +
-                '</a>'
-            $('#orderDetail #account-information').html(link);
-
-            //show Modal
-            $('#orderDetail').modal('show');
-        }
-
-        $('#orderDetail').on('hidden.bs.modal', function () {
-            $('#products tr').not(function () {
-                return !!$(this).has('th').length;
-            }).remove();
-        });
-    </script>
-@endsection

@@ -30,6 +30,7 @@ return [
         'customers_filter_url'=>'api/customers/findby',
         'customers_search_url'=>'api/customers/search',
 
-        'orders_url' => 'api/orders'
+        'orders_url' => 'api/orders',
+        'orders_update_status_url' => 'api/orders/update/status'
     ]
 ];

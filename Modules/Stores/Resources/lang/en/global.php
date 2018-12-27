@@ -126,4 +126,7 @@ return [
     'TotalDue'=>'Total Due',
     'Order&AccountInformation'=>'Order & AccountInformation',
 
+    'Order_status_updated'=>'Order Updated !',
+    'Order_updated_success'=>'Order :order Updated Successfully !'
+
 ];
