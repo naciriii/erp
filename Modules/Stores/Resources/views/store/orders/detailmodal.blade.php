@@ -28,7 +28,8 @@
                                         </select>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary mb-2" style="margin-left: 6px;">Save
+                                    <button type="submit" class="btn btn-primary mb-2" style="margin-left: 6px;">
+                                        {{trans('stores::global.Save')}}
                                     </button>
                                 </form>
                             </div>
@@ -41,24 +42,24 @@
                             <tbody>
                             <tr>
                                 <td>
-                                    <span class="pull-left">Order Date </span>
+                                    <span class="pull-left">{{trans('stores::global.OrderDate')}} </span>
                                     <span class="pull-right" id="order-date"></span>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="pull-left">Order Status </span>
+                                    <span class="pull-left">{{trans('stores::global.OrderStatus')}} </span>
                                     <span class="pull-right" id="order-status"></span></td>
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="pull-left">Purchased From </span>
+                                    <span class="pull-left">{{trans('stores::global.PurchasedFrom')}} </span>
                                     <span class="pull-right" id="store-name"></span>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="pull-left">Placed from IP </span>
+                                    <span class="pull-left">{{trans('stores::global.PlacedFromIP')}}</span>
                                     <span id="remote-ip" class="pull-right"></span>
                                 </td>
                             </tr>
@@ -66,7 +67,7 @@
                         </table>
                     </div>
                     <div class="col-md-6">
-                        <h6 id="account-information"> Account Information
+                        <h6 id="account-information">{{trans('stores::global.AccountInformation')}}
 
                         </h6>
                         <table class="table table-striped">
@@ -91,15 +92,15 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <h6> Address Information </h6>
+                        <h6> {{trans('stores::global.AddressInformation')}}</h6>
                         <hr>
                     </div>
                     <div class="col-md-6" id="billing-address">
-                        <h6>Billing Address</h6>
+                        <h6>{{trans('stores::global.BillingAddress')}}</h6>
                         <p></p>
                     </div>
                     <div class="col-md-6" id="shipping-address">
-                        <h6>Shipping Address</h6>
+                        <h6>{{trans('stores::global.ShippingAddress')}}</h6>
                         <p></p>
                     </div>
                 </div>
@@ -107,20 +108,20 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <h6> Items Ordered</h6>
+                        <h6>{{trans('stores::global.ItemsOrdered')}}</h6>
                         <table class="table" id="products">
                             <thead>
                             <tr>
-                                <th scope="col">Product</th>
-                                <th scope="col">Item Status</th>
-                                <th scope="col">Original Price</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Qty</th>
-                                <th scope="col">Subtotal</th>
-                                <th scope="col">Tax Amount</th>
-                                <th scope="col">Tax Percent</th>
-                                <th scope="col">Discount Amount</th>
-                                <th scope="col">Row Total</th>
+                                <th scope="col">{{trans('stores::global.Product')}}</th>
+                                <th scope="col">{{trans('stores::global.ItemStatus')}}</th>
+                                <th scope="col">{{trans('stores::global.OriginalPrice')}}</th>
+                                <th scope="col">{{trans('stores::global.Price')}}</th>
+                                <th scope="col">{{trans('stores::global.Qty')}}</th>
+                                <th scope="col">{{trans('stores::global.Subtotal')}}</th>
+                                <th scope="col">{{trans('stores::global.TaxAmount')}}</th>
+                                <th scope="col">{{trans('stores::global.TaxPercent')}}</th>
+                                <th scope="col">{{trans('stores::global.DiscountAmount')}}</th>
+                                <th scope="col">{{trans('stores::global.RowTotal')}}</th>
                             </tr>
                             </thead>
                             <tbody id="products-body">
@@ -132,17 +133,17 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <h6> Order Total </h6>
+                        <h6>{{trans('stores::global.OrderTotal')}}</h6>
                         <hr>
                         <table class="table table-striped">
                             <tbody>
                             <tr>
-                                <td><span class="pull-left">Subtotal </span><span class="pull-right"
+                                <td><span class="pull-left">{{trans('stores::global.Subtotal')}} </span><span class="pull-right"
                                                                                   id="subtotal"></span>
                                 </td>
                             </tr>
                             <tr>
-                                <td><span class="pull-left">Shipping & Handling  </span><span
+                                <td><span class="pull-left">{{trans('stores::global.Shipping&Handling')}} </span><span
                                             class="pull-right" id="shipping-amount"></span></td>
                             </tr>
                             </tbody>
@@ -152,20 +153,20 @@
                             <tbody>
                             <tr>
                                 <td>
-                                    <span class="pull-left">Grand Total </span><span class="pull-right"
+                                    <span class="pull-left">{{trans('stores::global.GrandTotal')}} </span><span class="pull-right"
                                                                                      id="grand-total"></span>
                                 </td>
                             </tr>
                             <tr>
-                                <td><span class="pull-left">Total Paid </span><span
+                                <td><span class="pull-left">{{trans('stores::global.TotalPaid')}} </span><span
                                             class="pull-right" id="amount-paid"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="pull-left">Total Refunded </span><span
+                                <td><span class="pull-left">{{trans('stores::global.TotalRefunded')}} </span><span
                                             class="pull-right" id="amount-refunded"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="pull-left">Total Due </span><span
+                                <td><span class="pull-left">{{trans('stores::global.TotalDue')}} </span><span
                                             class="pull-right" id="total-due"></span></td>
                             </tr>
                             </tbody>
@@ -175,8 +176,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">{{trans('stores::global.Close')}}</button>
+                <button type="button" class="btn btn-primary">{{trans('stores::global.Save')}}</button>
             </div>
         </div>
     </div>
@@ -204,7 +205,7 @@
             //product list
             $.each(data.items, function (index, value) {
                 $('#products tr').after('<tr>' +
-                    '<td>' + value.name + '</br>SKU: ' + value.sku + '</td>' +
+                    '<td>' + value.name + '</br>{{trans('stores::global.Sku')}}: ' + value.sku + '</td>' +
                     '<td>Ordered</td>' +
                     '<td>' + value.original_price + '</td>' +
                     '<td>' + value.price + '</td>' +
