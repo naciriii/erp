@@ -64,10 +64,16 @@ Route::prefix('store/{id}')->group(function () {
         Route::get('/', 'Store\OrderController@index')->name('Store.Orders.index');
         Route::get('/search', 'Store\OrderController@search')->name('Store.Orders.search');
         Route::get('/create', 'Store\OrderController@create')->name('Store.Orders.create');
-        //Route::post('/store', 'Store\CategoryController@store')->name('Store.Categories.store');
+
         Route::get('/{orderId}', 'Store\OrderController@show')->name('Store.Orders.show');
         Route::delete('/{orderId}', 'Store\OrderController@delete')->name('Store.Orders.destroy');
         Route::post('/update/status', 'Store\OrderController@updateStatus')->name('Store.Orders.updateStatus');
+    });
+
+    Route::prefix('/invoices')->group(function () {
+        Route::get('/', 'Store\InvoiceController@index')->name('Store.Invoices.index');
+        Route::post('/create', 'Store\InvoiceController@create')->name('Store.Invoices.create');
+        Route::get('/show/{orderId}', 'Store\InvoiceController@show')->name('Store.Invoices.show');
     });
 
 });

@@ -14,7 +14,16 @@
                     <div class="col-md-12">
                         <din class="row">
                             <div class="col-md-6">
+                                <form class="form-inline" method="post" action="{{route('Store.Invoices.create',
+                                ['id'=>encode($store->id)])}}">
+                                    {{csrf_field()}}
+                                    <input type="hidden" name="order_id" id="order-id">
+                                    <input type="hidden" name="entity_id" id="entity-id">
 
+                                    <button type="submit" class="btn btn-primary mb-2" style="margin-left: 6px;">
+                                        {{trans('stores::global.CreateInvoice')}}
+                                    </button>
+                                </form>
                             </div>
                             <div class="col-md-6">
                                 <form class="form-inline pull-right" method="post" action="{{route('Store.Orders.updateStatus',['id'=>encode($store->id)])}}">

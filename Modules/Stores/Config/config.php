@@ -31,6 +31,11 @@ return [
         'customers_search_url'=>'api/customers/search',
 
         'orders_url' => 'api/orders',
-        'orders_update_status_url' => 'api/orders/update/status'
+        'orders_update_status_url' => 'api/orders/update/status',
+
+        'invoices_url' => 'api/invoices',
+        'get_invoice_url' => 'api/invoices/{orderId}',
+        'add_invoice_url' => 'api/create/invoices'
+
     ]
 ];

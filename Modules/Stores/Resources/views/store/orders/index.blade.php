@@ -64,6 +64,9 @@
                                                     onclick="showDetails({{json_encode($order)}},'{{encode($order->customer_id)}}','{{encode($store->id)}}')">
                                                 @lang('stores::global.View')
                                             </button>
+                                            {{--}}<a href="{{route('Store.Orders.invoices')}}" class="btn btn-sm btn-primary">
+                                                @lang('stores::global.invoices')
+                                            </a>--}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -115,7 +118,7 @@
                 });
         });--}}
     </script>
-    
+
     <script type="text/javascript">
         $('#status').select2();
         function showDetails(data, customer_id, store_id) {

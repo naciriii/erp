@@ -23,10 +23,13 @@ class OrderController extends StoreController
         return view('stores::store.orders.index')->with($data);
     }
 
-    public function create()
+    public function create($id)
     {
+        $data = [
+            'store' => $this->getStore()
+        ];
         // TODO: create an order
-        return view('stores::store.create.index');
+        return view('stores::store.orders.create')->with($data);
     }
 
     public function store(Request $request)
@@ -56,9 +59,10 @@ class OrderController extends StoreController
         return "update order";
     }
 
+
+
     public function updateStatus($id,Request $request)
     {
-
         if($request->status == 1){
             $status = 'cancel';
         }elseif($request->status == 2){
@@ -71,7 +75,7 @@ class OrderController extends StoreController
 
         $statusObj =json_decode('{
             "entity": {
-                "entity_id": 1,
+                "entity_id": 0,
                 "state":"",
                 "status": ""
             }
@@ -81,7 +85,7 @@ class OrderController extends StoreController
         $statusObj->entity->state = $status;
         $statusObj->entity->status = $status;
 
-        $result= $this->repository->updateStatus($statusObj);
+        $this->repository->updateStatus($statusObj);
 
         return redirect()->route('Store.Orders.index', ['id' => $id])->with(['response' =>
             [
@@ -90,4 +94,5 @@ class OrderController extends StoreController
                 'info'
             ]]);
     }
+
 }

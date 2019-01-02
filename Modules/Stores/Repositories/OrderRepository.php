@@ -44,6 +44,18 @@ class OrderRepository extends BaseRepository implements BaseRepositoryI
         return $order;
     }
 
+    /*public function createInvoice($params)
+    {
+        $order = $this->getDataFromApi(
+            'POST',
+            config('stores.api.base_url') . config('stores.api.orders_create_invoices_url'), [
+            'api_url' => $this->store->api_url,
+            'order_id' => $params['order_id'],
+            'entity_id' => $params['entity_id']
+        ]);
+        return $order;
+    }*/
+
     public function delete($orderId)
     {
         return "delete";

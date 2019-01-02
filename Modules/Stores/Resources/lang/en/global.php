@@ -66,6 +66,7 @@ return [
         'Customers' => 'Customers',
         'Categories' => 'Categories',
         'Orders' => 'Orders',
+        'Invoices' => 'Invoices',
     ],
     'AreYouSureProduct' => 'You want to delete this Product ?',
     'Product_added' => 'Product Added !',
@@ -125,8 +126,12 @@ return [
     'TotalRefunded'=>'Total Refunded',
     'TotalDue'=>'Total Due',
     'Order&AccountInformation'=>'Order & AccountInformation',
-
+    'CreateInvoice'=>'Create Invoice',
     'Order_status_updated'=>'Order Updated !',
-    'Order_updated_success'=>'Order :order Updated Successfully !'
+    'Order_updated_success'=>'Order :order Updated Successfully !',
+
+    'Invoice'=>'Invoice',
+    'InvoiceDate'=>'Invoice Date',
+    'OrderId'=>'Order#',
 
 ];
