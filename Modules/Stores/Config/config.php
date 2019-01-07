@@ -28,6 +28,14 @@ return [
         'update_customer_url' => 'api/customers/update/{customerId}',
         'add_customer_url' => 'api/customers/store',
         'customers_filter_url'=>'api/customers/findby',
-        'customers_search_url'=>'api/customers/search'
+        'customers_search_url'=>'api/customers/search',
+
+        'orders_url' => 'api/orders',
+        'orders_update_status_url' => 'api/orders/update/status',
+
+        'invoices_url' => 'api/invoices',
+        'get_invoice_url' => 'api/invoices/{orderId}',
+        'add_invoice_url' => 'api/create/invoices'
+
     ]
 ];
