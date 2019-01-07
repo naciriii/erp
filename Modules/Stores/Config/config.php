@@ -31,11 +31,15 @@ return [
         'customers_search_url'=>'api/customers/search',
 
         'orders_url' => 'api/orders',
+        'add_new_orders_url' => 'api/orders/store',
         'orders_update_status_url' => 'api/orders/update/status',
 
         'invoices_url' => 'api/invoices',
         'get_invoice_url' => 'api/invoices/{orderId}',
-        'add_invoice_url' => 'api/create/invoices'
+        'add_invoice_url' => 'api/create/invoices',
+
+        'post_order_customer_cart_url' => 'api/orders/customers/cart',
+        'post_billing_address_to_cart' => 'api/orders/cart/address'
 
     ]
 ];

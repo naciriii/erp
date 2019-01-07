@@ -63,7 +63,12 @@ Route::prefix('store/{id}')->group(function () {
     Route::prefix('/orders')->group(function () {
         Route::get('/', 'Store\OrderController@index')->name('Store.Orders.index');
         Route::get('/search', 'Store\OrderController@search')->name('Store.Orders.search');
+
         Route::get('/create', 'Store\OrderController@create')->name('Store.Orders.create');
+
+        Route::get('/create/{customerId}/steps/one', 'Store\OrderController@stepOne')->name('Store.order.create.stepOne');
+        Route::post('/create/{customerId}/steps/tow', 'Store\OrderController@stepTow')->name('Store.order.create.stepTow');
+        Route::post('/create/store', 'Store\OrderController@store')->name('Store.Orders.store');
 
         Route::get('/{orderId}', 'Store\OrderController@show')->name('Store.Orders.show');
         Route::delete('/{orderId}', 'Store\OrderController@delete')->name('Store.Orders.destroy');

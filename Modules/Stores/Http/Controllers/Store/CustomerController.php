@@ -9,20 +9,15 @@ use Illuminate\Support\MessageBag;
 
 class CustomerController extends StoreController
 {
-
-
     public function index()
     {
-
         $current_page = $this->page;
         $result = $this->repository->all(['page_size' => 20, 'current_page' => $current_page]);
-
         $data = [
             'store' => $this->getStore(),
             'result' => $result,
             'findBy'=>''
         ];
-
         return view('stores::store.customers.index')->with($data);
     }
 

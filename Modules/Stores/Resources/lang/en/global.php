@@ -127,11 +127,13 @@ return [
     'TotalDue'=>'Total Due',
     'Order&AccountInformation'=>'Order & AccountInformation',
     'CreateInvoice'=>'Create Invoice',
+
+    'Order_added'=>'Order Added !',
+    'Order_added_success'=>'Order :order Added Successfully !',
     'Order_status_updated'=>'Order Updated !',
     'Order_updated_success'=>'Order :order Updated Successfully !',
 
     'Invoice'=>'Invoice',
     'InvoiceDate'=>'Invoice Date',
     'OrderId'=>'Order#',
-
 ];

@@ -23,22 +23,6 @@ class InvoiceController extends StoreController
         return view('stores::store.invoices.index')->with($data);
     }
 
-    public function create($id, Request $request)
-    {
-        $params = [
-            'order_id' => $request->order_id,
-            'entity_id' => $request->entity_id
-        ];
-
-        $this->repository->add($params);
-        return redirect()->route('Store.Orders.index', ['id' => $id])->with(['response' =>
-            [
-                trans('stores::global.Invoice_created'),
-                trans('stores::global.Invoice_created_success', ['order' => '<b>' . $request->entity_id . '</b>']),
-                'info'
-            ]]);
-    }
-
     public function show($id, $entityId)
     {
         $result = $this->repository->find(decode($entityId));
