@@ -64,9 +64,6 @@
                                                     onclick="showDetails({{json_encode($order)}},'{{encode($order->customer_id)}}','{{encode($store->id)}}')">
                                                 @lang('stores::global.View')
                                             </button>
-                                            {{--}}<a href="{{route('Store.Orders.invoices')}}" class="btn btn-sm btn-primary">
-                                                @lang('stores::global.invoices')
-                                            </a>--}}
                                         </td>
                                     </tr>
                                 @endforeach
@@ -103,20 +100,6 @@
     <script type="text/javascript">
         {!! dataTable('#ordersTable') !!}
         {!! simplePagination($result,'#simple-pagination',$findBy) !!}
-
-        {{--}}$("#OrdersTableBody").on('click', '.deleteOrderBtn', function (e) {
-            e.preventDefault();
-            bsAlert("@lang('global.AreYouSure')",
-                "@lang('stores::global.AreYouSureOrder')",
-                "warning",
-                "@lang('global.Confirm')",
-                "@lang('global.Cancel')",
-                function (isConfirm) {
-                    if (isConfirm) {
-                        $(e.target).closest('form').submit();
-                    }
-                });
-        });--}}
     </script>
 
     <script type="text/javascript">
