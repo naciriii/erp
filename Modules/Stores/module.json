@@ -51,6 +51,12 @@
             "route": "Store.Invoices.index",
             "icon": "fa fa-file-text-o",
             "order": 4
+        },
+        {
+            "name": "Providers",
+            "route": "Store.Providers.index",
+            "icon": "fa fa-industry",
+            "order": 4
         }
     ]
 }

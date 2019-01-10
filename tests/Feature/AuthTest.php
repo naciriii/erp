@@ -10,6 +10,7 @@ use App\User;
 
 class AuthTest extends TestCase
 {
+    use RefreshDatabase;
 	
 	private $user;
     

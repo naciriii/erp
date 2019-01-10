@@ -67,6 +67,7 @@ return [
         'Categories' => 'Categories',
         'Orders' => 'Orders',
         'Invoices' => 'Invoices',
+        'Providers' => 'Providers',
     ],
     'AreYouSureProduct' => 'You want to delete this Product ?',
     'Product_added' => 'Product Added !',
@@ -84,12 +85,22 @@ return [
     'Customer_deleted' => 'Customer Deleted !',
     'Customer_deleted_success' => 'Customer :customer Deleted Successfully !',
 
+    'AreYouSureCategory' => 'You want to delete this Category ?',
     'Category_added' => 'Category Added !',
     'Category_added_success' => 'Category :category Added Successfully !',
     'Category_updated' => 'Category Updated !',
     'Category_updated_success' => 'Category :category Updated Successfully !',
     'Category_deleted' => 'Category Deleted !',
     'Category_deleted_success' => 'Category :category Deleted Successfully !',
+
+
+    'AreYouSureProvider' => 'You want to delete this Provider ?',
+    'Provider_added' => 'Provider Added !',
+    'Provider_added_success' => 'Provider :provider Added Successfully !',
+    'Provider_updated' => 'Provider Updated !',
+    'Provider_updated_success' => 'Provider :provider Updated Successfully !',
+    'Provider_deleted' => 'Provider Deleted !',
+    'Provider_deleted_success' => 'Provider :provider Deleted Successfully !',
 
     'Id' => 'Id',
     'PurchasePoint' => 'Purchase Point',

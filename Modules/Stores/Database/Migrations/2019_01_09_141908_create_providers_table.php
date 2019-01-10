@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateStoresTable extends Migration
+class CreateProvidersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateStoresTable extends Migration
      */
     public function up()
     {
-        Schema::create('stores', function (Blueprint $table) {
+        Schema::create('providers', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('store_id');
             $table->string('name');
-            $table->string('base_url');
-            $table->string('api_url');
-            $table->string('api_login');
-            $table->string('api_password');
-
+            $table->string('slug');
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class CreateStoresTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stores');
+        Schema::dropIfExists('providers');
     }
 }
