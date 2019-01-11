@@ -3,6 +3,7 @@
 return [
     'name' => 'Stores',
     'api_token' => env('INTEGRATION_TOKEN','nao3ieptlkrjW1RiSaAuS5C1sU6D0IXG'),
+    'google_token' => 'AIzaSyDRHqQl5jVDSwvGp1d569VAbeHA8PIhEF8',
     'api' => [
         'public_resources'=>'/pub/media/catalog/product',
     	'base_url' =>env('base_url','http://mgukn.test/'),

@@ -39,12 +39,13 @@ return [
     'Cancel' => 'Cancel',
     'Save' => 'Save',
     'Close' => 'Close',
-
+    'AddMore'=>'Add More',
     'Phone' => 'Phone',
     'Address' => 'Address',
     'Status' => 'Status',
     'Parent' => 'Parent',
     'IsActive' => 'Is active',
+    'IsPrimary'=>'Is Primary',
     'False' => 'False',
     'True' => 'True',
     'Password' => 'Password',
@@ -52,6 +53,7 @@ return [
     'Unreachable' => ':attr is unreachable',
     'NewProduct' => 'New Product',
     'NewCategory' => 'New Category',
+    'NewProvider' => 'New Provider',
     'NewCustomer' => 'New Customer',
     'NewOrder' => 'New Order',
     'Store_added' => 'Store Added !',
@@ -147,4 +149,6 @@ return [
     'Invoice'=>'Invoice',
     'InvoiceDate'=>'Invoice Date',
     'OrderId'=>'Order#',
+
+    'Slug' => 'Slug',
 ];

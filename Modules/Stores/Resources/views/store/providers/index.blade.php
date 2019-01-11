@@ -8,7 +8,7 @@
                 </h1>
                 <p class="mt-2">
                     <a href="{{route('Store.Providers.create',['id'=>encode($store->id)])}}">
-                        <button class="btn btn-sm btn-primary">@lang('stores::global.NewCategory')</button>
+                        <button class="btn btn-sm btn-primary">@lang('stores::global.NewProvider')</button>
                     </a>
                 </p>
             </div>

@@ -28,7 +28,8 @@ class ProviderController extends StoreController
      */
     public function create()
     {
-        return view('stores::create');
+        $data = ['store' => $this->getStore()];
+        return view('stores::store.providers.create')->with($data);
     }
 
     /**
@@ -38,6 +39,12 @@ class ProviderController extends StoreController
      */
     public function store(Request $request)
     {
+        $this->validate($request, [
+            'name' => 'required',
+            'slug' => 'required',
+            'addresses' => 'required|json']);
+          $this->repository->add((object)$request->all());
+        
     }
 
     /**
