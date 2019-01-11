@@ -42,29 +42,16 @@ class ProviderRepository extends BaseRepository implements BaseRepositoryI
             $item['provider_id'] = $providerId;
             $item['city'] = (trim($item['city']) !="") ? trim($item['city']) : "_";
             $item['street'] = (trim($item['street']) !="") ? trim($item['street']) : "_";
+            $item['created_at'] = date('Y-m-d H:i:s');
+            $item['updated_at'] = date('Y-m-d H:i:s');
            
             return $item;
         });
 
-        /*
-        ProviderAddress::create($providerBean->addresses->toArray());
-        */
-      
-        foreach($providerBean->addresses as $a) {
-            $pa = new ProviderAddress;
-            $pa->is_primary = $a['is_primary'];
-            $pa->city = $a['city'];
-            $pa->street = $a['street'];
-            $pa->provider_id = $a['provider_id'];
-            $pa->lat = $a['lat'];
-            $pa->lng = $a['lng'];
-            $pa->address = $a['address'];
-            $pa->save();
+        
+        ProviderAddress::insert($providerBean->addresses->toArray());
 
-
-
-        }
-    
+     
         dd($providerModel->load('addresses'));
 
 
