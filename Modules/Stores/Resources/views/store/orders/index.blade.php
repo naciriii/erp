@@ -61,7 +61,7 @@
                                         <td>{{$order->status or ''}}</td>
                                         <td>
                                             <button class="btn btn-sm btn-primary"
-                                                    onclick="showDetails({{json_encode($order)}},'{{encode($order->customer_id)}}','{{encode($store->id)}}')">
+                                                    onclick="showDetails({{json_encode($order)}},'{{@encode($order->customer_id)}}','{{encode($store->id)}}')">
                                                 @lang('stores::global.View')
                                             </button>
                                         </td>

@@ -13,6 +13,7 @@ class OrderController extends StoreController
     {
         $current_page = $this->page;
         $result = $this->repository->all(['page_size' => 20, 'current_page' => $current_page]);
+        //dd($result);
 
         $data = [
             'store' => $this->getStore(),
