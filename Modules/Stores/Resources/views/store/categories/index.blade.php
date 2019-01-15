@@ -88,7 +88,7 @@
         $("#productsTableBody").on('click', '.deleteProductBtn', function (e) {
             e.preventDefault();
             bsAlert("@lang('global.AreYouSure')",
-                "@lang('stores::global.AreYouSureProduct')",
+                "@lang('stores::global.AreYouSureCategory')",
                 "warning",
                 "@lang('global.Confirm')",
                 "@lang('global.Cancel')",

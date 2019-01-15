@@ -58,14 +58,7 @@ class StoreController extends Controller
     }
 
 
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy()
-    {
-    }
-
+ 
 
     protected function getStore(): Store
     {

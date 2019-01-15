@@ -1,5 +1,6 @@
 <?php
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -79,6 +80,15 @@ Route::prefix('store/{id}')->group(function () {
         Route::get('/', 'Store\InvoiceController@index')->name('Store.Invoices.index');
         Route::post('/create', 'Store\InvoiceController@create')->name('Store.Invoices.create');
         Route::get('/show/{orderId}', 'Store\InvoiceController@show')->name('Store.Invoices.show');
+    });
+
+      Route::prefix('/providers')->group(function () {
+        Route::get('/', 'Store\ProviderController@index')->name('Store.Providers.index');
+        Route::get('/create', 'Store\ProviderController@create')->name('Store.Providers.create');
+        Route::post('/store', 'Store\ProviderController@store')->name('Store.Providers.store');
+        Route::get('/{provider}', 'Store\ProviderController@show')->name('Store.Providers.show');
+        Route::put('/{provider}', 'Store\ProviderController@update')->name('Store.Providers.update');
+        Route::delete('/{provider}', 'Store\ProviderController@delete')->name('Store.Providers.destroy');
     });
 
 });
