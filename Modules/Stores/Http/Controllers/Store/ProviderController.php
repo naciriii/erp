@@ -16,7 +16,7 @@ class ProviderController extends StoreController
     {
         $providers = $this->repository->all();
         $data = [
-            'providers' => $providers,
+            'result' => $providers,
             'store' => $this->getStore()];
 
         return view('stores::store.providers.index')->with($data);
@@ -37,13 +37,20 @@ class ProviderController extends StoreController
      * @param  Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store($id, Request $request)
     {
         $this->validate($request, [
             'name' => 'required',
             'slug' => 'required',
             'addresses' => 'required|json']);
           $this->repository->add((object)$request->all());
+
+          return redirect()->route('Store.Providers.index', ['id' => $id])
+            ->with(['response' => [
+                trans('stores::global.Provider_added'),
+                trans('stores::global.Provider_added_success', ['provider' => '<b>' . $request->name . '</b>']),
+                'info'
+            ]]);
         
     }
 
@@ -51,9 +58,17 @@ class ProviderController extends StoreController
      * Show the specified resource.
      * @return Response
      */
-    public function show()
+    public function show($id, $provider_id)
     {
-        return view('stores::show');
+          $provider = $this->repository->find(decode($provider_id));
+        if ($provider == null) {
+            return abort(404);
+        }
+        $data = [
+            'provider' => $provider,
+            'store' => $this->getStore()
+        ];
+        return view('stores::store.providers.show')->with($data);
     }
 
     /**
@@ -70,15 +85,37 @@ class ProviderController extends StoreController
      * @param  Request $request
      * @return Response
      */
-    public function update(Request $request)
+    public function update($id, $provider, Request $request)
     {
+        
+         $this->validate($request, [
+            'name' => 'required',
+            'slug' => 'required',
+            'addresses' => 'required|json']);
+
+         $this->repository->update((object)$request->all(), decode($provider));
+
+         return redirect()->route('Store.Providers.index', ['id' => $id])
+            ->with(['response' => [
+                trans('stores::global.Provider_updated'),
+                trans('stores::global.Provider_updated_success', ['provider' => '<b>' . $request->name . '</b>']),
+                'info'
+            ]]);
+
     }
 
     /**
      * Remove the specified resource from storage.
      * @return Response
      */
-    public function destroy()
+    public function delete($id, $provider_id)
     {
+        $p = $this->repository->delete(decode($provider_id));
+         return redirect()->route('Store.Providers.index', ['id' => $id])->with(['response' =>
+            [
+                trans('stores::global.Provider_deleted'),
+                trans('stores::global.Provider_deleted_success', ['provider' => '<b>' .$p->name  . '</b>']),
+                'info'
+            ]]);
     }
 }
