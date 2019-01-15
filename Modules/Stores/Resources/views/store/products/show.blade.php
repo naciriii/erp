@@ -138,9 +138,9 @@
                                                                                     class="input-group-text">€</span>
                                                                         </div>
                                                                         <input class="form-control{{ $errors->has('special_price') ? ' is-invalid' : '' }}"
-                                                                               type="text" name="special_price"
+                                                                               type="text" name="special_price" id="special-price"
                                                                                @if(count(collect($product->custom_attributes)->where('attribute_code','special_price')))
-                                                                               value="{{collect($product->custom_attributes)->where('attribute_code','special_price')->first()->value or ''}}"
+                                                                               value="{{collect($product->custom_attributes)->where('attribute_code','special_price')->first()->value}}"
                                                                                @else
                                                                                value = ""
                                                                                @endif
@@ -160,7 +160,7 @@
                                                                            name="special_from_date"
 
                                                                            @if(count(collect($product->custom_attributes)->where('attribute_code','special_from_date')))
-                                                                           value="{{collect($product->custom_attributes)->where('attribute_code','special_from_date')->first()->value}}"
+                                                                           value="{{ collect($product->custom_attributes)->where('attribute_code','special_from_date')->first()->value}}"
                                                                            @else
                                                                            value=""
                                                                            @endif
@@ -191,6 +191,12 @@
                                                                         <div class="invalid-feedback">{{ $errors->first('special_to_date') }}</div>
                                                                     @endif
                                                                 </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <button type="button" class="btn btn-danger" id="special-delete">
+                                                                    {{trans('stores::global.Cancel')}}
+                                                                </button>
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -284,6 +290,12 @@
             startDate: '0d'
         });
 
+        $('#special-delete').click(function () {
+            $('#special-price').val('');
+            $('#special-from').val('');
+            $('#special-to').val('');
+        });
+
         $('#selectCategories').select2();
 
         function readURL(input) {
@@ -303,6 +315,8 @@
 
             readURL(this);
         });
+
+
     </script>
 
 @endsection

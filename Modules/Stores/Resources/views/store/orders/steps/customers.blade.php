@@ -63,14 +63,10 @@
                                         <td>{{$customer->created_at}}</td>
                                         <td>
                                             <a class="btn btn-sm btn-primary"
-                                               href="{{route('Store.Customers.show',['id'=>encode($store->id),'customer' => encode($customer->id)])}}">
-                                                {{trans('global.Edit')}}
+                                               href="{{route('Store.order.create.stepOne',['id'=>encode($store->id),'customerId' => encode($customer->id)])}}">
+                                                {{trans('global.Select')}}
                                             </a>
-                                            <form class="d-inline" method="post" action="{{route('Store.Customers.destroy',['id' => encode($store->id),'customer'=>encode($customer->id)])}}">
-                                                {{csrf_field()}}
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <button type="submit" class="btn btn-sm btn-danger deleteCustomerBtn">{{trans('global.Delete')}}</button>
-                                            </form>
+
                                         </td>
                                     </tr>
                                 @endforeach

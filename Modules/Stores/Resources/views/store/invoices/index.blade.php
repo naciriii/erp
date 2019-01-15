@@ -3,18 +3,12 @@
     <main class="app-content">
         <div class="app-title">
             <div>
-                <h1><i class="fa fa-th-list"></i> @lang('stores::global.StoreMenus.Customers')
-                </h1>
-                <p class="mt-2">
-                    <a href="{{route('Store.Customers.create',['id'=>encode($store->id)])}}">
-                        <button class="btn btn-sm btn-primary">@lang('stores::global.NewCustomer')</button>
-                    </a>
-                </p>
+                <h1><i class="fa fa-th-list"></i> @lang('stores::global.StoreMenus.Invoices')</h1>
             </div>
             <ul class="app-breadcrumb breadcrumb side">
                 <li class="breadcrumb-item"><i class="fa fa-home fa-lg"></i></li>
                 <li class="breadcrumb-item">{{trans('modules.Store')}}</li>
-                <li class="breadcrumb-item active"><a href="#">@lang('stores::global.StoreMenus.Customers')</a></li>
+                <li class="breadcrumb-item active"><a href="#">@lang('stores::global.StoreMenus.Invoices')</a></li>
             </ul>
         </div>
         <div class="row">
@@ -23,54 +17,46 @@
                     <div class="tile-body">
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
-                                <nav class="navbar navbar-light bg-light pull-right">
-                                    <form class="form-inline" method="get" action="{{route('Store.Customers.Search',['id'=>encode($store->id)])}}">
+                                {{--}}<nav class="navbar navbar-light bg-light pull-right">
+                                    <form class="form-inline" method="get" action="{{route('Store.Invoices.Search',['id'=>encode($store->id)])}}">
                                         <input id="search" name="search" class="form-control mr-sm-2" type="search"
                                                placeholder="Search" aria-label="Search" value="{{$findBy or ''}}">
                                     </form>
-                                </nav>
+                                </nav>--}}
                             </div>
                         </div>
-                        <table class="table table-hover table-bordered" id="customersTable">
+                        <table class="table table-hover table-bordered" id="incoicesTable">
                             <thead>
                             <tr>
-                                <th>{{trans('stores::global.Email')}}</th>
-                                <th>{{trans('stores::global.FirstName')}}</th>
-                                <th>{{trans('stores::global.LastName')}}</th>
-                                <th>{{trans('stores::global.Phone')}}</th>
-                                <th>{{trans('stores::global.Address')}}</th>
-                                <th>{{trans('stores::global.CreatedAt')}}</th>
+                                <th>{{trans('stores::global.Invoice')}}</th>
+                                <th>{{trans('stores::global.InvoiceDate')}}</th>
+                                <th>{{trans('stores::global.OrderId')}}</th>
+                                <th>{{trans('stores::global.OrderDate')}}</th>
+                                <th>{{trans('stores::global.Bill-to Name ')}}</th>
+                                <th>{{trans('stores::global.Status')}}</th>
+                                <th>{{trans('stores::global.GrandTotalBase')}}</th>
+                                <th>{{trans('stores::global.GrandTotalPruchased')}}</th>
                                 <th></th>
                             </tr>
                             </thead>
-                            <tbody id="customersTableBody">
+                            <tbody id="invoicesTableBody">
                             @if(isset($result->items))
-                                @foreach(collect($result->items)->sortByDesc('created_at') as $customer)
+                                @foreach(collect($result->items)->sortByDesc('created_at') as $invoice)
                                     <tr>
-                                        <td>{{$customer->email}}</td>
-                                        <td>{{$customer->firstname}}</td>
-                                        <td>{{$customer->lastname}}</td>
-                                        <td>
-                                            @if(count($customer->addresses))
-                                                {{$customer->addresses[0]->telephone}}
-                                            @endif
-                                        </td>
-                                        <td>
-                                            @if(count($customer->addresses))
-                                                {{$customer->addresses[0]->country_id.' '.$customer->addresses[0]->city.' '.$customer->addresses[0]->postcode}}
-                                            @endif
-                                        </td>
-                                        <td>{{$customer->created_at}}</td>
+                                        <td>{{$invoice->increment_id}}</td>
+                                        <td>{{$invoice->created_at}}</td>
+                                        <td>{{collect($invoice->order)->first()->increment_id}}</td>
+                                        <td>{{collect($invoice->order)->first()->created_at}}</td>
+                                        <td>{{collect($invoice->order)->first()->customer_firstname}} {{collect($invoice->order)->first()->customer_lastname}}</td>
+                                        <td>{{collect($invoice->order)->first()->status}}</td>
+                                        <td>€ {{$invoice->base_grand_total}}</td>
+                                        <td>€ {{collect($invoice->order)->first()->grand_total}}</td>
                                         <td>
                                             <a class="btn btn-sm btn-primary"
-                                               href="{{route('Store.Customers.show',['id'=>encode($store->id),'customer' => encode($customer->id)])}}">
-                                                {{trans('global.Edit')}}
+                                               href="{{route('Store.Invoices.show',
+                                               ['id'=>encode($store->id),'entityId' => encode($invoice->entity_id)])}}">
+                                                @lang('stores::global.View')
                                             </a>
-                                            <form class="d-inline" method="post" action="{{route('Store.Customers.destroy',['id' => encode($store->id),'customer'=>encode($customer->id)])}}">
-                                                {{csrf_field()}}
-                                                <input type="hidden" name="_method" value="DELETE">
-                                                <button type="submit" class="btn btn-sm btn-danger deleteCustomerBtn">{{trans('global.Delete')}}</button>
-                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -103,12 +89,8 @@
 
     <script type="text/javascript">
 
-        {!! dataTable('#customersTable') !!}
+        {!! dataTable('#incoicesTable') !!}
         {!! simplePagination($result,'#simple-pagination',$findBy) !!}
-
-
-
-
 
         $("#customersTableBody").on('click', '.deleteCustomerBtn', function (e) {
             e.preventDefault();

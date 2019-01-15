@@ -9,19 +9,15 @@ use Illuminate\Support\MessageBag;
 
 class CustomerController extends StoreController
 {
-
-
     public function index()
     {
-
         $current_page = $this->page;
         $result = $this->repository->all(['page_size' => 20, 'current_page' => $current_page]);
-
         $data = [
             'store' => $this->getStore(),
-            'result' => $result
+            'result' => $result,
+            'findBy'=>''
         ];
-
         return view('stores::store.customers.index')->with($data);
     }
 
@@ -62,12 +58,6 @@ class CustomerController extends StoreController
         $customerObj->customer->firstname = $request->first_name;
         $customerObj->customer->lastname = $request->last_name;
         $customerObj->customer->email = $request->email;
-        $customerObj->customer->prefix = $request->name_prefix;
-        $customerObj->customer->middlename = $request->middle_name;
-        $customerObj->customer->suffix = $request->name_suffix;
-        $customerObj->customer->taxvat = $request->tax_vat;
-        $customerObj->customer->gender = $request->gender;
-        $customerObj->customer->dob = $request->birth_date;
         $customerObj->password = $request->password;
 
         //address
@@ -125,12 +115,6 @@ class CustomerController extends StoreController
         $customerObj->customer->firstname = $request->first_name;
         $customerObj->customer->lastname = $request->last_name;
         $customerObj->customer->email = $request->email;
-        $customerObj->customer->prefix = $request->name_prefix;
-        $customerObj->customer->middlename = $request->middle_name;
-        $customerObj->customer->suffix = $request->name_suffix;
-        $customerObj->customer->taxvat = $request->tax_vat;
-        $customerObj->customer->gender = $request->gender;
-        $customerObj->customer->dob = $request->birth_date;
         $customerObj->customer->websiteId = 1;
 
         if ($request->has('password')) {
@@ -181,6 +165,21 @@ class CustomerController extends StoreController
     }
 
 
+    public function searchCustomer($id, Request $request)
+    {
+        $current_page = $this->page;
+
+        $result = $this->repository->searchCustomers($request->search,['page_size' => 20, 'current_page' => $current_page]);
+
+        $data = [
+            'store' => $this->getStore(),
+            'result' => $result,
+            'findBy'=>$request->search
+        ];
+
+        return view('stores::store.customers.index')->with($data);
+    }
+
     private function getCustomerModel()
     {
         $customer = json_decode('{
@@ -191,7 +190,7 @@ class CustomerController extends StoreController
                             "defaultShipping": "string",
                             "confirmation": "string",
                             "createdIn": "string",
-                            "dob": "string",
+                            "dob": "1970-01-01",
                             "email": "string",
                             "firstname": "string",
                             "lastname": "string",

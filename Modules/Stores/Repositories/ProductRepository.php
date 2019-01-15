@@ -90,6 +90,17 @@ class ProductRepository extends BaseRepository implements BaseRepositoryI
         return $media;
     }
 
+    public function search($search, $params)
+    {
+        $Products = $this->getDataFromApi('POST', config('stores.api.base_url') . config('stores.api.products_search_url'), [
+            'api_url' => $this->store->api_url,
+            'search' => $search,
+            'page_size' => $params['page_size'],
+            'current_page' => $params['current_page']
+        ]);
+        return $Products;
+    }
+
 
 
 
