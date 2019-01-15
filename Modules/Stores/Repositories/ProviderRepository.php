@@ -13,7 +13,7 @@ class ProviderRepository extends BaseRepository implements BaseRepositoryI
 
     public function all($params = null)
     {
-        $providers = $this->getStore()->providers;
+        $providers = $this->getStore()->providers()->paginate(3);
 
         return $providers;
         

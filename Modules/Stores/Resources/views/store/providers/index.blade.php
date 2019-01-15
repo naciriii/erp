@@ -69,9 +69,17 @@
                             @endif
                             </tbody>
                         </table>
+                          <nav class="pull-right">
+                      {!! $result->links() !!}
+                  </nav>
+                       
                     </div>
+                  
+
                 </div>
+
             </div>
+
         </div>
     </main>
     <!-- Modal -->
@@ -118,7 +126,9 @@
     <script type="text/javascript" src="{{asset('js/plugins/sweetalert.min.js')}}"></script>
 
     <script type="text/javascript">
-        $('#providersTable').DataTable();
+        $('#providersTable').DataTable({
+            paginate:false
+        });
 
         $("#providersTableBody").on('click', '.deleteProviderBtn', function (e) {
             e.preventDefault();
