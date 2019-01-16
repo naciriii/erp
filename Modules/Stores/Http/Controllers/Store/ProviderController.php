@@ -4,6 +4,7 @@ namespace Modules\Stores\Http\Controllers\Store;
 
 use Modules\Stores\Http\Controllers\StoreController;
 use Illuminate\Http\Request;
+use Request as Req;
 use Carbon\Carbon;
 
 class ProviderController extends StoreController
@@ -14,10 +15,14 @@ class ProviderController extends StoreController
      */
     public function index()
     {
-        $providers = $this->repository->all();
+        $search = Req::input('search');
+        $providers = $this->repository->all(['search' => $search]);
+
         $data = [
             'result' => $providers,
-            'store' => $this->getStore()];
+            'store' => $this->getStore(),
+            'findby' => $search
+        ];
 
         return view('stores::store.providers.index')->with($data);
     }
@@ -103,6 +108,8 @@ class ProviderController extends StoreController
             ]]);
 
     }
+
+
 
     /**
      * Remove the specified resource from storage.

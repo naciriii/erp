@@ -53,22 +53,30 @@ function dataTable($htmlId)
  * }
  * @param $htmlId : html component id
  * @param search : string
+ * @param total : int
+ * @param page_size : int
+ * @param current_page : int
+
  * @return string
  */
 
-function simplePagination($result, $htmlId, $findBy)
+function simplePagination($result, $htmlId, $findBy, $total = null, $page_size =null, $current_page= null)
 {
     if ($findBy != '') {
         $hrefTextPrefix = "hrefTextPrefix: '?search=$findBy&page=',";
     } else {
         $hrefTextPrefix = "hrefTextPrefix: '?page=',";
     }
+    $total = ($total === null)?$result->total_count:$total;
+    $page_size = ($page_size ==null)?$result->search_criteria->page_size:$page_size;
+    $current_page = ($current_page == null)?$result->search_criteria->current_page:$current_page;
+
     return "$('" . $htmlId . "').pagination({
-                items: " . $result->total_count . ",
-                itemsOnPage: " . $result->search_criteria->page_size . ",
+                items: " . $total . ",
+                itemsOnPage: " . $page_size . ",
                 cssStyle: 'light-theme',
                 " . $hrefTextPrefix . "
-                currentPage: " . $result->search_criteria->current_page . ",
+                currentPage: " . $current_page . ",
                 listStyle: 'pagination',
             });";
 }

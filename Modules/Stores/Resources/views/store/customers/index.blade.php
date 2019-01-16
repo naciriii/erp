@@ -20,7 +20,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="tile">
-                    <div class="tile-body">
+                    <div class="tile-body table-responsive">
                         <div class="row">
                             <div class="col-md-12 col-sm-12">
                                 <nav class="navbar navbar-light bg-light pull-right">

@@ -22,6 +22,16 @@
             <div class="col-md-12">
                 <div class="tile">
                     <div class="tile-body table-responsive">
+                          <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <nav class="navbar navbar-light bg-light pull-right">
+                                    <form class="form-inline" method="get" action="{{route('Store.Providers.index',['id'=>encode($store->id)])}}">
+                                        <input id="search" name="search" class="form-control mr-sm-2" type="search"
+                                               placeholder="Search" aria-label="Search" value="{{$findby or ''}}">
+                                    </form>
+                                </nav>
+                            </div>
+                        </div>
                         <table class="table table-hover table-bordered" id="providersTable">
                             <thead>
                             <tr>
@@ -69,9 +79,11 @@
                             @endif
                             </tbody>
                         </table>
-                          <nav class="pull-right">
-                      {!! $result->links() !!}
-                  </nav>
+               <div class="row">
+                            <div class="col-md-12 col-sm-12">
+                                <nav id="simple-pagination" class="pull-right"></nav>
+                            </div>
+                        </div>
                        
                     </div>
                   
@@ -118,17 +130,20 @@
 </div>
 
 @stop
+@section ('css')
+    <link rel="stylesheet" type="text/css" href="{{asset('css/simplePagination.css')}}">
+@stop
 
 
 @section('js')
     <script type="text/javascript" src="{{asset('js/plugins/jquery.dataTables.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/plugins/dataTables.bootstrap.min.js')}}"></script>
     <script type="text/javascript" src="{{asset('js/plugins/sweetalert.min.js')}}"></script>
+      <script type="text/javascript" src="{{asset('js/plugins/jquery.simplePagination.js')}}"></script>
 
     <script type="text/javascript">
-        $('#providersTable').DataTable({
-            paginate:false
-        });
+       {!! dataTable('#providersTable') !!}
+        {!! simplePagination(null,'#simple-pagination',$findby,$result->total(),$result->perPage(),$result->currentPage() ) !!}
 
         $("#providersTableBody").on('click', '.deleteProviderBtn', function (e) {
             e.preventDefault();

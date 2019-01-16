@@ -13,9 +13,15 @@ class ProviderRepository extends BaseRepository implements BaseRepositoryI
 
     public function all($params = null)
     {
-        $providers = $this->getStore()->providers()->paginate(20);
+        $providers = $this->getStore()->providers();
+        if($params['search'] != null) {
+            $providers->where('name','LIKE','%'.$params['search'].'%')
+                        ->orWhere('slug','LIKE','%'.$params['search'].'%');
 
-        return $providers;
+        }
+
+
+        return $providers->paginate(2);
         
     }
 
