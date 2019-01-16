@@ -21,7 +21,7 @@ class ProviderRepository extends BaseRepository implements BaseRepositoryI
         }
 
 
-        return $providers->paginate(2);
+        return $providers->paginate(20);
         
     }
 
